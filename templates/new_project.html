@@ -1,0 +1,86 @@
+<doctype html>
+<html>
+  
+ 	
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Project  | Clustomics</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../static/css/signup.css" rel="stylesheet">
+
+</head> 
+  
+  
+<body>
+  
+  
+  
+<div>
+<iframe width="100%"  src="../header" scrolling="no" frameborder="no" ></iframe>
+</div>   
+  
+  
+  
+  
+ <h1 class="card-title text-center">  New project   </h1> 
+  
+<div class="signup">
+    <div class="container">
+         <div class=" col-xl-6 ">
+          <div class="card card-signin flex-row my-5">
+            
+            <div class="card-body">
+              <h1 class="card-title text-center"> New project    </h1>
+               
+              <form action={{ url_for("new_project") }} method="post" autocomplete="off" class="active" enctype="multipart/form-data">
+                      <div class="form-label-group">
+                          <input type="text" name="name_of_the_project" placeholder="name_of_the_project" id="name_of_the_project" required>
+                          <label for="name_of_the_project">Name of the project</label>
+                       </div>
+                       Select the group of the project:
+                       <form method = "POST" enctype = "multipart/form-data">
+                                  <select name="group">
+                                    {% for group in groups %}
+                                      <option value={{group}}>{{group}} </option>
+                                    {% endfor %}
+                                    </select>
+             
+                        
+                              
+                                       <input type = "file" name = "file" /><br />
+                                   Select algorithm 
+                                   <select name="algorithm">
+                                      <option value="0">K Means</option>
+                                      <option value="1">Hierarchical clustering</option>
+                                   </select>
+                                    <br />
+                                    Select number of groups: <input type="number" name="groups" min="1" max='6'>
+                                    <br />
+                                    Select linkage: 
+                                    <select name="type">
+                                        <option value="ward"> Ward</option>
+                                        <option value="single"> Single</option>
+                                    </select>
+                                    <br />
+                                    Select distance: 
+                                    <select name="distance" >
+                                        <option value="euclidean">Euclidean</option>
+                                    </select>
+                                    <br />
+                                    <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Send</input>
+                              </form>
+                              
+             </div>
+          </div>
+        </div>     
+   </body>
+</html>

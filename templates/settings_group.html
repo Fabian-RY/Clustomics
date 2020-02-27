@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+ 
+	
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Settings  | Clustomics</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../static/css/signup.css" rel="stylesheet">
+
+</head>
+	<body>
+	  
+
+	  
+<!-- Header -->
+  
+<div>
+<iframe width="100%"  src="header.html" scrolling="no" frameborder="no" ></iframe>
+</div>   
+
+  <div class="signup">
+    <div class="container">
+      <div class="row">
+        <div class=" col-lg-10 col-xl-9 mx-auto ">
+          <div class="card card-signin flex-row my-5">
+            
+            <div class="card-body">
+              
+              
+              <h5 class="card-title text-center">Here you can see the members of your group.</h5>
+              {% if admin %}
+                  <h5 class="card-title text-center">You can also delete members from your group.</h5>
+              {% endif %}
+              
+               
+              
+ 
+                  
+                  	<table border=1>
+                        <tr style="font-size:20px">
+                          <th>Group name</th>
+                          
+                        </tr>                  	  
+                          {% for member in group %}
+	                      <tr>
+
+                             <form action= {{ url_for("delete", delete=group)}} method = "POST">
+                                <tr>
+                                    <td>{{ member }}  
+                                     {% if admin %}  <a  align="right" style=" margin: -20px 0px 0px 500px; width: 200px" href="personal_page.html" class="btn btn-lg btn-primary btn-block  " type="submit">Delete member </a>   {% endif %}    </td>
+                                </tr>
+                              </form>  
+		                        </td>
+		                    </tr>  
+                          {% endfor %}
+                            </table>
+             
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+
+
+
+         
+ 
+		
+
+<!-- Bootstrap core JavaScript -->
+<script src="../static/vendor/jquery/jquery.min.js"></script>
+<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+</body>
+
+</html>
+		
+		
+		
+
+
+
+
+
+	
+	
+	
+	
+	 

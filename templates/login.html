@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Home | Clustomics</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/login.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="login">
+<div class="container-fluid">
+  <div class="row no-gutter">
+    <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+    <div class="col-md-8 col-lg-6">
+      <div class="login d-flex align-items-center py-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9 col-lg-8 mx-auto">
+              <h3 class="login-heading mb-4">Welcome back!</h3>
+              <form action="{{ url_for('login') }}" method="POST">
+                <div class="form-label-group">
+                  <input type="email" id="email" name='email' class="form-control" placeholder="Email" required>
+                  <label for="email">Email address
+		<i class="fas fa-envelope"></i>
+		</label>
+                </div>
+
+                <div class="form-label-group">
+                  <input type="password" name='password' id="password" class="form-control" placeholder="Password" required>
+<div class="msg">{{ msg }}</div>
+                  <label for="password">Password
+		<i class="fas fa-lock"></i>
+</label>
+		
+                </div>
+
+       
+<div class="msg">{{ msg }}</div>
+                <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit" value="login">Log in</button>
+                
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- Bootstrap core JavaScript -->
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+</body>
+
+</html>

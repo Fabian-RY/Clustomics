@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Home | Clustomics</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/signup.css" rel="stylesheet">
+
+</head>
+
+
+  <body>
+<div class="signup">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 col-xl-9 mx-auto">
+          <div class="card card-signin flex-row my-5">
+            <div class="card-img-left d-none d-md-flex">
+               <!-- Background image for card set in CSS! -->
+            </div>
+            <div class="card-body">
+              <h5 class="card-title text-center">Sign Up</h5>
+              <form action="{{ url_for('signup') }}" method="post" autocomplete="off" class="active">
+                <div class="form-label-group">
+                  <input type="text" name="username" placeholder="Username" id="username" required>
+                  <label for="username">Username</label>
+			<i class="fas fa-user"></i>
+                </div>
+
+                <div class="form-label-group">
+                  <input type="email" name="email" placeholder="Email" id="email" required>
+                  <label for="email">Email address</label>
+			<i class="fas fa-envelope"></i>                
+		</div>
+
+                <hr>
+
+                <div class="form-label-group">
+                  <input type="password" name="password" placeholder="Password" id="password" required>
+                  <label for="password">Password</label>
+			<i class="fas fa-lock"></i>
+
+                </div>
+
+<div class="msg">{{ msg }}</div>
+                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="signup" >Sign Up</button>
+                <a class="d-block text-center mt-2 small" href="{{ url_for('login') }}">Log In</a>
+                <hr class="my-4">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+  </body>
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+</body>
+
+</html>

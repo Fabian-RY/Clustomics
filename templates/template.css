@@ -1,0 +1,25 @@
+#main_container {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 1px 2px 5px 0px #606060;
+    -moz-box-shadow: 1px 2px 5px 0px #606060;
+    -webkit-box-shadow: 1px 2px 5px 0px #606060;
+    position: relative;
+
+}
+
+#lateral_bar {
+    margin: 10px 10px;
+    background: #c0c0c0;
+    width: 250px;
+    display: inline;
+}
+
+
+#container {
+    width: 680px;
+}
+
+.tabs {
+
+}

@@ -1,0 +1,5 @@
+- sklearn
+- matplotlib
+- seaborn
+- flask
+- pymysql
