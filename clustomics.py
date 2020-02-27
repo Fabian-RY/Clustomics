@@ -33,7 +33,9 @@ connection = pymysql.connect(host='localhost',
 
 @app.route('/')
 def clustomics():
-    return render_template('index.html')
+    if 'loggedin' in session:
+        return render_template('index.html', logged=True)
+    return render_template('index.html', logged=False)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -333,14 +335,16 @@ def new_project(msg=''):
 
 
 @app.route('/signup', methods=['GET', 'POST'])
-def signup():
+def signup(msg=''):
     # Output message if something goes wrong...
-    msg = ''
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:
         # Create variables for easy access
         username = request.form['username']
         password = request.form['password']
+        if(request.form['confirm'] != request.form['password']):
+            msg = 'Passwords don\'t match'
+            return render_template('signup.html', msg=msg)
         email = request.form['email']
         # Check if account exists using MySQL        
         with connection.cursor() as cursor:
@@ -374,7 +378,10 @@ def signup():
 
 @app.route('/about_us')
 def about():
-    return render_template('about.html')
+    if('loggedin' in session):
+        return render_template('about.html', logged=True)
+    else:
+        return render_template('about.html', logged=False)
 
 @app.route('/dashboard/settings')
 def settings(user):
