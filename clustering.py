@@ -24,8 +24,8 @@ def cluster(algorithm, array, num_clusters, distance_type, linkage_type):
         algorithm = algs[algorithm](n_clusters=num_clusters)
     algorithm.fit(array)
     validation = silhouette_score(array, algorithm.labels_, metric=distance_type)
-    #eturn (["Cluster "+str(label) for label in algorithm.labels_], validation)
-    return (algorithm.labels_, validation)
+    return (["Cluster "+str(label) for label in algorithm.labels_], validation)
+    #return (algorithm.labels_, validation)
 
 #pca
 def twodimensions(data, group_labels):

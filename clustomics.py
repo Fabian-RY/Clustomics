@@ -188,8 +188,8 @@ def new_run(project):
     distance = request.form['distance']
     linkage = request.form['type']
     result = clustering.cluster(algorithm, array, groups, distance, linkage )
-    #array = pd.DataFrame(array)
-    #transformed_data = clustering.twodimensions(array, result[0])
+    array = pd.DataFrame(array)
+    transformed_data = clustering.twodimensions(array, result[0])
     
     id_ = database.get_id_from_project(project, user)[0]['id_project']
     group_name = database.get_id_from_project(project, user)[0]['group_name']
@@ -198,8 +198,8 @@ def new_run(project):
                          distance, linkage, group_name, user, path +'.csv')
     points = zip(array, result[0])
     npath = 'static/img/'+path+'.png'
-    #clustering.plotPCA(transformed_data, npath)
-    plot(array, result[0], npath)
+    clustering.plotPCA(transformed_data, npath)
+    #plot(array, result[0], npath)
     npath= '../../'+npath
     return render_template('run.html',
                                  project_name=project,
