@@ -9,6 +9,13 @@ algs = {
         0: KMeans,
         1: AgglomerativeClustering
         }
+#IMPUTATION OF MISSING VALUES (missing values must be np.nan)
+pandas.options.mode.use_inf_as_na = True #infinite values are considered missing
+
+def impute_values(data):
+    imp = SimpleImputer(strategy = most_frequent)
+    imp.fit(data)
+    return pd.DataFrame(imp.transform(data))
 
 #Clustering
 
