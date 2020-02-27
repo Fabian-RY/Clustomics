@@ -14,7 +14,7 @@
   <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="/static/css/login.css" rel="stylesheet">
+  <link href="/static/css/signup.css" rel="stylesheet">
 
 </head>
 
@@ -39,15 +39,18 @@
   
   <br /><br />
 
-<div class="login">
-<div class="container-fluid">
-  <div class="row no-gutter">
-    <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
-    <div class="col-md-8 col-lg-6">
-      <div class="login d-flex align-items-center py-5">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-9 col-lg-8 mx-auto">
+
+ <div class="signup">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 col-xl-9 mx-auto">
+          <div class="card card-signin flex-row my-5">
+            <div class="card-img-left d-none d-md-flex">
+
+            </div>
+            <div class="card-body">
+ 
+	
               <h3 class="login-heading mb-4">Welcome back!</h3>
               <form action="{{ url_for('login') }}" method="POST">
                 <div class="form-label-group">
@@ -71,14 +74,21 @@
                 <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit" value="login">Log in</button>
                 <a class="d-block text-center mt-2 small" href={{ url_for('signup') }}>Don't have an account? Sign up here</a>
               </form>
-            </div>
+           </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </div>
-</div>
+
+ 
+	
+	
+	
+	
+	
+	
+	
 <!-- Bootstrap core JavaScript -->
 <script src="/static/vendor/jquery/jquery.min.js"></script>
 <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
