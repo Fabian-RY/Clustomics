@@ -288,7 +288,11 @@ def new_project(msg=''):
                     groups = int(request.form['groups'])
                     linkage = request.form['type']
                     print('Data ready')
+                    path = str(session['username']+'_')
+                    npath = 'static/img/'+path+'.png'
                     result = clustering.cluster(algorithm, array, groups, distance, linkage )
+                    transformed_data = clustering.twodimensions(array, result[0])
+                    clustering.plotPCA(transformed_data, npath)
                     id_ = database.get_id_from_project(projectname, username)[0]['id_project']
                     group_name = database.get_id_from_project(projectname, username)[0]['group_name']
                     path = str(username+'_')
@@ -298,7 +302,7 @@ def new_project(msg=''):
                     points = zip(array, result[0])
                     npath = 'static/img/'+path+'.png'
                     print('Plotting')
-                    plot(array, result[0], npath)
+                    #plot(array, result[0], npath)
                     npath= '../../'+npath
                     print('Rendering HTML')
                     return render_template('run.html',
