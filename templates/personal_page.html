@@ -101,7 +101,7 @@
                            {% for group in groups %}
                                 <tr>
                                     <td>{{ group['group_name'] }}</td>
-                                    <td><form method="POST" action={{ url_for('delete', group=group['group_name'])}} >
+                                    <td><form method="POST"> <!--action={{ url_for('delete', group=group['group_name'])}} -->
                                             <input type=submit value='Leave'></input>
                                           </form> 
                                     </td>

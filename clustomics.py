@@ -384,7 +384,7 @@ def about():
         return render_template('about.html', logged=False)
 
 @app.route('/dashboard/settings')
-def settings(user):
+def settings():
     if (not 'loggedin' in session):
         return redirect(url_for('login'))
     return render_template('settings.html')
