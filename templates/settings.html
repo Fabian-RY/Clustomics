@@ -36,46 +36,47 @@
                <!-- Background image for card set in CSS! -->
             </div>
             <div class="card-body">
-              <h5 class="card-title text-center">Here you can change your email, password, and your groups.</h5>
+              <h5 class="card-title text-center">Here you can change your username and password.</h5>
               
               
-              <form action="/settings" method = "POST"  class="form-signin">
+              <form action="{{ url_for('settings') }}" method = "post" class="form-signin">
                 <div class="form-label-group">
-                  <input type="text" id="inputUserame" class="form-control" placeholder="Username" required autofocus>
-                  <label for="inputUserame">Username</label>
+                  <input type="text" id="currentusername" class="form-control" name= "currentusername" placeholder="Username">
+                  <label for="currentusername">Current username</label>
                 </div>
                 <div class="form-label-group">
-                  <input type="email" id="currentEmail" class="form-control" placeholder="Current email" required>
-                  <label for="currentEmail">Current email</label>
+                  <input type="password" id="currentpassword" class="form-control" name= "password" placeholder="Password">
+                  <label for="currentpassword">Current password</label>
                 </div>
 
-                <div class="form-label-group">
-                  <input type="email" id="newEmail" class="form-control" placeholder="New email" value= {{email}} >
-                  <label for="newEmail">New email</label>
-                </div>
+        
 
                 <hr>
 
                 <div class="form-label-group">
-                  <input type="password" id="currentPassword" class="form-control" placeholder="Current password" required>
-                  <label for="currentPassword">Current password</label>
-                </div>
-                <div class="form-label-group">
-                  <input type="password" id="inputConfirmPassword" class="form-control" placeholder="New password" required>
-                  <label for="inputConfirmPassword">New password</label>
-                </div>
-                <div class="form-label-group">
-                  <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Confirm Password" required>
-                  <label for="inputConfirmPassword">Confirm Password</label>
+                  <input type="text" id="newusername" class="form-control" name= "newusername"  placeholder="newusername">
+                  <label for="newusername">New username</label>
+ <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" name="action" value='changeusername' >Change username</button>
                 </div>
 
-                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Save changes</button>
-                
+
+<div>
+                <div class="form-label-group">
+                  <input type="password" id="newpassword" class="form-control" name= 'newpassword' placeholder="newpassword">
+                  <label for="newpassword">New password</label>
+                </div>
+                <div class="form-label-group">
+                  <input type="password" id="confirmpassword" class="form-control" name= 'confirmpassword' placeholder="confirmpassword">
+                  <label for="confirmpassword">Confirm Password</label>
+                </div>
+
+                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" name="action" value='changepassword'>Change password</button>
+ </div>               
                 <hr class="my-4">
-                  
+                  <div class="msg">{{ msg }}</div>
               </form>
               
-             
+              
              
 
             </div>

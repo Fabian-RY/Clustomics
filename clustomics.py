@@ -139,10 +139,9 @@ def new_group():
 @app.route('/dashboard/pr/<proj>')
 def project_info(proj):
     if (not 'loggedin' in session):
-        return redirect(url_for('login'))
+        return redirect(url_for('login')) 
     user = session['username']
     project_ = database.get_info_from_project(proj)
-    print(project_)
     results = database.get_result_from_project(proj)
     return render_template('project.html', 
                                      project=project_[0], 
@@ -174,8 +173,9 @@ def new_run(project):
     distance = request.form['distance']
     linkage = request.form['type']
     result = clustering.cluster(algorithm, array, groups, distance, linkage )
-    #save_result_file = 'projects_data' 
-    id_ = database.get_id_from_project(project, user)[0]['id_result']
+    id_ = database.get_id_from_project(project, user)
+    print(id_)
+    id_ = id_[0]['id_project']
     out = open(os.path.join(path, str(id_)+'_run.csv'), 'w')
     for point, label in zip(array, result[0]):
         (out.write(str(value)+'\t') for value in point)
@@ -188,6 +188,11 @@ def new_run(project):
     database.save_result(id_, project, float(result[1]), date, algorithm, groups,
                          distance, linkage, group_name, user, path +'.csv')
     run_number = database.get_project_last_run_number(project)
+    path = os.path.join('projects_data', project+'_data')
+    csv_out = os.path.join(path, str(run_number)+'_.csv')
+    with open(csv_out, 'w') as fhand:
+        for label in result[0]:
+            fhand.write(str(label)+'\n')
     return redirect('/dashboard/result?project='+project+'&run='+str(run_number))
 
 @app.route('/dashboard/result', methods=['GET','POST'])
@@ -346,11 +351,102 @@ def about():
     else:
         return render_template('about.html', logged=False)
 
-@app.route('/dashboard/settings')
+
+@app.route('/dashboard/settings',methods=['GET', 'POST'])
 def settings():
     if (not 'loggedin' in session):
         return redirect(url_for('login'))
-    return render_template('settings.html')
+    msg = ''
+ 
+    if request.method == 'POST' and request.form['action'] == 'changeusername' and request.form['currentusername']!='' and request.form['password']!='' and request.form['newusername']!='':
+
+        currentusername = request.form['currentusername']
+        username=session['username']	
+        newusername = request.form['newusername']
+        password = request.form['password']
+        password = hashlib.md5(password.encode('ascii')).hexdigest()
+        if currentusername==username:
+            with connection.cursor() as cursor:
+                sql = "SELECT * FROM user_info WHERE username = %s"
+                cursor.execute(sql, (newusername))
+                connection.commit()        
+                exists = cursor.fetchone()
+                if exists:
+                    msg='Username already exists!'
+    		
+                else:
+                    with connection.cursor() as cursor:
+                        sql = "SELECT * FROM user_info WHERE username = %s AND password = %s"
+                        cursor.execute(sql, (username,password))
+                        connection.commit()        
+                        account = cursor.fetchone()
+                        # If account exists update the username in all tables
+                        if account:
+                            print(session)
+                            with connection.cursor() as cursor:
+                                sql = "UPDATE user_info SET username = %s WHERE username = %s"
+                                cursor.execute(sql, (newusername,username))
+                                connection.commit()        
+                                account = cursor.fetchone()                  
+                            with connection.cursor() as cursor:
+                                sql = "UPDATE member_group SET username = %s WHERE username = %s"
+                                cursor.execute(sql, (newusername,username))
+                                connection.commit()        
+                                account = cursor.fetchone()
+                            with connection.cursor() as cursor:
+                                # Read a single record
+                                sql = "UPDATE projects SET user = %s WHERE user = %s"
+                                cursor.execute(sql, (newusername,username))
+                                connection.commit()        
+                                account = cursor.fetchone()
+                            with connection.cursor() as cursor:
+                                # Read a single record
+                                sql = "UPDATE project_result SET user = %s WHERE user = %s"
+                                cursor.execute(sql, (newusername,username))
+                                connection.commit()        
+                                account = cursor.fetchone()
+                                msg ='Username succesfully changed!'
+                                session['username'] = newusername
+                        
+                            
+                        else:
+                        # Account doesnt exist or username/password incorrect
+                             msg = 'Incorrect username/password!'  
+        else:
+            msg = 'Incorrect username/password!'
+    elif request.method == 'POST' and request.form['action'] == 'changepassword' and request.form['currentusername']!='' and request.form['password']!='' and request.form['newpassword']!='' and request.form['confirmpassword']!='':
+        currentusername = request.form['currentusername']
+        username=session['username']	
+        newusername = request.form['newusername']
+        password = request.form['password']
+        newpassword = request.form['newpassword']
+        confirmpassword = request.form['confirmpassword']
+        password = hashlib.md5(password.encode('ascii')).hexdigest()
+        if currentusername==username:
+            if newpassword==confirmpassword:                        
+                with connection.cursor() as cursor:
+                    sql = "SELECT * FROM user_info WHERE username = %s AND password = %s"
+                    cursor.execute(sql, (username,password))
+                    connection.commit()        
+                    account = cursor.fetchone()
+                    # If account exists update the password in all tables
+                    if account:
+                        newpassword= hashlib.md5(newpassword.encode('ascii')).hexdigest()
+                        with connection.cursor() as cursor:
+                            sql = "UPDATE user_info SET password = %s WHERE username = %s"
+                            cursor.execute(sql, (newpassword,username))
+                            connection.commit()        
+                            account = cursor.fetchone()
+                            msg='Password changed succesfully!'
+                    else:
+                        msg='Incorrect username/password!'
+            else:
+                msg='Please confirm the new password correctly'                 
+    else:
+        msg='Please fill one of the two forms'
+
+    return render_template('settings.html',msg=msg)
+
 
 @app.route('/logout')
 def logout():
