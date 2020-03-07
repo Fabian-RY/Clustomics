@@ -4,6 +4,7 @@ from sklearn.decomposition import PCA
 import pandas as pd
 import plotly.express as px
 import plotly.io as pio
+import tempfile
 
 algs = {
         0: KMeans,
@@ -13,7 +14,6 @@ algs = {
 #Clustering
 
 def cluster(algorithm, array, num_clusters, distance_type, linkage_type):
-    #array = pd.get_dummies(array)
     if(algorithm):
         algorithm = algs[algorithm](
                                         linkage=linkage_type,
@@ -32,9 +32,9 @@ def plotPCA(data, group_labels):
     X_r = pca.fit(data).transform(data)
     pc1_values = [sample[0] for sample in X_r]
     pc2_values = [sample[1] for sample in X_r]
-    data = pd.DataFrame(data = {"PC1":pc1_values,"PC2":pc2_values, "Group":["Cluster" + str(label+1) for label in group_labels]})
+    data = pd.DataFrame(data = {"PC1":pc1_values,"PC2":pc2_values, "Cluster":[str(label+1) for label in group_labels]})
 
-    fig = px.scatter(data, x = "PC1", y = "PC2", color = "Group")
+    fig = px.scatter(data, x = "PC1", y = "PC2", color = "Cluster")
 
     fig.update_layout(
         xaxis_title="PC1 (%.3f)"%(pca.explained_variance_ratio_[0]),

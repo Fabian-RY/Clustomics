@@ -10,7 +10,6 @@ import os.path
 import database
 from clustering import *
 import pymysql
-import pandas as pd
 import re
 import hashlib
 
@@ -167,6 +166,7 @@ def new_run(project):
     csv_path = os.path.join(path, 'data.csv')
     f.save(csv_path)
     array = pd.read_csv(csv_path, sep = separator, header = col_names, index_col = row_names)
+    array = pd.get_dummies(array)
     date = str(dt.datetime.now())[:-7]
     algorithm = int(request.form['algorithm'])
     groups = int(request.form['groups'])
