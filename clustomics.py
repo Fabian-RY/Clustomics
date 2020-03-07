@@ -3,22 +3,22 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import datetime as dt
 
-import matplotlib.pyplot as plt
-
+#import plotly.express as px
+#import plotly.io as pio
 import os
 import os.path
 import database
-import clustering
+from clustering import *
 import pymysql
-import pandas as pd 
-import seaborn 
+import pandas as pd
 import re
 import hashlib
 
-algs = {0: 'K-means', 
+algs = {0: 'K-means',
         1:'Hierarchichal'}
 
 app = Flask(__name__)
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config['UPLOAD_FOLDER'] = 'projects_data'
 
 app.secret_key= 'asd'
@@ -52,7 +52,7 @@ def login():
             # Read a single record
             sql = "SELECT * FROM user_info WHERE email = %s AND password = %s"
             cursor.execute(sql, (email,password))
-            #connection.commit()        
+            #connection.commit()
             account = cursor.fetchone()
             # If account exists in user_info table in out database
             if account:
@@ -64,8 +64,8 @@ def login():
                 return redirect(url_for('projects', user=account['username']))
             else:
                 # Account doesnt exist or username/password incorrect
-                msg = 'Incorrect email/password!'    
-   
+                msg = 'Incorrect email/password!'
+
     return render_template('login.html', msg=msg)
 
 @app.route('/dashboard', methods=['GET','POST'])
@@ -78,7 +78,7 @@ def projects():
     groups = database.get_groups_of_user(session['username'])
     print(type(groups))
     print(groups)
-    response = render_template('personal_page.html', projects=user_projects, 
+    response = render_template('personal_page.html', projects=user_projects,
                                                      groups=groups,
                                                      username=user)
     return response
@@ -95,7 +95,7 @@ def delete(group):
     user_projects = database.get_projects_from_user(user)
     print(user_projects, user)
     groups = database.get_groups_of_user(session['username'])
-    return render_template('personal_page.html', projects=user_projects, 
+    return render_template('personal_page.html', projects=user_projects,
                                                      groups=groups,
                                                      username=user,
                                                         msg=msg)
@@ -112,12 +112,12 @@ def new_group():
             # Create variables for easy access
             groupname = request.form['group']
             username = session['username']
-            # Check if group exists using MySQL   
+            # Check if group exists using MySQL
             with connection.cursor() as cursor:
                 # Read a single record
                 sql = 'SELECT * FROM groups WHERE group_name = %s'
                 cursor.execute(sql, (groupname))
-                connection.commit()        
+                connection.commit()
                 group = cursor.fetchone()
                 # If account exists show error and validation checks
                 if group:
@@ -149,7 +149,7 @@ def plot(list_info, list_group, path):
         color.append(colors[data_group["grupo"][i]])
 
     plt.scatter(x=data_numbers[data_numbers.columns[0]],y=data_numbers[data_numbers.columns[1]],color=color)
-    
+
     plt.savefig(path)
 
 @app.route('/dashboard/pr/<proj>')
@@ -160,11 +160,11 @@ def project_info(proj):
     project_ = database.get_info_from_project(proj)
     print(project_)
     results = database.get_result_from_project(proj)
-    return render_template('project.html', 
-                                     project=project_[0], 
+    return render_template('project.html',
+                                     project=project_[0],
                                      results=results,
                                      username=user)
-    
+
 @app.route('/dashboard/pr/<project>/new_run', methods=['POST'])
 def new_run(project):
     if (not 'loggedin' in session):
@@ -178,31 +178,25 @@ def new_run(project):
         os.mkdir(path)
     csv_path = os.path.join(path, 'data.csv')
     f.save(csv_path)
-    f = open(csv_path)
-    array = []
-    for line in f:
-        data = line.split()
-        data = tuple(float(x) for x in data)
-        array.append(data)
+    array = pd.read_csv(csv_path, sep = "\t")
     date = str(dt.datetime.now())[:-7]
     algorithm = int(request.form['algorithm'])
     groups = int(request.form['groups'])
     distance = request.form['distance']
     linkage = request.form['type']
-    result = clustering.cluster(algorithm, array, groups, distance, linkage )
-    array = pd.DataFrame(array)
-    transformed_data = clustering.twodimensions(array, result[0])
-    
+    result = cluster(algorithm, array, groups, distance, linkage )
+
     id_ = database.get_id_from_project(project, user)[0]['id_project']
     group_name = database.get_id_from_project(project, user)[0]['group_name']
     path = str(user+'_')
     database.save_result(id_, project, float(result[1]), date, algorithm, groups,
                          distance, linkage, group_name, user, path +'.csv')
     points = zip(array, result[0])
-    npath = 'static/img/'+path+'.png'
-    clustering.plotPCA(transformed_data, npath)
-    #plot(array, result[0], npath)
-    npath= '../../'+npath
+
+    temporal = tempfile.NamedTemporaryFile(dir = "static/img", suffix='.html', delete = False)
+    plot = plotPCA(array, result[0])
+    pio.write_html(plot, file = temporal.name)
+
     return render_template('run.html',
                                  project_name=project,
                                  algorithm=algs[algorithm],
@@ -214,7 +208,7 @@ def new_run(project):
                                  distance=distance,
                                  points=points,
                                  input_=array,
-                                 img_path='../'+npath,
+                                 img_path="../../../static/img/"+temporal.name.split("/")[-1],
                                  groups=result[0],
                                  linkage=linkage)
 
@@ -224,8 +218,8 @@ def run_results(user, project, id_project, datetime):
         return redirect(url_for('login'))
     run = database.get_run_results(id_project, datetime, user)
     run=run[0]
-    return render_template('run.html', 
-                                     project_name=run['project_name'], 
+    return render_template('run.html',
+                                     project_name=run['project_name'],
                                      algorithm=run['algo_rithm'],
                                      user_name=run['user'],
                                      group_name=run['group_name'],
@@ -251,15 +245,15 @@ def new_project(msg=''):
             projectname = request.form['name_of_the_project']
             username = session['username']
             groupname= request.form['group']
-            #aparezca en el html un desplegable con los grupos a los que pertenece, y ojala poder seleccionar varios     
+            #aparezca en el html un desplegable con los grupos a los que pertenece, y ojala poder seleccionar varios
             with connection.cursor() as cursor:
                 # Read a single record
                 path = "%s_data" % (projectname)
                 print(path)
-                # If mirando si ese project name esta cogido ya para su user o su grupo                
+                # If mirando si ese project name esta cogido ya para su user o su grupo
                 sql = "SELECT * from projects WHERE project_name = %s and group_name = %s;"
                 cursor.execute(sql, (projectname , groupname))
-                connection.commit()        
+                connection.commit()
                 project_exists = cursor.fetchone()
                 # If project exists show error and validation checks
                 print('Checking if exists')
@@ -275,14 +269,9 @@ def new_project(msg=''):
                     if (not os.path.exists(path)):
                         os.mkdir(path)
                     csv_path = os.path.join(path, 'data.csv')
-                    f = request.files['file'] 
+                    f = request.files['file']
                     f.save(csv_path)
-                    f = open(csv_path)
-                    array = []
-                    for line in f:
-                        data = line.split()
-                        data = tuple(float(x) for x in data)
-                        array.append(data)
+                    array = pd.read_csv(csv_path, sep = "\t")
                     print('Clustering now')
                     date = str(dt.datetime.now())[:-7]
                     algorithm = int(request.form['algorithm'])
@@ -291,10 +280,10 @@ def new_project(msg=''):
                     linkage = request.form['type']
                     print('Data ready')
                     path = str(session['username']+'_')
-                    npath = 'static/img/'+path+'.png'
-                    result = clustering.cluster(algorithm, array, groups, distance, linkage )
-                    transformed_data = clustering.twodimensions(array, result[0])
-                    clustering.plotPCA(transformed_data, npath)
+                    npath = 'static/img/'+path+'.html'
+                    result = cluster(algorithm, array, groups, distance, linkage )
+
+
                     id_ = database.get_id_from_project(projectname, username)[0]['id_project']
                     group_name = database.get_id_from_project(projectname, username)[0]['group_name']
                     path = str(username+'_')
@@ -302,10 +291,11 @@ def new_project(msg=''):
                     database.save_result(id_, projectname, float(result[1]), date, algorithm, groups,
                                          distance, linkage, group_name, username, path +'.csv')
                     points = zip(array, result[0])
-                    npath = 'static/img/'+path+'.png'
-                    print('Plotting')
-                    #plot(array, result[0], npath)
-                    npath= '../../'+npath
+
+                    temporal = tempfile.NamedTemporaryFile(dir = "static/img", suffix='.html', delete = False)
+                    plot = plotPCA(array, result[0])
+                    pio.write_html(plot, file = temporal.name)
+
                     print('Rendering HTML')
                     return render_template('run.html',
                                                  project_name=projectname,
@@ -318,7 +308,7 @@ def new_project(msg=''):
                                                  distance=distance,
                                                  points=points,
                                                  input_=array,
-                                                 img_path=npath,
+                                                 img_path="../../../static/img/"+temporal.name.split("/")[-1],
                                                  groups=result[0],
                                                  linkage=linkage)
         else:
@@ -327,7 +317,7 @@ def new_project(msg=''):
             groups = database.get_groups_of_user(session['username'])
             groups = ['Privado'] + [group['group_name'] for group in groups]
             print('Its a POST!')
-            return render_template('new_project.html', 
+            return render_template('new_project.html',
                                                        msg=msg,
                                                        groups=groups)
     return redirect(url_for('login'))
@@ -346,12 +336,12 @@ def signup(msg=''):
             msg = 'Passwords don\'t match'
             return render_template('signup.html', msg=msg)
         email = request.form['email']
-        # Check if account exists using MySQL        
+        # Check if account exists using MySQL
         with connection.cursor() as cursor:
             # Read a single record
             sql = 'SELECT * FROM user_info WHERE username = %s'
             cursor.execute(sql, (username))
-            connection.commit()        
+            connection.commit()
             account = cursor.fetchone()
             # If account exists show error and validation checks
             if account:
@@ -373,7 +363,7 @@ def signup(msg=''):
         # Form is empty... (no POST data)
         msg = 'Please fill out the form!'
     # Show registration form with message (if any)
-    
+
     return render_template('signup.html', msg=msg)
 
 @app.route('/about_us')
