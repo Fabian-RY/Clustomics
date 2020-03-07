@@ -1,7 +1,7 @@
 <doctype html>
 <html>
-  
- 	
+
+
 <head>
 
   <meta charset="utf-8">
@@ -17,76 +17,83 @@
   <!-- Custom styles for this template -->
   <link href="../../static/css/signup.css" rel="stylesheet">
 
-</head> 
-  
-  
+</head>
+
+
 <body>
-  
-  
-  
+
+
+
 <div>
 <iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
-</div>   
-  
-  
-  
-  
- <h1 class="card-title text-center">  {{project['project_name']}}   </h1> 
-  
+</div>
+
+
+
+
+ <h1 class="card-title text-center">  {{project['project_name']}}   </h1>
+
 <div class="signup">
     <div class="container">
          <div class=" col-xl-6 ">
           <div class="card card-signin flex-row my-5">
-            
+
             <div class="card-body">
               <h1 class="card-title text-center"> New run   </h1>
                               <form action={{ url_for("new_run", user=username, project=project['project_name'])}} method="POST" enctype="multipart/form-data">
                                        <input type = "file" name = "file" /><br />
-                                   Select algorithm 
+                                   Select algorithm
                                    <select name="algorithm">
                                       <option value="0">K Means</option>
                                       <option value="1">Hierarchical clustering</option>
                                    </select>
+                                   <br />
+                                   Separating character
+                                   <input type="text" name="input_type" size=1> <b>,</b>,  <b>\t</b>,  <b>;</b> or any other.
                                     <br />
-                                    Select number of groups: <input type="number" name="groups" min="1" max="6">
+                                    Select number of groups: <input type="number" name="groups" min="1" max="10">
                                     <br />
-                                    Select linkage: 
+                                    Column names in the first row <input type="radio" id="Yes" name="col_names" value=1><label for="Yes">Yes</label><input type="radio" id ="No" name="col_names" value=0><label for="No">No</label>
+                                    <br />
+                                    Row names in the first column <input type="radio" id="Yes2" name="row_names" value=1><label for="Yes2">Yes</label><input type="radio" id ="No2" name="row_names" value=0><label for="No2">No</label>
+                                    <br />
+                                    Select linkage:
                                     <select name="type">
                                         <option value="ward"> Ward</option>
                                         <option value="single"> Single</option>
                                     </select>
                                     <br />
-                                    Select distance: 
+                                    Select distance:
                                     <select name="distance" >
                                         <option value="euclidean">Euclidean</option>
                                     </select>
                                     <br />
                                     <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Run</button>
                               </form>
-                              
-                                                      
+
+
              </div>
           </div>
-        </div>     
-       
-       
-       
+        </div>
+
+
+
 <div class="signup">
     <div class="container">
          <div class=" col-xl-12 ">
           <div class="card card-signin flex-row my-5">
-            
+
             <div class="card-body">
               <h1 class="card-title text-center">    Previous runs </h1>
-               
-              <form action="{{ url_for }}" method="post" autocomplete="off" class="active">       
-       
-                              
-                                                  
-                    
+
+              <form action="{{ url_for }}" method="post" autocomplete="off" class="active">
+
+
+
+
                     	<table border=1>
                           {% for run in results %}
-                    	<tr>	
+                    	<tr>
                                    <th> {{ run['date_time'] }} </th>
                                    <td> {{ run['validation_result'] }} </td>
                     		<td> {{ run['user'] }} </td>
@@ -95,23 +102,23 @@
                     		<td> {{ run['distance'] }} </td>
                     		<td> {{ run['groups'] }} </td>
                     		<td> <form>
-                                	<input type="submit" value="Go to the run" /> </td>   
-                            </tr>        
-                    
+                                	<input type="submit" value="Go to the run" /> </td>
+                            </tr>
+
                           {% endfor %}
-                          
-          
+
+
             </div>
           </div>
         </div>
       </div>
     </div>
 </div>
-   
-      
-      
-      
-      
-      
+
+
+
+
+
+
    </body>
 </html>
