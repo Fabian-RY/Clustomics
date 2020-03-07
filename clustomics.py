@@ -193,9 +193,8 @@ def new_run(project):
                          distance, linkage, group_name, user, path +'.csv')
     points = zip(array, result[0])
 
-    temporal = tempfile.NamedTemporaryFile(dir = "static/img", suffix='.html', delete = False)
     plot = plotPCA(array, result[0])
-    pio.write_html(plot, file = temporal.name)
+    plot_html = pio.to_html(plot, full_html = False)
 
     return render_template('run.html',
                                  project_name=project,
@@ -208,7 +207,7 @@ def new_run(project):
                                  distance=distance,
                                  points=points,
                                  input_=array,
-                                 img_path="../../../static/img/"+temporal.name.split("/")[-1],
+                                 img = plot_html,
                                  groups=result[0],
                                  linkage=linkage)
 
