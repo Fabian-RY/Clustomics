@@ -107,11 +107,7 @@
 
                                 {% endfor %}
                             </table>
-                                   <iframe title="PCA plot"
-                                       frameborder = "no"
-                                       height = 500 width = 1000
-                                       src={{ img_path }}>
-                                   </iframe>
+                                   {{ img|safe }}
 
                     </form>
               </div>
