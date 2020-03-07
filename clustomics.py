@@ -136,22 +136,6 @@ def new_group():
             return redirect(url_for('projects'))
     return redirect(url_for('login'))
 
-def plot(list_info, list_group, path):
-    data_numbers=pd.DataFrame(list_info)
-    data_group=pd.DataFrame(list_group,columns=["grupo"])
-
-    number_groups=len(set(data_group["grupo"]))
-
-    colors=seaborn.color_palette(palette="Set1", n_colors=number_groups)
-
-    color=[]
-    for i in range(len(data_group)):
-        color.append(colors[data_group["grupo"][i]])
-
-    plt.scatter(x=data_numbers[data_numbers.columns[0]],y=data_numbers[data_numbers.columns[1]],color=color)
-
-    plt.savefig(path)
-
 @app.route('/dashboard/pr/<proj>')
 def project_info(proj):
     if (not 'loggedin' in session):
@@ -172,13 +156,17 @@ def new_run(project):
     #elif (session['username'] != user or (request.method == 'GET' and 'loggedin' in session)):
     #    return redirect(url_for('projects', user=session['username']))
     f = request.files['file']
+    separator = request.form['input_type']
+    if int(request.form['col_names']): col_names = 0
+    else: col_names = None
+    if int(request.form['row_names']): row_names = 0
+    else: row_names = None
     user = session['username']
     path = os.path.join('projects_data', project+'_data')
-    if (not os.path.exists(path)):
-        os.mkdir(path)
+    if (not os.path.exists(path)): os.mkdir(path)
     csv_path = os.path.join(path, 'data.csv')
     f.save(csv_path)
-    array = pd.read_csv(csv_path, sep = "\t")
+    array = pd.read_csv(csv_path, sep = separator, header = col_names, index_col = row_names)
     date = str(dt.datetime.now())[:-7]
     algorithm = int(request.form['algorithm'])
     groups = int(request.form['groups'])
