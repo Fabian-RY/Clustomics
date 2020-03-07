@@ -4,7 +4,6 @@ from sklearn.decomposition import PCA
 import pandas as pd
 import plotly.express as px
 import plotly.io as pio
-import tempfile
 
 algs = {
         0: KMeans,
