@@ -8,7 +8,23 @@ Created on Sun Feb  2 11:02:47 2020
 
 import pymysql
 
-   
+
+def get_project_last_run_number(project):
+    connection = pymysql.connect(host='localhost',
+                             user='anon',
+                             password='@Patata23',
+                             db='clustomics',
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor)
+    sql = "SELECT * from project_result WHERE project_name=%s"
+    with connection.cursor() as cursor:
+        cursor.execute(sql, (project, ))
+        result = tuple(cursor)
+    connection.close()
+    result = tuple(value['id_result'] for value in result)
+    print(result)
+    max_ = max(result)
+    return max_
 
 def get_info_from_project(project_name):
     connection = pymysql.connect(host='localhost',
@@ -119,7 +135,7 @@ def save_result(id_, project, score, date_time, algorithm, groups,
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
     if (group_name is None): group_name = 'NULL'
-    sql = 'INSERT INTO project_result VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
+    sql = 'INSERT INTO project_result (id_project, project_name, validation_result, date_time, algo_rithm, groups, distance, linkage, group_name, user, path) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
     with connection.cursor() as cursor:
         cursor.execute(sql, (id_, project, score, date_time, algorithm, groups, 
                              distance, 
@@ -157,7 +173,6 @@ def get_projects_from_user(user):
     member_of = list()
     sql = 'SELECT * FROM projects WHERE user=%s'
     for group in groups:
-        print(group)
         member_of.append(group['group_name'])
         sql += ' OR group_name=%s'
     sql += ";"
@@ -167,17 +182,18 @@ def get_projects_from_user(user):
     connection.close()
     return tuple(result)
 
-def get_run_results(id_project, datetime, user):
+def get_run_results(id_project):
     connection = pymysql.connect(host='localhost',
                              user='anon',
                              password='@Patata23',
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
-    sql = 'SELECT * FROM project_result WHERE id_project=%s AND date_time=%s AND user=%s'
+    sql = 'SELECT * FROM project_result WHERE id_result=%s order  by date_time'
     with connection.cursor() as cursor:
-        cursor.execute(sql, (id_project,datetime,user ))
+        cursor.execute(sql, (id_project ))
         result = tuple(cursor)
+    print(result)
     connection.close()
     return result
 

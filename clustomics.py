@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, send_file
 import datetime as dt
-
-import matplotlib.pyplot as plt
 
 import os
 import os.path
@@ -11,14 +9,16 @@ import database
 import clustering
 import pymysql
 import pandas as pd 
-import seaborn 
+import plotly.io as pio
 import re
 import hashlib
+
 
 algs = {0: 'K-means', 
         1:'Hierarchichal'}
 
 app = Flask(__name__)
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config['UPLOAD_FOLDER'] = 'projects_data'
 
 app.secret_key= 'asd'
@@ -136,22 +136,6 @@ def new_group():
             return redirect(url_for('projects'))
     return redirect(url_for('login'))
 
-def plot(list_info, list_group, path):
-    data_numbers=pd.DataFrame(list_info)
-    data_group=pd.DataFrame(list_group,columns=["grupo"])
-
-    number_groups=len(set(data_group["grupo"]))
-
-    colors=seaborn.color_palette(palette="Set1", n_colors=number_groups)
-
-    color=[]
-    for i in range(len(data_group)):
-        color.append(colors[data_group["grupo"][i]])
-
-    plt.scatter(x=data_numbers[data_numbers.columns[0]],y=data_numbers[data_numbers.columns[1]],color=color)
-    
-    plt.savefig(path)
-
 @app.route('/dashboard/pr/<proj>')
 def project_info(proj):
     if (not 'loggedin' in session):
@@ -190,40 +174,44 @@ def new_run(project):
     distance = request.form['distance']
     linkage = request.form['type']
     result = clustering.cluster(algorithm, array, groups, distance, linkage )
+    #save_result_file = 'projects_data' 
+    id_ = database.get_id_from_project(project, user)[0]['id_result']
+    out = open(os.path.join(path, str(id_)+'_run.csv'), 'w')
+    for point, label in zip(array, result[0]):
+        (out.write(str(value)+'\t') for value in point)
+        out.write(str(label))
+        out.write('\n')
+    out.close()
     array = pd.DataFrame(array)
-    transformed_data = clustering.twodimensions(array, result[0])
-    
-    id_ = database.get_id_from_project(project, user)[0]['id_project']
     group_name = database.get_id_from_project(project, user)[0]['group_name']
     path = str(user+'_')
     database.save_result(id_, project, float(result[1]), date, algorithm, groups,
                          distance, linkage, group_name, user, path +'.csv')
-    points = zip(array, result[0])
-    npath = 'static/img/'+path+'.png'
-    clustering.plotPCA(transformed_data, npath)
-    #plot(array, result[0], npath)
-    npath= '../../'+npath
-    return render_template('run.html',
-                                 project_name=project,
-                                 algorithm=algs[algorithm],
-                                 user_name=user,
-                                 date=date,
-                                 group_name=group_name,
-                                 validation_parameter=float(result[1]),
-                                 number_of_groups=groups,
-                                 distance=distance,
-                                 points=points,
-                                 input_=array,
-                                 img_path='../'+npath,
-                                 groups=result[0],
-                                 linkage=linkage)
+    run_number = database.get_project_last_run_number(project)
+    return redirect('/dashboard/result?project='+project+'&run='+str(run_number))
 
-@app.route('/<user>/<project>/results', methods=['POST','GET'])
-def run_results(user, project, id_project, datetime):
-    if (not 'loggedin' in session):
-        return redirect(url_for('login'))
-    run = database.get_run_results(id_project, datetime, user)
-    run=run[0]
+@app.route('/dashboard/result', methods=['GET','POST'])
+def recover_run():
+    if(not request.args):
+        return redirect(url_for('project_info'))
+    project = request.args['project']
+    run_id = request.args['run']
+    run = database.get_run_results(run_id)[0]
+    csv_path = os.path.join('projects_data', project+'_data','data.csv')
+    csv_labels = os.path.join('projects_data', project+'_data',str(run_id)+'_.csv')
+    f = open(csv_path)
+    array = []
+    for line in f:
+        data = line.split()
+        data = tuple(x for x in data)
+        array.append(data)
+    f = open(csv_labels)
+    labels = []
+    for line in f:
+        labels.append(line.strip('\n'))
+    dt = pd.DataFrame(array)
+    plot = clustering.plotPCA(dt, labels)
+    plot_html = pio.to_html(plot, full_html = False)
     return render_template('run.html', 
                                      project_name=run['project_name'], 
                                      algorithm=run['algo_rithm'],
@@ -232,21 +220,19 @@ def run_results(user, project, id_project, datetime):
                                      validation_parameter=run['validation_result'],
                                      number_of_groups=run['groups'],
                                      distance=run['distance'],
-                                     linkage=run['linkage'])
+                                     linkage=run['linkage'],
+                                     points=zip(array, labels),
+                                     img=plot_html)
 
 @app.route('/header')
 def header():
-    return render_template('header.html')
+    return render_template('header.html', user=session['username'])
 
 @app.route('/dashboard/new_project', methods=['GET', 'POST'])
 def new_project(msg=''):
     if 'loggedin' in session:
         # Output message if something goes wrong...
-        print('Logged in')
-        print(request.form)
-        print(request.files)
         if request.method == 'POST' and 'name_of_the_project' in request.form and 'file' in request.files and 'groups' in request.form:
-            print('Correct')
             # Create variables for easy access
             projectname = request.form['name_of_the_project']
             username = session['username']
@@ -255,22 +241,18 @@ def new_project(msg=''):
             with connection.cursor() as cursor:
                 # Read a single record
                 path = "%s_data" % (projectname)
-                print(path)
                 # If mirando si ese project name esta cogido ya para su user o su grupo                
                 sql = "SELECT * from projects WHERE project_name = %s and group_name = %s;"
                 cursor.execute(sql, (projectname , groupname))
                 connection.commit()        
                 project_exists = cursor.fetchone()
                 # If project exists show error and validation checks
-                print('Checking if exists')
                 if project_exists:
-                    print('Exists project')
                     msg = 'There is a project with the name in that group!'
                 else:
                     # Account doesnt exists and the form data is valid, now insert new account into accounts table
                     cursor.execute('INSERT INTO projects ( group_name, user,project_name, file_path) VALUES ( %s, %s, %s, %s);', (groupname, username, projectname , path))
                     connection.commit()
-                    print('Does not exist')
                     path = os.path.join('projects_data', projectname+'_data')
                     if (not os.path.exists(path)):
                         os.mkdir(path)
@@ -283,44 +265,25 @@ def new_project(msg=''):
                         data = line.split()
                         data = tuple(float(x) for x in data)
                         array.append(data)
-                    print('Clustering now')
                     date = str(dt.datetime.now())[:-7]
                     algorithm = int(request.form['algorithm'])
                     distance = request.form['distance']
                     groups = int(request.form['groups'])
                     linkage = request.form['type']
-                    print('Data ready')
                     path = str(session['username']+'_')
-                    npath = 'static/img/'+path+'.png'
                     result = clustering.cluster(algorithm, array, groups, distance, linkage )
-                    transformed_data = clustering.twodimensions(array, result[0])
-                    clustering.plotPCA(transformed_data, npath)
                     id_ = database.get_id_from_project(projectname, username)[0]['id_project']
                     group_name = database.get_id_from_project(projectname, username)[0]['group_name']
-                    path = str(username+'_')
-                    print('Saving on database')
                     database.save_result(id_, projectname, float(result[1]), date, algorithm, groups,
                                          distance, linkage, group_name, username, path +'.csv')
-                    points = zip(array, result[0])
-                    npath = 'static/img/'+path+'.png'
-                    print('Plotting')
-                    #plot(array, result[0], npath)
-                    npath= '../../'+npath
-                    print('Rendering HTML')
-                    return render_template('run.html',
-                                                 project_name=projectname,
-                                                 algorithm=algs[algorithm],
-                                                 user_name=username,
-                                                 date=date,
-                                                 group_name=group_name,
-                                                 validation_parameter=float(result[1]),
-                                                 number_of_groups=groups,
-                                                 distance=distance,
-                                                 points=points,
-                                                 input_=array,
-                                                 img_path=npath,
-                                                 groups=result[0],
-                                                 linkage=linkage)
+                    run_number = database.get_project_last_run_number(projectname)
+                    path = os.path.join('projects_data', projectname+'_data')
+                    csv_out = os.path.join(path, str(run_number)+'_.csv')
+                    with open(csv_out, 'w') as fhand:
+                        for label in result[0]:
+                            fhand.write(str(label)+'\n')
+                    run_number = database.get_project_last_run_number(projectname)
+                    return redirect('/dashboard/result?project='+projectname+'&run='+str(run_number))
         else:
             # Form is empty... (no POST data)
             msg = 'Please fill out the form!'
@@ -409,6 +372,10 @@ def internal_server_error(e):
 @app.errorhandler(403)
 def page_forbidden(e):
     return render_template('403.html'), 500
+
+@app.route('/favicon.ico')
+def get_image():
+    return send_file('/static/img/favicon.ico', mimetype='image/ico')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=False)

@@ -107,7 +107,7 @@
               
                                 {% endfor %}
                             </table>
-                                   <img src={{ img_path }} alt ="Results plot">
+                                   {{ img|safe }}
                                    
                     </form>
               </div>
@@ -130,6 +130,7 @@
       {% for element in points %}
         
           <tr>
+              
               <td>{{ element[0][0] }}</td>
               <td>{{ element[0][1] }}</td>
               <td>{{ element[1] }}</td>
@@ -138,32 +139,6 @@
       {% endfor %}
       
       </table>
-            </div>
-          </div>
-        </div>
-       
-       
-       
-       
-       
-       <div class=" col-xl-12">
-          <div class="card card-signin flex-row my-5">
-            <div class="card-body">
-              <h3 class="card-title text-center"> Table </h3>
-               <!--
-                  <form action="{{ url_for }}" method="post" autocomplete="off" class="active">             
-                                    
-                         <table>
-                              <th> Datapoint assigned Group </th>
-                        </tr>
-                          <td>  </td>
-                          <td> </td>
-                      </table>
-                      <img src={{img_route}} alt ="Results plot">
-                   -->                        
-                            
-                        
-               
             </div>
           </div>
         </div>

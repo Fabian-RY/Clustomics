@@ -29,14 +29,17 @@
 </div>   
   
   
-<div class="signup" style="margin: 0px 0px -150px 0px" >  
- <h1 class="card-title text-center">  New project </h1> 
   
+  
+ <h1 class="card-title text-center">  New project   </h1> 
+  
+<div class="signup">
     <div class="container">
          <div class=" col-xl-6 ">
           <div class="card card-signin flex-row my-5">
             
             <div class="card-body">
+              <h1 class="card-title text-center"> New project    </h1>
                
               <form action={{ url_for("new_project") }} method="post" autocomplete="off" class="active" enctype="multipart/form-data">
                       <div class="form-label-group">
@@ -54,24 +57,29 @@
                         
                               
                                        <input type = "file" name = "file" /><br />
-                                   Select algorithm 
-                                   <select name="algorithm">
-                                      <option value="0">K Means</option>
-                                      <option value="1">Hierarchical clustering</option>
+				                                   
+					Select algorithm 
+                                   <select name="algorithm" onchange="type_algorithm(this)">
+                                      <option value="0">Hierarchical clustering</option>
+                                      <option value="1">K Means</option>
                                    </select>
                                     <br />
                                     Select number of groups: <input type="number" name="groups" min="1" max='6'>
                                     <br />
-                                    Select linkage: 
+                                   
+<div id=hide>
+ Select linkage: 
                                     <select name="type">
                                         <option value="ward"> Ward</option>
                                         <option value="single"> Single</option>
                                     </select>
                                     <br />
+
                                     Select distance: 
-                                    <select name="distance" >
+                                    <select name="distance"  >
                                         <option value="euclidean">Euclidean</option>
                                     </select>
+</div>
                                     <br />
                                     <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Send</input>
                               </form>
@@ -81,3 +89,27 @@
         </div>     
    </body>
 </html>
+
+<script>
+function hide(){
+var variables = document.getElementById('hide');
+
+variables.style.visibility = 'hidden';
+
+}
+
+function show(){
+var variables = document.getElementById('hide');
+
+variables.style.visibility = 'visible';
+
+}
+
+
+function type_algorithm(select){
+if(select.value == '0'){
+show();
+}else if(select.value == '1'){
+hide();
+}}
+</script>
