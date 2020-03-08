@@ -86,7 +86,7 @@
                 <form action={{ url_for("new_group")}} method="POST">
                   <input type="text" name="group" placeholder="group" id="group" required>
                   <label for="group">Name of the group</label>                  
-                  <input type='submit' style=" margin: 20px 0px 0px 40px;" href="personal_page.html" class="btn btn-lg btn-primary btn-block  " type="submit">Confirm </input>
+                  <input type='submit' style=" margin: 20px 0px 0px 40px;" class="btn btn-lg btn-primary btn-block  " type="submit">Confirm </input>
                 </form>
 	           	</div>
                  </div>
@@ -96,7 +96,7 @@
                         <tr style="font-size:20px">
                            
                           <th>Group name</th>
-                          
+                          {{ msg }}
                         </tr>                  	  
                            {% for group in groups %}
                                 <tr>

@@ -5,7 +5,6 @@ from sklearn.decomposition import PCA
 
 import pandas as pd
 import plotly.express as px
-import plotly.io as pio
 
 algs = {
         0: AgglomerativeClustering,
@@ -37,7 +36,7 @@ def plotPCA(data, group_labels):
     pc2_values = [sample[1] for sample in X_r]
     data = pd.DataFrame(data = {"PC1":pc1_values,
                                 "PC2":pc2_values, 
-                                "Group":["Cluster {lb}".format(lb=label) for label in group_labels]})
+                                "Group":["{lb}".format(lb=label) for label in group_labels]})
 
     fig = px.scatter(data, x = "PC1", y = "PC2", color = "Group")
 

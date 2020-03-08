@@ -41,11 +41,11 @@
               
               <form action="{{ url_for('settings') }}" method = "post" class="form-signin">
                 <div class="form-label-group">
-                  <input type="text" id="currentusername" class="form-control" name= "currentusername" placeholder="Username">
+                  <input type="text" id="currentusername" class="form-control" name= "currentusername" placeholder="Username" required>
                   <label for="currentusername">Current username</label>
                 </div>
                 <div class="form-label-group">
-                  <input type="password" id="currentpassword" class="form-control" name= "password" placeholder="Password">
+                  <input type="password" id="currentpassword" class="form-control" name= "password" placeholder="Password" required>
                   <label for="currentpassword">Current password</label>
                 </div>
 
