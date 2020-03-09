@@ -96,15 +96,14 @@
                         <tr style="font-size:20px">
                            
                           <th>Group name</th>
-                          {{ msg }}
+                          
                         </tr>                  	  
                            {% for group in groups %}
                                 <tr>
                                     <td>{{ group['group_name'] }}</td>
-                                    <td><form method="POST"> <!--action={{ url_for('delete', group=group['group_name'])}} -->
-                                            <input type=submit value='Leave'></input>
-                                          </form> 
-                                    </td>
+                                     <td><form action={{ url_for("groupsettings", group=group['group_name'])}}>
+    	                      <input type="submit" value="Settings" />
+		                        </form></td>
 		                    </tr>  
                           {% endfor %}
                             </table>

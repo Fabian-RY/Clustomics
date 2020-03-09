@@ -48,13 +48,15 @@
                                       <option value="1">K Means</option>
                                    </select>
                                     <br />
-                                    Select number of groups: <input type="number" name="groups" min="1" max="6">
+                                    Select number of groups: <input type="number" name="groups" min="2" max="20">
                                     <br />
 					<div id=hide>
  					Select linkage: 
                                     <select name="type">
                                         <option value="ward"> Ward</option>
                                         <option value="single"> Single</option>
+                                        <option value="complete"> Complete</option>
+                                        <option value="average"> Average</option>
                                     </select>
                                     <br />
 
@@ -118,24 +120,24 @@
 
 <script>
 function hide(){
-var variables = document.getElementById('hide');
+    var variables = document.getElementById('hide');
 
-variables.style.visibility = 'hidden';
+    variables.style.visibility = 'hidden';
 
 }
 
 function show(){
-var variables = document.getElementById('hide');
+    var variables = document.getElementById('hide');
 
-variables.style.visibility = 'visible';
+    variables.style.visibility = 'visible';
 
 }
 
 
 function type_algorithm(select){
-if(select.value == '0'){
-show();
-}else if(select.value == '1'){
-hide();
+    if(select.value == '0'){
+    show();
+    }else if(select.value == '1'){
+    hide();
 }}
 </script>

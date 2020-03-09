@@ -34,6 +34,7 @@ def plotPCA(data, group_labels):
     X_r = pca.fit(data).transform(data)
     pc1_values = [sample[0] for sample in X_r]
     pc2_values = [sample[1] for sample in X_r]
+    print(len(pc1_values), len(pc2_values), len(group_labels))
     data = pd.DataFrame(data = {"PC1":pc1_values,
                                 "PC2":pc2_values, 
                                 "Group":["{lb}".format(lb=label) for label in group_labels]})

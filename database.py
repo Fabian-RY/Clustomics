@@ -26,6 +26,21 @@ def get_project_last_run_number(project):
     max_ = max(result)
     return max_
 
+def get_project_ids(project, ID):
+    connection = pymysql.connect(host='localhost',
+                             user='anon',
+                             password='@Patata23',
+                             db='clustomics',
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor)
+    sql = "SELECT id_result from project_result WHERE project_name=%s"
+    with connection.cursor() as cursor:
+        cursor.execute(sql, (project, ))
+        result = tuple(cursor)
+    connection.close()
+    result = tuple(value['id_result'] for value in result if value['id_result'] != str(ID)) #Eliminamos el id que es de la run actual para no compararlo con sigo mismo
+    return result
+
 def get_info_from_project(project_name):
     connection = pymysql.connect(host='localhost',
                              user='anon',

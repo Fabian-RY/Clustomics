@@ -21,8 +21,10 @@ def random_input_files(variables_num, variable_names, registre_num, writer):
     #writer.write("\n")
     for resgistre in range(registre_num):
         for _ in range(variables_num):
-            writer.write("%f\t" % (random.random())) 
+            writer.write("%f" % (random.random())) 
+            if (_ != variables_num -1):
+                writer.write("\t") 
         writer.write("\n")
     writer.close()
 
-random_input_files(100, ["altura", "anchura"], 50000, "../projects/1tfd.csv")
+random_input_files(2, ["altura", "anchura"], 25, "projects_data/erdogan.csv")

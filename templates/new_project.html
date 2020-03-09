@@ -56,15 +56,15 @@
              
                         
                               
-                                       <input type = "file" name = "file" /><br />
+                                       <input type = "file" name = "file"  required/><br />
 				                                   
 					Select algorithm 
-                                   <select name="algorithm" onchange="type_algorithm(this)">
+                                   <select name="algorithm" onchange="type_algorithm(this)" >
                                       <option value="0">Hierarchical clustering</option>
                                       <option value="1">K Means</option>
                                    </select>
                                     <br />
-                                    Select number of groups: <input type="number" name="groups" min="1" max='6'>
+                                    Select number of groups: <input type="number" name="groups" min="2" max="20" required>
                                     <br />
                                    
 <div id=hide>
@@ -72,6 +72,8 @@
                                     <select name="type">
                                         <option value="ward"> Ward</option>
                                         <option value="single"> Single</option>
+                                        <option value="complete"> Complete</option>
+                                        <option value="average"> Average</option>
                                     </select>
                                     <br />
 

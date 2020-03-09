@@ -112,13 +112,69 @@
           </div>
         </div>
    
-   
+   <div class="signup">
+    <div class="container">
+         <div class=" col-xl-12 ">
+          <div class="card card-signin flex-row my-5">
+            
+            <div class="card-body">
+              <h3 class="card-title text-center">Run: ID #{{ ID_2 }}  </h3>
+               
+    
+                
+                               <div class="row">
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="Date"  id="Date" class="form-control" placeholder="Date" value={{date_2}} required>
+                                      <label for="Date">Date </label>
+                                    </div>
+                                       
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="text"  id="user" class="form-control" placeholder="User" value={{user_name_2}} required>
+                                      <label for="User">User </label>
+                                    </div>
+                                
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="text"  id="Group" class="form-control" placeholder="Group" value={{group_name_2}} required>
+                                      <label for="Group">Group </label>
+                                    </div>
+                        
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="text"  id="Algorithm" class="form-control" placeholder="Algorithm" value={{algorithm_2}} required>
+                                      <label for="Algorithm"> Algorithm</label>
+                                    </div>
+                              </div>                 
+                              <div class="row">
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="text"  id="" class="form-control" placeholder="Score" value={{validation_parameter}} required>
+                                      <label for="Score"> Score</label>
+                                    </div>
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="Number"  id="Number of groups" class="form-control" placeholder="Number of groups" value={{number_of_groups_2}} required>
+                                      <label for="Number of groups">Number of groups </label>
+                                    </div>
+                                  
+                                          
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="tex"  id="" class="form-control" placeholder="Distance" value="{{distance_2}}" required>
+                                      <label for="Distance">Distance </label>
+                                    </div> 
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="text"  id="Linkage" class="form-control" placeholder="" value=" {{linkage_2}}" required>
+                                      <label for="Linkage">Linkage </label>
+                                    </div>
+                                 </div>     
+                                    
+                    		                </td>
+                                         
+             </div>
+          </div>
+        </div>
         
    
         <div class=" col-xl-12">
           <div class="card card-signin flex-row my-5">
             <div class="card-body">
-              <h3 class="card-title text-center"> Table </h3>
+              <h3 class="card-title text-center"> ID #{{ ID }} </h3>
                
                             <table  border=1>
                                 {% for datapoint in data %}
@@ -137,6 +193,58 @@
               </div>
           </div>
         </div>
+        
+        <div class="signup">
+    <div class="container">
+         <div class=" col-xl-12 ">
+          <div class="card card-signin flex-row my-5">
+            
+            <div class="card-body">
+              <h3 class="card-title text-center">Comparison</h3>
+               
+                <p>Same clasification: {{igual[0]}} points </p>
+                <p>Different clasification: {{igual[1]}} points </p>
+            
+                    <table>
+                        <tr>
+                            <th>Cluster</th><th>#{{ID}}</th><th>#{{ID_2}}</th>
+                        </tr>
+                        {% for cluster in set_%}
+                            <tr>
+                                <td>cluster</td>
+                                <td>{{clas[0][cluster]}} points</td>
+                                <td>{{clas[1][cluster]}} points</td>
+                            </tr>
+                        {% endfor %}
+                    </table>    
+            
+                </div>              
+             </div>
+          </div>
+        </div>
+        
+        <div class=" col-xl-12">
+          <div class="card card-signin flex-row my-5">
+            <div class="card-body">
+              <h3 class="card-title text-center"> ID #{{ ID_2}} </h3>
+               
+                            <table  border=1>
+                                {% for datapoint in data_2 %}
+                                  <tr>
+                                      <th> Datapoint ID/position </th>
+               
+                                          <th> {{ run['validation_result'] }} </th>
+                    		                  <td> {{ run['user'] }} </td>
+                    		                  <td> {{ run['algorithm'] }} </td>
+                                  </tr>
+              
+                                {% endfor %}
+                            </table>
+                                   {{ img_2|safe }}
+                                   
+              </div>
+          </div>
+        </div>
        
        <div class=" col-xl-12">
           <div class="card card-signin flex-row my-5">
@@ -148,7 +256,7 @@
       <table>
       
       <tr> 
-          <td>Coordiante 1</td><td>Coordinate 2</td><td>Final group</td>
+          <td>Coordiante 1</td><td>Coordinate 2</td><td>Group #{{ID}}</td> <td>Group #{{ID_2}}</td>
       </tr>
       
       {% for element in points %}
@@ -158,37 +266,23 @@
               <td>{{ element[0][0] }}</td>
               <td>{{ element[0][1] }}</td>
               <td>{{ element[1] }}</td>
+              <td>{{ element[2] }}</td>
           </tr>
             
       {% endfor %}
       
       </table>
+
+      
             </div>
           </div>
         </div>
       </div>
     </div>
 </div>
-      
-      <!-- compare 2 results -->
-        <div class=" col-xl-12">
-          <div class="card card-signin flex-row my-5">
-            <div class="card-body">
-              <h3 class="card-title text-center">  Click here if you want to compare these results with the results from a previous run. </h3>
-                <div    style="width:600px; margin:0% 20% 0% "  >
-                <form action={{ url_for("compare_2_runs", run1=ID, proj=project_name)}} method="POST">
-                   <select name="id_to_compare">
-                    {% for id_ in ids %}
-                        <option value={{id_}}>#{{id_}}</option>
-                    {% endfor %}
-                    </select>
-                 <button class="btn btn-lg btn-primary btn-block  " type="submit"> Select previous results</button>                 
-                 </div>
-                 </form>
-            </div>
-          </div>
-        </div>
-       <!--End  compare 2 results -->
+
+
+
       
     </body>
   </html>

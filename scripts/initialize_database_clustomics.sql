@@ -20,7 +20,7 @@ CREATE TABLE member_group (
 	);
     
 CREATE TABLE projects(
-    id_project INT,
+    id_project INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     group_name VARCHAR(40),
     user VARCHAR(15),
     project_name VARCHAR(50),
