@@ -141,37 +141,68 @@ def new_group(msg=''):
             return redirect(url_for('projects'))
     return redirect(url_for('projects'), msg=msg)
 
-@app.route('/dashboard/pr/<proj>')
-def project_info(proj):
+@app.route('/dashboard/pr/<group>/<project>', methods=['POST','GET'])
+def project_info(project, group):
     if (not 'loggedin' in session):
         return redirect(url_for('login')) 
     user = session['username']
-    project_ = database.get_info_from_project(proj)
-    results = database.get_result_from_project(proj)
+    sql = "SELECT * from projects WHERE project_name=%s AND group_name = %s"
+    with connection.cursor() as cursor:
+        cursor.execute(sql, (project,group ))
+        project_ = cursor.fetchone()
+    with connection.cursor() as cursor:
+        sql = "SELECT admin from member_group WHERE group_name=%s AND username = %s"
+        cursor.execute(sql, (group,user ))
+        admin= cursor.fetchone()
+    print(admin)
+    results = database.get_result_from_project(project)
     return render_template('project.html', 
-                                     project=project_[0], 
+                                     project=project_, 
                                      results=results,
-                                     username=user)
+                                     username=user,admin=admin)
     
+
+@app.route('/dashboard/pr/<group>/<project>/changedescription', methods=['GET','POST'])
+def change_description(project,group): 
+    description=request.form['description']
+    with connection.cursor() as cursor:
+        sql = "UPDATE projects SET description = %s WHERE group_name = %s AND project_name = %s"
+        cursor.execute(sql, (description,group,project))
+        connection.commit()        
+    return redirect(url_for('project_info',project=project,group=group))
+
+@app.route('/dashboard/pr/<group>/<project>/delete_proj',methods=['GET', 'POST'])
+def delete_project(group,project):
+    with connection.cursor() as cursor:
+        sql="DELETE FROM projects WHERE group_name = %s AND project_name = %s"
+        cursor.execute(sql, (group,project ))
+        sql="DELETE FROM project_result WHERE group_name = %s AND project_name = %s"
+        cursor.execute(sql, (group,project))
+        connection.commit()
+    return redirect(url_for('projects'))
+
 @app.route('/dashboard/pr/<project>/new_run', methods=['POST'])
 def new_run(project):
     if (not 'loggedin' in session):
         return redirect(url_for('login'))
     #elif (session['username'] != user or (request.method == 'GET' and 'loggedin' in session)):
     #    return redirect(url_for('projects', user=session['username']))
-    f = request.files['file']
     user = session['username']
     path = os.path.join('projects_data', project+'_data')
+    group_name = database.get_id_from_project(project, user)[0]['group_name']
     if (not os.path.exists(path)):
         os.mkdir(path)
     csv_path = os.path.join(path, 'data.csv')
-    f.save(csv_path)
-    f = open(csv_path)
-    array = []
-    for line in f:
-        data = line.split()
-        data = tuple(float(x) for x in data)
-        array.append(data)
+    data_details = database.get_data_details(project, group_name)
+    sep = data_details['sep']
+    col_names = data_details['colname']
+    row_names = data_details['rowname']
+    if int(col_names) == 0: col_names = None
+    else: col_names = 0
+    if int(row_names) == 0: row_names = None
+    else: row_names = 0
+    array = pd.read_csv(csv_path, sep = sep, header = col_names, index_col = row_names)
+    array = pd.get_dummies(array)
     date = str(dt.datetime.now())[:-7]
     algorithm = int(request.form['algorithm'])
     groups = int(request.form['groups'])
@@ -182,12 +213,11 @@ def new_run(project):
     id_ = id_[0]['id_project']
     out = open(os.path.join(path, str(id_)+'_run.csv'), 'w')
     for point, label in zip(array, result[0]):
-        (out.write(str(value)+'\t') for value in point)
+        #(out.write(str(value)+'\t') for value in point)
         out.write(str(label))
         out.write('\n')
     out.close()
     array = pd.DataFrame(array)
-    group_name = database.get_id_from_project(project, user)[0]['group_name']
     path = str(user+'_')
     database.save_result(id_, project, float(result[1]), date, algorithm, groups,
                          distance, linkage, group_name, user, path +'.csv')
@@ -211,7 +241,7 @@ def recover_run():
     csv_path = os.path.join('projects_data', project+'_data','data.csv')
     csv_labels = os.path.join('projects_data', project+'_data',str(run_id)+'_.csv')
     f = open(csv_path)
-    array = []
+    array = [] 
     for line in f:
         data = line.split()
         data = tuple(x for x in data)
@@ -223,6 +253,7 @@ def recover_run():
         labels.append(line.strip('\n'))
     dt = pd.DataFrame(array)
     print(len(array), len(labels))
+    print(labels, dt)
     plot = clustering.plotPCA(dt, labels)
     plot_html = pio.to_html(plot, full_html = False)
     ids = database.get_project_ids(project, run_id)
@@ -311,7 +342,7 @@ def compare_2_runs(proj):
                                      linkage=run['linkage'],
                                      points=zip(array, labels, labels2),
                                      img=plot_html,
-                                     set_=clusters,
+                                     set_=sorted(clusters, key=lambda x: int(x[7:])),
                                      clas=clasification,
                                      date_2=run['date_time'],
                                      algorithm_2=algs[run2['algo_rithm']],
@@ -337,6 +368,11 @@ def new_demo_run():
     path = os.path.join('projects_data', project+'_data' )
     if (not os.path.exists(path)):
         os.mkdir(path)
+    f = open(os.path.join('projects_data', request.form['dataset'] ))
+    a = open('projects_data/Demo project_data/data.csv', 'w')
+    for line in f:
+        a.write(line)
+    a.close()
     f = open(os.path.join('projects_data', request.form['dataset'] ))
     array = []
     for line in f:
@@ -392,6 +428,7 @@ def new_project(msg=''):
             projectname = request.form['name_of_the_project']
             username = session['username']
             groupname= request.form['group']
+            description= request.form['description']
             #aparezca en el html un desplegable con los grupos a los que pertenece, y ojala poder seleccionar varios     
             with connection.cursor() as cursor:
                 # Read a single record
@@ -406,20 +443,21 @@ def new_project(msg=''):
                     msg = 'There is a project with the name in that group!'
                 else:
                     # Account doesnt exists and the form data is valid, now insert new account into accounts table
-                    cursor.execute('INSERT INTO projects ( group_name, user,project_name, file_path) VALUES ( %s, %s, %s, %s);', (groupname, username, projectname , path))
-                    connection.commit()
                     path = os.path.join('projects_data', projectname+'_data')
                     if (not os.path.exists(path)):
                         os.mkdir(path)
                     csv_path = os.path.join(path, 'data.csv')
-                    f = request.files['file'] 
+                    f = request.files['file']
+                    sep = request.form['input_type']
+                    if int(request.form['col_names']): col_names = 0
+                    else: col_names = None
+                    if int(request.form['row_names']): row_names = 0
+                    else: row_names = None
                     f.save(csv_path)
-                    f = open(csv_path)
-                    array = []
-                    for line in f:
-                        data = line.split()
-                        data = tuple(float(x) for x in data)
-                        array.append(data)
+                    array = pd.read_csv(csv_path, sep = sep, header = col_names, index_col = row_names)
+                    array = pd.get_dummies(array)
+                    cursor.execute('INSERT INTO projects ( description, group_name, user, project_name, file_path, sep, rowname, colname) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s);', (description, groupname, username, projectname , path, sep, request.form['row_names'], request.form['col_names']))
+                    connection.commit()
                     date = str(dt.datetime.now())[:-7]
                     algorithm = int(request.form['algorithm'])
                     distance = request.form['distance']

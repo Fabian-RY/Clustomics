@@ -21,10 +21,14 @@ CREATE TABLE member_group (
     
 CREATE TABLE projects(
     id_project INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    description VARCHAR(500),
     group_name VARCHAR(40),
     user VARCHAR(15),
     project_name VARCHAR(50),
-    file_path VARCHAR(45)
+    file_path VARCHAR(45),
+    rowname BOOLEAN default false,
+    colname BOOLEAN default false,
+    sep VARCHAR(10)
 	);
     
 CREATE TABLE project_result(
@@ -41,3 +45,5 @@ CREATE TABLE project_result(
     user VARCHAR(15),
     path VARCHAR(15)
 	);
+
+INSERT INTO projects (description, group_name, user, project_name, file_path)values ('Demo project for unregistered users', 'Demo group', 'Demo user','Demo project', 'Demo_path');

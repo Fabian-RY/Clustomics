@@ -8,7 +8,6 @@ Created on Sun Feb  2 11:02:47 2020
 
 import pymysql
 
-
 def get_project_last_run_number(project):
     connection = pymysql.connect(host='localhost',
                              user='anon',
@@ -87,6 +86,21 @@ def get_result_from_project(id_project):
         cursor.execute(sql, (id_project, ))
         result = tuple(cursor)
     connection.close()
+    return result
+
+def get_data_details(project, group):
+    connection = pymysql.connect(host='localhost',
+                             user='anon',
+                             password='@Patata23',
+                             db='clustomics',
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor)
+    sql = "SELECT sep, rowname, colname from projects WHERE project_name=%s AND group_name=%s;"
+    with connection.cursor() as cursor:
+        cursor.execute(sql, (project, group))
+        result = cursor.fetchone()
+    connection.close()
+    print(result)
     return result
 
 def create_new_project(user, name, group):

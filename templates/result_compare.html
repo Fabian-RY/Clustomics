@@ -209,9 +209,11 @@
                         <tr>
                             <th>Cluster</th><th>#{{ID}}</th><th>#{{ID_2}}</th>
                         </tr>
+        
                         {% for cluster in set_%}
                             <tr>
-                                <td>cluster</td>
+                                
+                                <td>{{cluster}}</td>
                                 <td>{{clas[0][cluster]}} points</td>
                                 <td>{{clas[1][cluster]}} points</td>
                             </tr>
