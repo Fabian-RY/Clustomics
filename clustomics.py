@@ -25,8 +25,8 @@ app.config['UPLOAD_FOLDER'] = 'projects_data'
 app.secret_key= 'asd'
 
 connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=database.USER,
+                             password=database.PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -80,7 +80,6 @@ def delete(group):
         database.abandon_group(user, group)
         msg = 'Group abandoned successfully'
     user_projects = database.get_projects_from_user(user)
-    print(user_projects, user)
     groups = database.get_groups_of_user(session['username'])
     return render_template('personal_page.html', projects=user_projects, 
                                                      groups=groups,
@@ -98,8 +97,7 @@ def projects():
     else:
         msg=''
     user_projects = database.get_projects_from_user(user)
-    print(msg, 'Hola')
-    groups = database.get_groups_of_user(session['username'])
+    groups = sorted(database.get_groups_of_user(session['username']), key=lambda x: x['group_name'])
     response = render_template('personal_page.html', projects=user_projects, 
                                                      groups=groups,
                                                      msg=msg,
@@ -111,7 +109,6 @@ def new_group(msg=''):
     if 'loggedin' in session:
         # Output message if something goes wrong...
         msg = ''
-        print(request.form)
         if request.method == 'POST' and 'group' in request.form:
             # Create variables for easy access
             groupname = request.form['group']
@@ -137,7 +134,6 @@ def new_group(msg=''):
         else:
             # Form is empty... (no POST data)
             msg = 'Please fill out the form!'
-            print('Nanai')
             return redirect(url_for('projects'))
     return redirect(url_for('projects'), msg=msg)
 
@@ -154,7 +150,6 @@ def project_info(project, group):
         sql = "SELECT admin from member_group WHERE group_name=%s AND username = %s"
         cursor.execute(sql, (group,user ))
         admin= cursor.fetchone()
-    print(admin)
     results = database.get_result_from_project(project)
     return render_template('project.html', 
                                      project=project_, 
@@ -195,6 +190,7 @@ def new_run(project):
     csv_path = os.path.join(path, 'data.csv')
     data_details = database.get_data_details(project, group_name)
     sep = data_details['sep']
+    if(sep == '\\s+'): sep = '\s+'
     col_names = data_details['colname']
     row_names = data_details['rowname']
     if int(col_names) == 0: col_names = None
@@ -202,7 +198,7 @@ def new_run(project):
     if int(row_names) == 0: row_names = None
     else: row_names = 0
     array = pd.read_csv(csv_path, sep = sep, header = col_names, index_col = row_names)
-    array = pd.get_dummies(array)
+    #array = pd.get_dummies(array)
     date = str(dt.datetime.now())[:-7]
     algorithm = int(request.form['algorithm'])
     groups = int(request.form['groups'])
@@ -241,20 +237,32 @@ def recover_run():
     csv_path = os.path.join('projects_data', project+'_data','data.csv')
     csv_labels = os.path.join('projects_data', project+'_data',str(run_id)+'_.csv')
     f = open(csv_path)
+    data_details = database.get_data_details(project, run['group_name'])
+    sep = data_details['sep']
+    if(sep == '\\s+'): sep = '\s+'
+    col_names = data_details['colname']
+    row_names = data_details['rowname']
+    if int(col_names) == 0: col_names = None
+    else: col_names = 0
+    if int(row_names) == 0: row_names = None
+    else: row_names = 0
     array = [] 
     for line in f:
         data = line.split()
+        if(col_names == 0): data = data[1:]
         data = tuple(x for x in data)
-        print(data)
         array.append(data)
     f = open(csv_labels)
+    f2 = open(csv_path)
     labels = []
+    if col_names is not None:
+        array = array[1:]
+        f.readline()
+        f2.readline()
     for line in f:
         labels.append(line.strip('\n'))
-    dt = pd.DataFrame(array)
-    print(len(array), len(labels))
-    print(labels, dt)
-    plot = clustering.plotPCA(dt, labels)
+    dat = pd.read_csv(f2, sep = sep, header = col_names, index_col = row_names)
+    plot = clustering.plotPCA(dat, labels)
     plot_html = pio.to_html(plot, full_html = False)
     ids = database.get_project_ids(project, run_id)
     return render_template('run.html', 
@@ -278,20 +286,28 @@ def compare_2_runs(proj):
     run = database.get_run_results(run1_id)[0]
     csv_path = os.path.join('projects_data', proj+'_data','data.csv')
     csv_labels = os.path.join('projects_data', proj+'_data',str(run1_id)+'_.csv')
+    data_details = database.get_data_details(proj, run['group_name'])
+    sep = data_details['sep']
+    col_names = data_details['colname']
+    row_names = data_details['rowname']
+    if int(col_names) == 0: col_names = None
+    else: col_names = 0
+    if row_names is not None and int(row_names) == 0: row_names = None
+    else: row_names = 0
     f = open(csv_path)
     array = []
+    if col_names is not None and int(col_names) == 0: f.readline()
     for line in f:
         data = line.split()
         data = tuple(x for x in data)
-        print(data)
+        if row_names == 0:  data = data[1:] 
         array.append(data)
+    dat1 = pd.read_csv(csv_path, sep = sep, header = col_names, index_col = row_names)
     f = open(csv_labels)
     labels = []
     for line in f:
         labels.append(line.strip('\n'))
-    dt = pd.DataFrame(array)
-    print(len(array), len(labels))
-    plot = clustering.plotPCA(dt, labels)
+    plot = clustering.plotPCA(dat1, labels)
     plot_html = pio.to_html(plot, full_html = False)
     if 'id2' in request.args:
         run2_id = request.args['id2']
@@ -305,8 +321,8 @@ def compare_2_runs(proj):
     for line in f:
         data = line.split()
         data = tuple(x for x in data)
-        print(data)
         array2.append(data)
+    dat = pd.read_csv(csv_path, sep = sep, header = col_names, index_col = row_names)
     f = open(csv_labels)
     labels2 = []
     for line in f:
@@ -326,8 +342,7 @@ def compare_2_runs(proj):
         id_1_class[element] = labels.count(element)
         id_2_class[element] = labels.count(element)
     clasification = (id_1_class,id_2_class )
-    dt = pd.DataFrame(array2)
-    plot = clustering.plotPCA(dt, labels)
+    plot = clustering.plotPCA(dat, labels)
     plot_html_2 = pio.to_html(plot, full_html = False)
     return render_template('result_compare.html', ID=run1_id, ID_2=run2_id,
                                      date=run['date_time'],
@@ -386,7 +401,6 @@ def new_demo_run():
     linkage = request.form['type']
     result = clustering.cluster(algorithm, array, groups, distance, linkage )
     id_ = database.get_id_from_project(project, user)
-    print(id_)
     id_ = id_[0]['id_project']
     out = open(os.path.join(path, str(id_)+'_run.csv'), 'w')
     for point, label in zip(array, result[0]):
@@ -454,17 +468,22 @@ def new_project(msg=''):
                     if int(request.form['row_names']): row_names = 0
                     else: row_names = None
                     f.save(csv_path)
-                    array = pd.read_csv(csv_path, sep = sep, header = col_names, index_col = row_names)
-                    array = pd.get_dummies(array)
-                    cursor.execute('INSERT INTO projects ( description, group_name, user, project_name, file_path, sep, rowname, colname) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s);', (description, groupname, username, projectname , path, sep, request.form['row_names'], request.form['col_names']))
-                    connection.commit()
                     date = str(dt.datetime.now())[:-7]
                     algorithm = int(request.form['algorithm'])
                     distance = request.form['distance']
                     groups = int(request.form['groups'])
                     linkage = request.form['type']
                     path = str(session['username']+'_')
-                    result = clustering.cluster(algorithm, array, groups, distance, linkage )
+                    try:
+                        array = pd.read_csv(csv_path, sep = sep, header = col_names, index_col = row_names)
+                        result = clustering.cluster(algorithm, array, groups, distance, linkage )
+                    except Exception:
+                        msg = 'Please fill out the form!'
+                        groups = database.get_groups_of_user(session['username'])
+                        groups = ['Privado'] + [group['group_name'] for group in groups]
+                        return render_template('new_project.html', msg='Invalid input file.\n Please upload a csv/tsv and indicate the correct separator', groups=groups)
+                    cursor.execute('INSERT INTO projects ( description, group_name, user, project_name, file_path, sep, rowname, colname) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s);', (description, groupname, username, projectname , path, sep, request.form['row_names'], request.form['col_names']))
+                    connection.commit()
                     id_ = database.get_id_from_project(projectname, username)[0]['id_project']
                     group_name = database.get_id_from_project(projectname, username)[0]['group_name']
                     database.save_result(id_, projectname, float(result[1]), date, algorithm, groups,
@@ -482,7 +501,6 @@ def new_project(msg=''):
             msg = 'Please fill out the form!'
             groups = database.get_groups_of_user(session['username'])
             groups = ['Privado'] + [group['group_name'] for group in groups]
-            print('Its a POST!')
             return render_template('new_project.html', 
                                                        msg=msg,
                                                        groups=groups)
@@ -678,7 +696,6 @@ def settings():
                         account = cursor.fetchone()
                         # If account exists update the username in all tables
                         if account:
-                            print(session)
                             with connection.cursor() as cursor:
                                 sql = "UPDATE user_info SET username = %s WHERE username = %s"
                                 cursor.execute(sql, (newusername,username))

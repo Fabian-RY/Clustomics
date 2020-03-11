@@ -8,10 +8,13 @@ Created on Sun Feb  2 11:02:47 2020
 
 import pymysql
 
+USER='anon'
+PASSWORD='@Patata23'
+
 def get_project_last_run_number(project):
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -27,8 +30,8 @@ def get_project_last_run_number(project):
 
 def get_project_ids(project, ID):
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -42,8 +45,8 @@ def get_project_ids(project, ID):
 
 def get_info_from_project(project_name):
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -57,8 +60,8 @@ def get_info_from_project(project_name):
 
 def get_id_from_project(project, user):
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -76,8 +79,8 @@ def get_info_from_user(user):
 
 def get_result_from_project(id_project):
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -90,8 +93,8 @@ def get_result_from_project(id_project):
 
 def get_data_details(project, group):
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -105,8 +108,8 @@ def get_data_details(project, group):
 
 def create_new_project(user, name, group):
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -125,8 +128,8 @@ def create_new_user():
 
 def get_user_info(user):
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -139,10 +142,10 @@ def get_user_info(user):
 
 
 def get_groups_of_user(user):
-    sql = "SELECT group_name FROM member_group WHERE username=%s;"
+    sql = "SELECT group_name FROM member_group WHERE username=%s ORDER BY group_name;"
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -158,8 +161,8 @@ def get_group_info():
 def save_result(id_, project, score, date_time, algorithm, groups,
                  distance, linkage, group_name, user, path):
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -178,8 +181,8 @@ def save_result(id_, project, score, date_time, algorithm, groups,
 
 def get_user_result(datetime, user, projecy):
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -193,18 +196,18 @@ def get_user_result(datetime, user, projecy):
 
 def get_projects_from_user(user):
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
     groups = get_groups_of_user(user)
     member_of = list()
-    sql = 'SELECT * FROM projects WHERE user=%s'
+    sql = 'SELECT * FROM projects WHERE user=%s '
     for group in groups:
         member_of.append(group['group_name'])
         sql += ' OR group_name=%s'
-    sql += ";"
+    sql += "ORDER BY project_name;"
     with connection.cursor() as cursor:
         cursor.execute(sql, (user, *member_of, ))
         result = cursor.fetchall()
@@ -213,8 +216,8 @@ def get_projects_from_user(user):
 
 def get_run_results(id_project):
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -231,8 +234,8 @@ def delete_project():
 
 def _is_admin(user_name, group_name):
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -245,8 +248,8 @@ def _is_admin(user_name, group_name):
 
 def abandon_group(user_name, group_name):
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -254,8 +257,8 @@ def abandon_group(user_name, group_name):
     with connection.cursor() as cursor:
         cursor.execute(sql, (user_name, group_name ))
     connection = pymysql.connect(host='localhost',
-                             user='anon',
-                             password='@Patata23',
+                             user=USER,
+                             password=PASSWORD,
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)

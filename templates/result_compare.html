@@ -63,7 +63,7 @@
               <h3 class="card-title text-center">Run: ID #{{ ID }}  </h3>
                
     
-                
+                    <form id='info'>
                                <div class="row">
                                     <div class="form-label-group col-xl-3">
                                       <input type="Date"  id="Date" class="form-control" placeholder="Date" value={{date}} required>
@@ -105,7 +105,7 @@
                                       <label for="Linkage">Linkage </label>
                                     </div>
                                  </div>     
-                                    
+                                        </info>
                     		                </td>
                                          
              </div>
@@ -121,7 +121,7 @@
               <h3 class="card-title text-center">Run: ID #{{ ID_2 }}  </h3>
                
     
-                
+                <form id='info2'>
                                <div class="row">
                                     <div class="form-label-group col-xl-3">
                                       <input type="Date"  id="Date" class="form-control" placeholder="Date" value={{date_2}} required>
@@ -163,7 +163,7 @@
                                       <label for="Linkage">Linkage </label>
                                     </div>
                                  </div>     
-                                    
+                                    </info>
                     		                </td>
                                          
              </div>
@@ -287,4 +287,16 @@
 
       
     </body>
+     <script>
+        var form = document.getElementById("info");
+        var elements = form.elements;
+        for (var i = 0, len = elements.length; i < len; ++i) {
+            elements[i].readOnly = true;
+            }
+        var form = document.getElementById("info2");
+        var elements = form.elements;
+        for (var i = 0, len = elements.length; i < len; ++i) {
+            elements[i].readOnly = true;
+            }
+    </script>
   </html>

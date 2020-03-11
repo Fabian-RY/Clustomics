@@ -13,7 +13,7 @@
   <title>Run  | Clustomics</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="../../../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
 
   <!-- Custom styles for this template -->
   <link href="../../../static/css/signup.css" rel="stylesheet">
@@ -53,7 +53,6 @@
   </nav>
 {% endif%}
 	    
-      
   <div class="signup">
     <div class="container">
          <div class=" col-xl-12 ">
@@ -62,7 +61,7 @@
             <div class="card-body">
               <h3 class="card-title text-center">Run: ID #{{ ID }}  </h3>
                
-    
+                    <form id='info'>
                 
                                <div class="row">
                                     <div class="form-label-group col-xl-3">
@@ -94,8 +93,6 @@
                                       <input type="Number"  id="Number of groups" class="form-control" placeholder="Number of groups" value={{number_of_groups}} required>
                                       <label for="Number of groups">Number of groups </label>
                                     </div>
-                                  
-                                          
                                     <div class="form-label-group col-xl-3">
                                       <input type="tex"  id="" class="form-control" placeholder="Distance" value="{{distance}}" required>
                                       <label for="Distance">Distance </label>
@@ -104,8 +101,9 @@
                                       <input type="text"  id="Linkage" class="form-control" placeholder="" value=" {{linkage}}" required>
                                       <label for="Linkage">Linkage </label>
                                     </div>
+                                        {% endif %}
                                  </div>     
-                                    
+                                    </form>
                     		                </td>
                                          
              </div>
@@ -191,4 +189,12 @@
        <!--End  compare 2 results -->
       
     </body>
+    
+    <script>
+        var form = document.getElementById("info");
+        var elements = form.elements;
+        for (var i = 0, len = elements.length; i < len; ++i) {
+            elements[i].readOnly = true;
+            }
+    </script>
   </html>
