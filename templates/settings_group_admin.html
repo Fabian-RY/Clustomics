@@ -44,18 +44,37 @@
                            
                           <th>Users</th>
                           
-                        </tr>                  	  
+                        </tr>      
+
+            	  
                            {% for user in users_of_group %}
-                                <tr>
-                                    <td>{{ user['username'] }}{% if user['admin'] %} <h6>The user is and admin</h6>{% else %}<a  align="right" style=" margin: -30px 0px 0px 100px; width: 200px" href={{ url_for("delete_user",user=user['username'],group=group)}} class="btn btn-lg btn-primary btn-block  " type="submit">Delete member </a><a  align="right" style=" margin: -40px 0px 0px 400px; width: 200px" href={{ url_for("give_permision",user=user['username'],group=group)}} class="btn btn-lg btn-primary btn-block  " type="submit">Give permisions </a>{% endif %}
-                                   
-		                    </tr>  
+                            <tr>  <td> 
+		<div class="row">
+			<div class="form-label-group col-sm-3">
+                                    {{ user['username'] }}{% if user['admin'] %} <h6>The user is and admin</h6>{% else %} 
+			</div>
+
+
+			<div class="form-label-group col-sm-4">
+ 
+<a  align="rigth"  href={{ url_for("delete_user",user=user['username'],group=group)}} class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2"  style="width:80%; margin:0 10% 0; background-color: #B2EBF2; color:black; border-color:white; border-width:3px; border-style: solid; "  type="submit" target="_blank" >Delete member </a>  
+			
+</div>
+
+			<div class="form-label-group col-sm-5">
+
+<a  align="right"  href={{ url_for("give_permision",user=user['username'],group=group)}} class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2"  style="width:80%; margin:0 10% 0; background-color: #B2EBF2; color:black; border-color:white; border-width:3px; border-style: solid; "   type="submit">Give permisions </a> {% endif %}   
+			 </div> 
+		</div> 
+			
+			</td> </tr>  
                           {% endfor %}
                             </table>
+ 
 
 
 <br>
-                  <h5 >As admin, you can add a member to the group:</h5>
+                  <h5 >As admin, you can add a member to the group:</h5> <br>
 
           
                 <div class="form-label-group col-sm-5">
@@ -63,7 +82,7 @@
 <div class="form-label-group">
                   <input type="text" id="newmember" class="form-control" name= "newmember"  placeholder="newmember" required>
                   <label for="newmember">Username</label>
- <button class="btn btn-lg btn-primary btn-block" style=" margin: -48px 0px 0px 300px;" type="submit" >Add new member</button>
+ <button class="btn btn-lg btn-primary btn-block" style=" margin: -48px 0px 0px 350px; background-color: #B2EBF2; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.8rem; color:black;"" type="submit" >Add new member</button>
                 </div>
             
                 </form>
@@ -74,7 +93,8 @@
 <h5>You are the only member of the group, you can leave the group and delete it:</h5><a  align="right" style=" margin: -10px 0px 0px 300px; width: 200px" href={{ url_for("delete_group",group=group)}} class="btn btn-lg btn-primary btn-block  " type="submit">Delete the group </a>
 
 {% else %}
-              <h5>Here you can leave the group:</h5><a  align="right" style=" margin: -30px 0px 0px 300px; width: 200px" href={{ url_for("leave_group",group=group,num_admins=num_admins)}} class="btn btn-lg btn-primary btn-block  " type="submit">Leave the group </a>
+
+              <h5>Here you can leave the group:</h5> <br> <a  align="right" style=" margin: -30px 0px 0px 300px; width: 200px" href={{ url_for("leave_group",group=group,num_admins=num_admins)}} class="btn btn-lg btn-primary btn-block  " type="submit">Leave the group </a>
 
 {% endif %}
             </div>
