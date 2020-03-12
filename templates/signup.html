@@ -48,37 +48,37 @@
                <!-- Background image for card set in CSS! -->
             </div>
             <div class="card-body">
-              <h5 class="card-title text-center">Sign Up</h5>
+              <h5 class="card-title text-center">Create your account and start using Clustomics.</h5>
               <div class="msg">{{ msg }}</div>
-              <form action="{{ url_for('signup') }}" method="post" autocomplete="off" class="active">
+              <form action="{{ url_for('signup') }}" method="post" autocomplete="off" class="form-signin">
                 <div class="form-label-group">
-                  <input type="text" name="username" placeholder="Username" id="username" required>
-                  <label for="username">Username</label>
+                  <input type="text" name="username" placeholder="Username" id="username" required style="width:80%; margin:0 10% 0; ">
+                  <label for="username" style=" margin:0 10% 0;">Username</label>
 			<i class="fas fa-user"></i>
                 </div>
                 <div class="form-label-group">
-                  <input type="email" name="email" placeholder="Email" id="email" required>
-                  <label for="email">Email address</label>
+                  <input type="email" name="email" placeholder="Email" id="email" required style="width:80%; margin:0 10% 0; ">
+                  <label for="email" style=" margin:0 10% 0;">Email address</label>
 			<i class="fas fa-envelope"></i>                
 		</div>
 
-                <hr>
+                <hr class="my-4" style=" margin:0 10% 0;"> 
 
-                <div class="form-label-group">
-                  <input type="password" name="password" placeholder="Password" id="password" required>
-                  <label for="password">Password</label>
+                <div class="form-label-group"  >
+                  <input  type="password" name="password" placeholder="Password" id="password" required style="width:80%; margin:0 10% 0; ">
+                  <label for="password" style=" margin:0 10% 0;" >Password</label>
 			<i class="fas fa-lock"></i>
 
                 </div>
                 
                    <div class="form-label-group">
-                  <input type="password" name="confirm" id="inputConfirmPassword" class="form-control" placeholder="Password" required>
-                  <label for="inputConfirmPassword">Confirm password</label>
+                  <input type="password" name="confirm" id="inputConfirmPassword"  placeholder="Password" required style="width:80%; margin:0 10% 0; ">
+                  <label for="inputConfirmPassword" style=" margin:0 10% 0;">Confirm password</label>
                 </div>
 
-                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="signup" >Sign Up</button>
-                <a class="d-block text-center mt-2 small" href="{{ url_for('login') }}">Log In</a>
-                <hr class="my-4">
+                <button class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" value="signup" style="width:80%; margin:0 10% 0;font-size: 120%; " >Sign up</button>
+                <a class="d-block text-center mt-2 medium" href="{{ url_for('login') }}">Do you already have an account?<br> Log in here</a>
+               
               </form>
             </div>
           </div>
@@ -86,6 +86,22 @@
       </div>
     </div>
 </div>
+
+
+
+
+ <!-- Footer -->
+  <footer class="py-5 bg-dark" style="width:100%; position:fixed; bottom:0;"   >
+    <div class="container" >
+      <p class="m-0 text-center text-white" >Copyright &copy; Clustomics 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+
+
+
+
   </body>
 
 

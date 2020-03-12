@@ -24,10 +24,11 @@
 	  
 <!-- Header -->
   
-<div>
-<iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
-</div>   
+<div style="margin: 0px 0px -100px 0px ;"  >
+    <iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
+</div>    
 
+<div class="signup">
     <div class="container">
       <div class="row">
         <div class="col-lg-10 col-xl-9 mx-auto">
@@ -35,45 +36,47 @@
             <div class="card-img-left d-none d-md-flex">
                <!-- Background image for card set in CSS! -->
             </div>
-            <div class="card-body">
+      <div class="card-body">
               <h5 class="card-title text-center">Here you can change your username and password.</h5>
               
               
               <form action="{{ url_for('settings') }}" method = "post" class="form-signin">
                 <div class="form-label-group">
-                  <input type="text" id="currentusername" class="form-control" name= "currentusername" placeholder="Username" required>
-                  <label for="currentusername">Current username</label>
+                  <input type="text" id="currentusername"   name= "currentusername" placeholder="Username" required style="width:80%; margin:0 10% 0; ">
+                  <label for="currentusername" style=" margin:0 10% 0;" >Current username</label>
                 </div>
                 <div class="form-label-group">
-                  <input type="password" id="currentpassword" class="form-control" name= "password" placeholder="Password" required>
-                  <label for="currentpassword">Current password</label>
+                  <input type="password" id="currentpassword" style="width:80%; margin:0 10% 0; " name= "password" placeholder="Password" required>
+                  <label for="currentpassword" style=" margin:0 10% 0;" >Current password</label>
                 </div>
 
         
 
-                <hr>
+                <hr class="my-4" style=" margin:0 10% 0;"> 
 
                 <div class="form-label-group">
-                  <input type="text" id="newusername" class="form-control" name= "newusername"  placeholder="newusername">
-                  <label for="newusername">New username</label>
- <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" name="action" value='changeusername' >Change username</button>
-                </div>
+                  <input type="text" id="newusername" style="width:80%; margin:0 10% 0; " name= "newusername"  placeholder="newusername">
+                  <label for="newusername" style=" margin:0 10% 0;">New username</label>
+		</div>
 
+ 		<button class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" name="action" value='changeusername' style="width:80%; margin:0 10% 0; ">Change username</button>
+                 <hr class="my-4" style=" margin:0 10% 0;">
 
-<div>
                 <div class="form-label-group">
-                  <input type="password" id="newpassword" class="form-control" name= 'newpassword' placeholder="newpassword">
-                  <label for="newpassword">New password</label>
+                  <input type="password" id="newpassword" style="width:80%; margin:0 10% 0; "name= 'newpassword' placeholder="newpassword">
+                  <label for="newpassword" style=" margin:0 10% 0;">New password</label>
                 </div>
                 <div class="form-label-group">
-                  <input type="password" id="confirmpassword" class="form-control" name= 'confirmpassword' placeholder="confirmpassword">
-                  <label for="confirmpassword">Confirm Password</label>
+                  <input type="password" id="confirmpassword" style="width:80%; margin:0 10% 0; "name= 'confirmpassword' placeholder="confirmpassword">
+                  <label for="confirmpassword" style=" margin:0 10% 0;" >Confirm Password</label>
                 </div>
 
-                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" name="action" value='changepassword'>Change password</button>
- </div>               
-                <hr class="my-4">
-                  <div class="msg">{{ msg }}</div>
+                <button class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" name="action" value='changepassword' style="width:80%; margin:0 10% 0; ">Change password</button>
+
+              
+                <hr class="my-4" style=" margin:0 10% 0;" >
+                  <div class="msg" style="width:80%; margin:0 10% 0; ">{{ msg }}</div>
+ </div> 
               </form>
               
               
@@ -84,7 +87,17 @@
         </div>
       </div>
     </div>
- 
+ <br><br>
+
+ <!-- Footer -->
+  <footer class="py-5 bg-dark" style="width:100%; position:fixed; bottom:0"   >
+    <div  class="container" >
+      <p class="m-0 text-center text-white" >Copyright &copy; Clustomics 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+
 
 
 
