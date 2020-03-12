@@ -47,7 +47,7 @@
                   <button class="btn btn-lg btn-primary btn-block  " type="Create_new_project" value="Create_new_project" action={{ url_for('new_project')}} >Create new project</button></form>     
                <hr class="my-4">
 {% if projects %}
-                  	<table border=2>
+                  	<table class="table table-bordered" id="dataTable" cellspacing="0">
                         <tr style="font-size:20px">
                           <th>Project name</th>
                           <th>Group name</th>
@@ -98,7 +98,7 @@ You have no projects yet
                     <hr class="my-4">
 {% if groups %} 
 
-                  	<table border=2>
+                  	<table class="table table-bordered" id="dataTable" cellspacing="0">
                         <tr style="font-size:20px">
                            
                           <th>Group name</th>
