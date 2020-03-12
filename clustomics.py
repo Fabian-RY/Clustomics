@@ -802,8 +802,8 @@ def page_forbidden(e):
     return render_template('403.html'), 500
 
 @app.route('/favicon.ico')
-def get_image():
-    return send_file('/static/img/favicon.ico', mimetype='image/ico')
+def favicon():
+    return send_file('static/img/favicon.ico', mimetype='image/ico')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

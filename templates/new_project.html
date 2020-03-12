@@ -28,10 +28,10 @@
 <iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
 </div>   
   
-<div id='content'></div>
+<div id='content' style="display:none;"><div class='container'><div class=' col-xl-8 ' style='margin:0 20% 0'><div class='card card-signin flex-row my-5'><div class='card-body'><h5 class='card-title text-center'>Processing your data <br> You will be redirected shortly</h5><div class='text-center'><img src='/favicon.ico')}}' class='rotate' width='100' height='100'</img></div></div></div></div></div><style> .rotate {animation: rotation 8s infinite linear;}@keyframes rotation {from {transform: rotate(0deg);}to {transform: rotate(359deg);}}</style></div></div>
    
   
-<div class="signup">
+<div class="signup" id = 'load_hide'>
     <div class="container">
          <div class=" col-xl-8 " style="margin:0 20% 0">
           <div class="card card-signin flex-row my-5">
@@ -104,7 +104,7 @@
                                    
 
 
-<input class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" name="action"   style="width:80%; margin:0 10% 0; background-color: #B2EBF2; color:black; border-color:white; " value="Send"></input> 
+<input class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" name="action" onClick="loading()"  style="width:80%; margin:0 10% 0; background-color: #B2EBF2; color:black; border-color:white; " value="Run"></input> 
                               </form>
 
 
@@ -142,7 +142,8 @@
 function loading(){
 	var variables = document.getElementById('load_hide');
 	variables.style.visibility = 'hidden';
-	document.getElementById("content").innerHTML = "<div class='container'><div class=' col-xl-8 ' style='margin:0 20% 0'><div class='card card-signin flex-row my-5'><div class='card-body'><h5 class='card-title text-center'>Processing your data <br> You will be redirected shortly</h5><div class='text-center'><img src='../static/img/favicon.ico' class='rotate' width='100' height='100' </img></div></div></div></div></div><style> .rotate {animation: rotation 8s infinite linear;}@keyframes rotation {from {transform: rotate(0deg);}to {transform: rotate(359deg);}}</style>";}
+	document.getElementById('content').style.display = "block";
+}
 
 function hide(){
 var variables = document.getElementById('hide');
