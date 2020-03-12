@@ -8,14 +8,14 @@ import os.path
 import database
 import clustering
 import pymysql
-import pandas as pd 
+import pandas as pd
 import plotly.io as pio
 import re
 import hashlib
 import zipfile
 
 
-algs = {0: 'K-means', 
+algs = {0: 'K-means',
         1:'Hierarchichal'}
 
 app = Flask(__name__)
@@ -53,7 +53,7 @@ def login():
             # Read a single record
             sql = "SELECT * FROM user_info WHERE email = %s AND password = %s"
             cursor.execute(sql, (email,password))
-            #connection.commit()        
+            #connection.commit()
             account = cursor.fetchone()
             # If account exists in user_info table in out database
             if account:
@@ -65,8 +65,8 @@ def login():
                 return redirect(url_for('projects', user=account['username']))
             else:
                 # Account doesnt exist or username/password incorrect
-                msg = 'Incorrect email/password!'    
-   
+                msg = 'Incorrect email/password!'
+
     return render_template('login.html', msg=msg)
 
 
@@ -81,7 +81,7 @@ def delete(group):
         msg = 'Group abandoned successfully'
     user_projects = database.get_projects_from_user(user)
     groups = database.get_groups_of_user(session['username'])
-    return render_template('personal_page.html', projects=user_projects, 
+    return render_template('personal_page.html', projects=user_projects,
                                                      groups=groups,
                                                      username=user,
                                                         msg=msg)
@@ -98,7 +98,7 @@ def projects():
         msg=''
     user_projects = database.get_projects_from_user(user)
     groups = sorted(database.get_groups_of_user(session['username']), key=lambda x: x['group_name'])
-    response = render_template('personal_page.html', projects=user_projects, 
+    response = render_template('personal_page.html', projects=user_projects,
                                                      groups=groups,
                                                      msg=msg,
                                                      username=user)
@@ -113,12 +113,12 @@ def new_group(msg=''):
             # Create variables for easy access
             groupname = request.form['group']
             username = session['username']
-            # Check if group exists using MySQL   
+            # Check if group exists using MySQL
             with connection.cursor() as cursor:
                 # Read a single record
                 sql = 'SELECT * FROM groups WHERE group_name = %s'
                 cursor.execute(sql, (groupname))
-                connection.commit()        
+                connection.commit()
                 group_exists = cursor.fetchone()
                 # If account exists show error and validation checks
                 if group_exists:
@@ -140,7 +140,7 @@ def new_group(msg=''):
 @app.route('/dashboard/pr/<group>/<project>', methods=['POST','GET'])
 def project_info(project, group):
     if (not 'loggedin' in session):
-        return redirect(url_for('login')) 
+        return redirect(url_for('login'))
     user = session['username']
     sql = "SELECT * from projects WHERE project_name=%s AND group_name = %s"
     with connection.cursor() as cursor:
@@ -151,19 +151,19 @@ def project_info(project, group):
         cursor.execute(sql, (group,user ))
         admin= cursor.fetchone()
     results = database.get_result_from_project(project)
-    return render_template('project.html', 
-                                     project=project_, 
+    return render_template('project.html',
+                                     project=project_,
                                      results=results,
                                      username=user,admin=admin)
-    
+
 
 @app.route('/dashboard/pr/<group>/<project>/changedescription', methods=['GET','POST'])
-def change_description(project,group): 
+def change_description(project,group):
     description=request.form['description']
     with connection.cursor() as cursor:
         sql = "UPDATE projects SET description = %s WHERE group_name = %s AND project_name = %s"
         cursor.execute(sql, (description,group,project))
-        connection.commit()        
+        connection.commit()
     return redirect(url_for('project_info',project=project,group=group))
 
 @app.route('/dashboard/pr/<group>/<project>/delete_proj',methods=['GET', 'POST'])
@@ -236,7 +236,6 @@ def recover_run():
     run = database.get_run_results(run_id)[0]
     csv_path = os.path.join('projects_data', project+'_data','data.csv')
     csv_labels = os.path.join('projects_data', project+'_data',str(run_id)+'_.csv')
-    f = open(csv_path)
     data_details = database.get_data_details(project, run['group_name'])
     sep = data_details['sep']
     if(sep == '\\s+'): sep = '\s+'
@@ -246,30 +245,17 @@ def recover_run():
     else: col_names = 0
     if int(row_names) == 0: row_names = None
     else: row_names = 0
-    array = [] 
-    for line in f:
-        data = line.split()
-        if(col_names == 0): data = data[1:]
-        data = tuple(x for x in data)
-        array.append(data)
-    f = open(csv_labels)
-    f2 = open(csv_path)
-    labels = []
-    if col_names is not None:
-        array = array[1:]
-        f.readline()
-        f2.readline()
-    for line in f:
-        labels.append(line.strip('\n'))
-    dat = pd.read_csv(f2, sep = sep, header = col_names, index_col = row_names)
+    dat = pd.read_csv(csv_path, sep = sep, index_col = row_names, header = col_names)
+    list_of_rows = list(dat.index)
+    labels = [a.strip() for a in open(csv_labels).readlines()]
     plot = clustering.plotPCA(dat, labels)
     plot_html = pio.to_html(plot, full_html = False)
     ids = database.get_project_ids(project, run_id)
-    return render_template('run.html', 
+    return render_template('run.html',
                                      ids=ids,
                                      ID=run_id,
                                      date=run['date_time'],
-                                     project_name=run['project_name'], 
+                                     project_name=run['project_name'],
                                      algorithm=algs[run['algo_rithm']],
                                      user_name=run['user'],
                                      group_name=run['group_name'],
@@ -277,7 +263,7 @@ def recover_run():
                                      number_of_groups=run['groups'],
                                      distance=run['distance'],
                                      linkage=run['linkage'],
-                                     points=zip(array, labels),
+                                     points=zip(list_of_rows, labels),
                                      img=plot_html)
 
 @app.route('/dashboard/pr/<proj>/compare', methods=['GET', 'POST'])
@@ -300,7 +286,7 @@ def compare_2_runs(proj):
     for line in f:
         data = line.split()
         data = tuple(x for x in data)
-        if row_names == 0:  data = data[1:] 
+        if row_names == 0:  data = data[1:]
         array.append(data)
     dat1 = pd.read_csv(csv_path, sep = sep, header = col_names, index_col = row_names)
     f = open(csv_labels)
@@ -346,7 +332,7 @@ def compare_2_runs(proj):
     plot_html_2 = pio.to_html(plot, full_html = False)
     return render_template('result_compare.html', ID=run1_id, ID_2=run2_id,
                                      date=run['date_time'],
-                                     project_name=run['project_name'], 
+                                     project_name=run['project_name'],
                                      algorithm=algs[run['algo_rithm']],
                                      user_name=run['user'],
                                      igual = (igual, distinto),
@@ -431,7 +417,7 @@ def new_demo_run():
         for label in result[0]:
             fhand.write(str(label)+'\n')
     return redirect('/dashboard/result?project='+project+'&run='+str(run_number))
-            
+
 @app.route('/demo')
 def demo():
     user = 'Demo_user'
@@ -439,11 +425,11 @@ def demo():
     project_ = database.get_info_from_project(proj)
     results = database.get_result_from_project(proj)
     if('loggedin' in session):
-        return render_template('project_demo.html', logged=True, project=project_[0], 
+        return render_template('project_demo.html', logged=True, project=project_[0],
                                      results=results,username=user)
     else:
         return render_template('project_demo.html', logged=False,
-                                     project=project_[0], 
+                                     project=project_[0],
                                      results=results,
                                      username=user)
 
@@ -457,14 +443,14 @@ def new_project(msg=''):
             username = session['username']
             groupname= request.form['group']
             description= request.form['description']
-            #aparezca en el html un desplegable con los grupos a los que pertenece, y ojala poder seleccionar varios     
+            #aparezca en el html un desplegable con los grupos a los que pertenece, y ojala poder seleccionar varios
             with connection.cursor() as cursor:
                 # Read a single record
                 path = "%s_data" % (projectname)
-                # If mirando si ese project name esta cogido ya para su user o su grupo                
+                # If mirando si ese project name esta cogido ya para su user o su grupo
                 sql = "SELECT * from projects WHERE project_name = %s and group_name = %s;"
                 cursor.execute(sql, (projectname , groupname))
-                connection.commit()        
+                connection.commit()
                 project_exists = cursor.fetchone()
                 # If project exists show error and validation checks
                 if project_exists:
@@ -500,7 +486,7 @@ def new_project(msg=''):
                     except Exception:
                         msg = 'Please fill out the form!'
                         groups = database.get_groups_of_user(session['username'])
-                        groups = ['Private'] + [group['group_name'] for group in groups]
+                        groups = ['Privado'] + [group['group_name'] for group in groups]
                         return render_template('new_project.html', msg='Invalid input file.\n Please upload a csv/tsv and indicate the correct separator', groups=groups)
                     cursor.execute('INSERT INTO projects ( description, group_name, user, project_name, file_path, sep, rowname, colname) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s);', (description, groupname, username, projectname , path, sep, request.form['row_names'], request.form['col_names']))
                     connection.commit()
@@ -520,8 +506,8 @@ def new_project(msg=''):
             # Form is empty... (no POST data)
             msg = 'Please fill out the form!'
             groups = database.get_groups_of_user(session['username'])
-            groups = ['Private'] + [group['group_name'] for group in groups]
-            return render_template('new_project.html', 
+            groups = ['Privado'] + [group['group_name'] for group in groups]
+            return render_template('new_project.html',
                                                        msg=msg,
                                                        groups=groups)
     return redirect(url_for('login'))
@@ -537,8 +523,8 @@ def download_project(proj):
     zip_file.close()
     data.seek(0)
     data = open('Downloads/'+proj+'.zip', 'rb')
-    return send_file(data, 
-                     attachment_filename=proj+'.zip', 
+    return send_file(data,
+                     attachment_filename=proj+'.zip',
                      as_attachment=True,
                      mimetype='application/zip')
 
@@ -556,12 +542,12 @@ def signup(msg=''):
             msg = 'Passwords don\'t match'
             return render_template('signup.html', msg=msg)
         email = request.form['email']
-        # Check if account exists using MySQL        
+        # Check if account exists using MySQL
         with connection.cursor() as cursor:
             # Read a single record
             sql = 'SELECT * FROM user_info WHERE username = %s'
             cursor.execute(sql, (username))
-            connection.commit()        
+            connection.commit()
             account = cursor.fetchone()
             # If account exists show error and validation checks
             if account:
@@ -583,19 +569,19 @@ def signup(msg=''):
         # Form is empty... (no POST data)
         msg = 'Please fill out the form!'
     # Show registration form with message (if any)
-    
+
     return render_template('signup.html', msg=msg)
 
 ###### SETTINGS
 
 @app.route('/dashboard/gr/<group>',methods=['GET', 'POST'])
 def groupsettings(group,msg=''):
-    
+
     username=session['username']
     admin=0
-    if 'msg' in request.args:   
-        msg=request.args['msg']	
-    with connection.cursor() as cursor:   
+    if 'msg' in request.args:
+        msg=request.args['msg']
+    with connection.cursor() as cursor:
         sql = "SELECT admin FROM member_group WHERE username= %s and group_name =%s"
         cursor.execute(sql, (username,group))
         admin=cursor.fetchone()
@@ -604,30 +590,30 @@ def groupsettings(group,msg=''):
         cursor.execute(sql, (group,))
         users_of_group=cursor.fetchall()
     num_admins=0
-    
+
     for user in users_of_group:
         if user['admin']==1:
-            num_admins+=1    	
+            num_admins+=1
     num_users=len(users_of_group)
     if admin['admin']==1:
-        return render_template('settings_group_admin.html',users_of_group=users_of_group,group=group,msg=msg,num_users=num_users,num_admins=num_admins)  
+        return render_template('settings_group_admin.html',users_of_group=users_of_group,group=group,msg=msg,num_users=num_users,num_admins=num_admins)
     return render_template('settings_group.html',users_of_group=users_of_group,group=group,msg=msg,num_admins=num_admins)
 
 
 @app.route('/dashboard/gr/<group>/include',methods=['GET', 'POST'])
 def include_user(group):
     msg = ''
-    
+
     if request.method == 'POST' and request.form['newmember']!='':
         newuser=request.form['newmember']
         with connection.cursor() as cursor:
             sql = "SELECT * FROM user_info WHERE username = %s"
-            cursor.execute(sql, (newuser,))       
+            cursor.execute(sql, (newuser,))
             account = cursor.fetchone()
             if account:
                 with connection.cursor() as cursor:
                     sql = "SELECT * FROM member_group WHERE username = %s AND group_name = %s"
-                    cursor.execute(sql, (newuser,group))                         
+                    cursor.execute(sql, (newuser,group))
                     account = cursor.fetchone()
                     if account:
                         msg='The user is already in this group'
@@ -641,7 +627,7 @@ def include_user(group):
 
 @app.route('/dashboard/gr/<group>/delete',methods=['GET', 'POST'])
 def delete_user(group):
-    user=request.args['user']	
+    user=request.args['user']
     with connection.cursor() as cursor:
         sql="DELETE FROM member_group WHERE username = %s AND group_name = %s"
         cursor.execute(sql, (user,group))
@@ -650,7 +636,7 @@ def delete_user(group):
 
 @app.route('/dashboard/gr/<group>/permision',methods=['GET', 'POST'])
 def give_permision(group):
-    user=request.args['user']	
+    user=request.args['user']
     with connection.cursor() as cursor:
         sql="UPDATE member_group SET admin = %s WHERE username = %s AND group_name = %s"
         cursor.execute(sql, (1,user,group))
@@ -684,18 +670,18 @@ def delete_group(group):
         sql="DELETE FROM project_result WHERE group_name = %s"
         cursor.execute(sql, (group,))
         connection.commit()
-    return redirect(url_for('projects')) 
+    return redirect(url_for('projects'))
 
 @app.route('/dashboard/settings',methods=['GET', 'POST'])
 def settings():
     if (not 'loggedin' in session):
         return redirect(url_for('login'))
     msg = ''
- 
+
     if request.method == 'POST' and request.form['action'] == 'changeusername' and request.form['currentusername']!='' and request.form['password']!='' and request.form['newusername']!='':
 
         currentusername = request.form['currentusername']
-        username=session['username']	
+        username=session['username']
         newusername = request.form['newusername']
         password = request.form['password']
         password = hashlib.md5(password.encode('ascii')).hexdigest()
@@ -703,64 +689,64 @@ def settings():
             with connection.cursor() as cursor:
                 sql = "SELECT * FROM user_info WHERE username = %s"
                 cursor.execute(sql, (newusername))
-                connection.commit()        
+                connection.commit()
                 exists = cursor.fetchone()
                 if exists:
                     msg='Username already exists!'
-    		
+
                 else:
                     with connection.cursor() as cursor:
                         sql = "SELECT * FROM user_info WHERE username = %s AND password = %s"
                         cursor.execute(sql, (username,password))
-                        connection.commit()        
+                        connection.commit()
                         account = cursor.fetchone()
                         # If account exists update the username in all tables
                         if account:
                             with connection.cursor() as cursor:
                                 sql = "UPDATE user_info SET username = %s WHERE username = %s"
                                 cursor.execute(sql, (newusername,username))
-                                connection.commit()        
-                                account = cursor.fetchone()                  
+                                connection.commit()
+                                account = cursor.fetchone()
                             with connection.cursor() as cursor:
                                 sql = "UPDATE member_group SET username = %s WHERE username = %s"
                                 cursor.execute(sql, (newusername,username))
-                                connection.commit()        
+                                connection.commit()
                                 account = cursor.fetchone()
                             with connection.cursor() as cursor:
                                 # Read a single record
                                 sql = "UPDATE projects SET user = %s WHERE user = %s"
                                 cursor.execute(sql, (newusername,username))
-                                connection.commit()        
+                                connection.commit()
                                 account = cursor.fetchone()
                             with connection.cursor() as cursor:
                                 # Read a single record
                                 sql = "UPDATE project_result SET user = %s WHERE user = %s"
                                 cursor.execute(sql, (newusername,username))
-                                connection.commit()        
+                                connection.commit()
                                 account = cursor.fetchone()
                                 msg ='Username succesfully changed!'
                                 session['username'] = newusername
-                        
-                            
+
+
                         else:
                         # Account doesnt exist or username/password incorrect
-                             msg = 'Incorrect username/password!'  
+                             msg = 'Incorrect username/password!'
         else:
             msg = 'Incorrect username/password!'
     elif request.method == 'POST' and request.form['action'] == 'changepassword' and request.form['currentusername']!='' and request.form['password']!='' and request.form['newpassword']!='' and request.form['confirmpassword']!='':
         currentusername = request.form['currentusername']
-        username=session['username']	
+        username=session['username']
         newusername = request.form['newusername']
         password = request.form['password']
         newpassword = request.form['newpassword']
         confirmpassword = request.form['confirmpassword']
         password = hashlib.md5(password.encode('ascii')).hexdigest()
         if currentusername==username:
-            if newpassword==confirmpassword:                        
+            if newpassword==confirmpassword:
                 with connection.cursor() as cursor:
                     sql = "SELECT * FROM user_info WHERE username = %s AND password = %s"
                     cursor.execute(sql, (username,password))
-                    connection.commit()        
+                    connection.commit()
                     account = cursor.fetchone()
                     # If account exists update the password in all tables
                     if account:
@@ -768,13 +754,13 @@ def settings():
                         with connection.cursor() as cursor:
                             sql = "UPDATE user_info SET password = %s WHERE username = %s"
                             cursor.execute(sql, (newpassword,username))
-                            connection.commit()        
+                            connection.commit()
                             account = cursor.fetchone()
                             msg='Password changed succesfully!'
                     else:
                         msg='Incorrect username/password!'
             else:
-                msg='Please confirm the new password correctly'                 
+                msg='Please confirm the new password correctly'
     else:
         msg='Please fill one of the two forms'
 
