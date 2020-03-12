@@ -490,6 +490,8 @@ def new_project(msg=''):
                     path = str(session['username']+'_')
                     try:
                         array = pd.read_csv(csv_path, sep = sep, header = col_names, index_col = row_names)
+                        if(len(array.columns) < 2):
+                            return render_template('new_project.html', msg='Invalid input with only 1 column', groups=groups)
                         result = clustering.cluster(algorithm, array, groups, distance, linkage )
                     except Exception:
                         msg = 'Please fill out the form!'
