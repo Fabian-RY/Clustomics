@@ -302,7 +302,7 @@ def new_project(msg=''):
             # Form is empty... (no POST data)
             msg = 'Please fill out the form!'
             groups = database.get_groups_of_user(session['username'])
-            groups = ['Privado'] + [group['group_name'] for group in groups]
+            groups = ['Private'] + [group['group_name'] for group in groups]
             print('Its a POST!')
             return render_template('new_project.html',
                                                        msg=msg,
