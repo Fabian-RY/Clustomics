@@ -37,7 +37,7 @@ body {
 }
 
 .form-signin .btn {
-  font-size: 80%;
+  font-size: 100%;
   border-radius: 5rem;
   letter-spacing: .1rem;
   font-weight: bold;
@@ -91,6 +91,9 @@ body {
   color: transparent;
 }
 
+
+
+
 .form-label-group input::placeholder {
   color: transparent;
 }
@@ -118,10 +121,13 @@ body {
 }
 
 
-
+.msg{
+color:red;
+}
 table {
   border-collapse: collapse;
   width: 100%;
+
 }
 
 th, td {
@@ -131,3 +137,10 @@ th, td {
 }
 
 tr:hover {background-color:#33AEFF;}
+
+
+select{
+font-size: 80%; border-radius: 0.5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.3rem; transition: all 0.2s; }
+textarea{
+ font-size: 100%; border-radius: 1rem; letter-spacing: .05rem; font-weight: bold; padding: 1rem; transition: all 0.2s;   }
+ 
