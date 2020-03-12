@@ -51,13 +51,19 @@
       </div>
     </div>
   </nav>
+ <br />
+ <br />
 {% endif%}
   
   
- <br>
+ <br />
+
+<div id='content'></div>
+
+<div id='load_hide'>
  <h1 class="card-title text-center"> Demo   </h1> 
   
-<div class="signup">
+
     <div class="container">
        <div class="row">
          <div class=" col-xl-6 ">
@@ -98,7 +104,7 @@
 					</div>
                           
                                     <br />
-                                    <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Run</button>
+                                    <button onClick='loading()' class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Run</button>
                               </form>
                       </div>        
                  </div>                                     
@@ -114,9 +120,10 @@
                    <li>Select one of the posible dataset</li>
                    <li>Select a clustering algorithm</li>
                    <li>Select the number of groups in wich you want the data to be splitted</li>
-                   <li>Depending on the algorithm, adittional parameters can be selected</li>
+                   <li>If the algorithm requires it, select adittional parameters</li>
                 </ol>
-              <p>Different algorithms come with different parameters.                
+		 <p>Different algorithms can produce different results, a different parameters can lightly variate the results.
+		 Feel free to experiment selecting which algorithm and parameters you select to find which fits you best.</p>
                                                       
              </div>
           </div>
@@ -126,8 +133,7 @@
 
         </div>     
        </div>
-      </div>
-       
+     </div> <!-- #load_hide -->
     
   <!-- Footer -->
   <footer class="py-5 bg-dark" style="position:fixed ;bottom:0; width:100%"   >
@@ -153,6 +159,14 @@
 </html>
 
 <script>
+
+function loading(){
+	alert('Hello')
+	var variables = document.getElementById('load_hide');
+	variables.style.visibility = 'hidden';
+	document.getElementById("content").innerHTML = "<h1>Processing request</h1><p>You'll be redirected shortly</p>";
+}
+
 function hide(){
 var variables = document.getElementById('hide');
 
