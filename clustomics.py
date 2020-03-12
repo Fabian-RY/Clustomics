@@ -34,9 +34,7 @@ connection = pymysql.connect(host='localhost',
 
 @app.route('/')
 def clustomics():
-    if 'loggedin' in session:
-        return render_template('index.html', logged=True)
-    return render_template('index.html', logged=False)
+    return render_template('index.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -70,22 +68,6 @@ def login():
     return render_template('login.html', msg=msg)
 
 
-@app.route('/delete', methods=['POST'])
-def delete(group):
-    user = session['username']
-    msg=''
-    if (database._is_admin(user, group)):
-        msg = 'Cannot abandon a group if you are the admin'
-    else:
-        database.abandon_group(user, group)
-        msg = 'Group abandoned successfully'
-    user_projects = database.get_projects_from_user(user)
-    groups = database.get_groups_of_user(session['username'])
-    return render_template('personal_page.html', projects=user_projects,
-                                                     groups=groups,
-                                                     username=user,
-                                                        msg=msg)
-    pass
 
 @app.route('/dashboard', methods=['GET','POST'])
 def projects():
@@ -357,8 +339,10 @@ def compare_2_runs(proj):
 
 @app.route('/header')
 def header():
-    return render_template('header.html', user=session['username'])
-
+    if('loggedin' in session):  
+        return render_template('header.html', user=session['username'])
+    else:
+        return render_template('headernotlogged.html')
 
 ############# DEMO
 
@@ -424,15 +408,9 @@ def demo():
     proj = 'Demo_project'
     project_ = database.get_info_from_project(proj)
     results = database.get_result_from_project(proj)
-    if('loggedin' in session):
-        return render_template('project_demo.html', logged=True, project=project_[0],
+    return render_template('project_demo.html', project=project_[0],
                                      results=results,username=user)
-    else:
-        return render_template('project_demo.html', logged=False,
-                                     project=project_[0],
-                                     results=results,
-                                     username=user)
-
+    
 @app.route('/dashboard/new_project', methods=['GET', 'POST'])
 def new_project(msg=''):
     if 'loggedin' in session:
@@ -770,11 +748,8 @@ def settings():
 
 @app.route('/about_us')
 def about():
-    if('loggedin' in session):
-        return render_template('about.html', logged=True)
-    else:
-        return render_template('about.html', logged=False)
-
+    return render_template('about.html')
+    
 
 ####### LOGOUT
 
