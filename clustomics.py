@@ -486,7 +486,7 @@ def new_project(msg=''):
                     except Exception:
                         msg = 'Please fill out the form!'
                         groups = database.get_groups_of_user(session['username'])
-                        groups = ['Privado'] + [group['group_name'] for group in groups]
+                        groups = ['Private'] + [group['group_name'] for group in groups]
                         return render_template('new_project.html', msg='Invalid input file.\n Please upload a csv/tsv and indicate the correct separator', groups=groups)
                     cursor.execute('INSERT INTO projects ( description, group_name, user, project_name, file_path, sep, rowname, colname) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s);', (description, groupname, username, projectname , path, sep, request.form['row_names'], request.form['col_names']))
                     connection.commit()
@@ -802,8 +802,8 @@ def page_forbidden(e):
     return render_template('403.html'), 500
 
 @app.route('/favicon.ico')
-def get_image():
-    return send_file('/static/img/favicon.ico', mimetype='image/ico')
+def favicon():
+    return send_file('static/img/favicon.ico', mimetype='image/ico')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
