@@ -33,7 +33,7 @@ FPRI<!DOCTYPE html>
 <div class="signup" id='load_hide'>
 
  <h1 class="card-title text-center">  {{project['project_name']}}   </h1> 
- <button onclick="window.location.href = '{{ url_for('download_project', proj=project['project_name'])}}';" style="background-color: #FFEBEE; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.8rem;color:black; margin:0 35% 0; width:30%;">Download project</button> <br> <br>
+ <button onclick="window.location.href = '{{ url_for('download_project', proj=project['project_name'], group=project['group_name'])}}';" style="background-color: #FFEBEE; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.8rem;color:black; margin:0 35% 0; width:30%;">Download project</button> <br> <br>
     <div class="container">
  <div class="row">
          <div class=" col-xl-6 ">

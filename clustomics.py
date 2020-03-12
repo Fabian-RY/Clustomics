@@ -490,13 +490,34 @@ def new_project(msg=''):
                                                        groups=groups)
     return redirect(url_for('login'))
 
-@app.route('/dashboard/pr/<proj>/download')
-def download_project(proj):
+
+@app.route('/dashboard/pr/<proj>/<group>/download')
+def download_project(proj, group):
     import io
     data = io.BytesIO()
     path = os.path.join('projects_data', proj+'_data')
     zip_file = zipfile.ZipFile('Downloads/'+proj+'.zip', 'w')
     for file in os.listdir(path):
+        if(file == 'plot.html'): continue
+        if(file != 'data.csv'): 
+            data_details = database.get_data_details(proj, group)
+            sep = data_details['sep']
+            if(sep == '\\s+'): sep = '\s+'
+            col_names = data_details['colname']
+            row_names = data_details['rowname']
+            if int(col_names) == 0: col_names = None
+            else: col_names = 0
+            if int(row_names) == 0: row_names = None
+            else: row_names = 0
+            array = pd.read_csv(os.path.join(path, 'data.csv'), sep = sep, header = col_names, index_col = row_names)
+            labels = [line.strip('\n') for line in open(os.path.join(path, file))]
+            print(len(array), len(labels))
+            plot = clustering.plotPCA(array, labels)
+            plot = pio.to_html(plot, full_html = True)
+            f = open(os.path.join(path, 'plot.html'), 'w')
+            f.write(plot)
+            f.close()
+            zip_file.write(os.path.join(path, 'plot.html'), file+'.html')
         zip_file.write(os.path.join(path, file))
     zip_file.close()
     data.seek(0)
@@ -523,8 +544,8 @@ def signup(msg=''):
         # Check if account exists using MySQL
         with connection.cursor() as cursor:
             # Read a single record
-            sql = 'SELECT * FROM user_info WHERE username = %s'
-            cursor.execute(sql, (username))
+            sql = 'SELECT * FROM user_info WHERE username = %s or email=%s'
+            cursor.execute(sql, (username, email))
             connection.commit()
             account = cursor.fetchone()
             # If account exists show error and validation checks
