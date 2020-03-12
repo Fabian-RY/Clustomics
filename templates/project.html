@@ -89,7 +89,7 @@
     <p>{{ project['description'] }}</p>
 
   <h6 class="  text-center"> Here you can change the description of your project: </h6>  
-{% if admin['admin']==1 or project['group_name']=='Privado' %}                    
+{% if admin['admin']==1 or project['group_name']=='Private' %}                    
                 
                 <div id="changedescription" class="form-label-group ">
                 <form action={{ url_for("change_description",group=project['group_name'],project=project['project_name'])}} method="POST"  >
