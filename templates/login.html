@@ -16,6 +16,7 @@
   <!-- Custom styles for this template -->
   <link href="/static/css/signup.css" rel="stylesheet">
 
+
 </head>
 
 <body>
@@ -50,26 +51,27 @@
             </div>
             <div class="card-body">
  
-	
+	<br>
               <h3 class="login-heading mb-4">Welcome back!</h3>
-              <form action="{{ url_for('login') }}" method="POST">
+              <form action="{{ url_for('login') }}" method="POST" class="form-signin">
                 <div class="form-label-group">
-                  <input type="email" id="email" name='email' class="form-control" placeholder="Email" required>
+                  <input type="email" id="email" name='email'  placeholder="Email" required>
                   <label for="email">Email address
 		<i class="fas fa-envelope"></i>
 		</label>
                 </div>
 
                 <div class="form-label-group">
-                  <input type="password" name='password' id="password" class="form-control" placeholder="Password" required>
+                  <input type="password" name='password' id="password"  placeholder="Password" required>
 <div class="msg">{{ msg }}</div>
                   <label for="password">Password
 		<i class="fas fa-lock"></i>
 </label>
 		
                 </div>
-                <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit" value="login">Log in</button>
-                <a class="d-block text-center mt-2 small" href={{ url_for('signup') }}>Don't have an account? Sign up here</a>
+                <button class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" value="login" style="font-size: 120%;" >Log in</button>
+                <a class="d-block text-center mt-2 medium" href={{ url_for('signup') }}>Don't have an account? <br> Sign up here</a>
+<br>
               </form>
            </div>
           </div>
@@ -79,11 +81,18 @@
 </div>
 
  
-	
-	
-	
-	
-	
+
+
+
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark" style="width:100%; position:fixed; bottom:0"   >
+    <div class="container" >
+      <p class="m-0 text-center text-white" >Copyright &copy; Clustomics 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
 	
 	
 <!-- Bootstrap core JavaScript -->

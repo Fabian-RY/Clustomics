@@ -24,9 +24,11 @@
   
 <body>
      
-<div>
-<iframe width="100%" height="60px"  src="header" scrolling="no" frameborder="no" ></iframe>
-</div>
+  
+<div style="margin: 0px 0px -100px 0px" >
+<iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
+</div>   
+  
 	    
       
   
@@ -40,11 +42,7 @@
             <div class="card-body">
               <h3 class="card-title text-center"> My projects </h3>
                
-              <form action={{ url_for("new_project") }} method="post" autocomplete="off" class="active">
-                
-                  <button class="btn btn-lg btn-primary btn-block  " type="Create_new_project" value="Create_new_project" action={{ url_for('new_project')}} >Create new project</button>                  
-                  
-              </form>
+              
                   	<table border=2>
                         <tr style="font-size:20px">
                           <th>Project name</th>
@@ -57,12 +55,19 @@
                             <th> {{ project['project_name'] }} </th>
                             <td> {{ project['group_name'] }} </td>
 	                          <td><form action={{ url_for("project_info", user=username, project=project['project_name'], group=project['group_name'])}}>
-    	                      <input type="submit" value="Go to the project" />
+    	                      <input style="background-color: #B2EBF2; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.5rem; color:black;" type="submit" value="Go to the project" />
 		                        </form></td>
 		                    </tr>  
                           {% endfor %}
                             </table>
                 <hr class="my-4">
+<form action={{ url_for("new_project") }} method="post" autocomplete="off" class="active">
+                
+                  <button class="btn btn-lg btn-primary btn-block  " type="Create_new_project" value="Create_new_project" action={{ url_for('new_project')}} >Create new project</button>                  
+                  <br>
+              </form>
+
+
               </form>
             </div>
           </div>
@@ -75,21 +80,7 @@
               <h3 class="card-title text-center"> My groups </h3>
               
                 
-                <div class="row">
-                <div class="col-sm-5">
-                <a  href="javascript:document.getElementById('newgroup').style.display='block';void0" class=" btn btn-lg btn-primary btn-block  "> Create new group  </a>
-                
-                
-                      
-                </div> 
-                <div id="newgroup" class="form-label-group col-sm-5">
-                <form action={{ url_for("new_group")}} method="POST">
-                  <input type="text" name="group" placeholder="group" id="group" required>
-                  <label for="group">Name of the group</label>                  
-                  <input type='submit' style=" margin: 20px 0px 0px 40px;" class="btn btn-lg btn-primary btn-block  " type="submit">Confirm </input>
-                </form>
-	           	</div>
-                 </div>
+               
                   
                   
                   	<table border=2>
@@ -102,16 +93,32 @@
                                 <tr>
                                     <td>{{ group['group_name'] }}</td>
                                      <td><form action={{ url_for("groupsettings", group=group['group_name'])}}>
-    	                      <input type="submit" value="Settings" />
+    	                      <input   style="background-color: #B2EBF2; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.5rem;color:black; margin:0 20% 0; width:60%;" type="submit" value="Settings" />
 		                        </form></td>
 		                    </tr>  
                           {% endfor %}
                             </table>
                             
+  <hr class="my-4">
+
+		<a  href="javascript:document.getElementById('newgroup').style.display='block';void0" class=" btn btn-lg btn-primary btn-block  "> Create new group  </a>
+                <br>
+                 
+
+                <div id="newgroup" class="form-label-group ">
+                <form action={{ url_for("new_group")}} method="POST" class="form-signin">
+		<div class="form-label-group">
+                  <input type="text" name="group" placeholder="group" id="group" required style="width:80%; margin:0 10% 0; ">
+                  <label for="group" style=" margin:0 20% 0;">Name of the group</label>                
+		</div>  
+                    <button class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" name="action" value='changeusername' style="width:80%; margin:0 10% 0; background-color: #B2EBF2; color:black; border-color:white; ">Confirm</button> 
+
+                </form>
+	         </div>
                             
                             
                         
-                <hr class="my-4">
+               
             </div>
           </div>
         </div>
@@ -120,6 +127,15 @@
 </div>
    
   
+
+ <!-- Footer -->
+  <footer class="py-5 bg-dark" style="width:100%; position:fixed; bottom:0"   >
+    <div class="container" >
+      <p class="m-0 text-center text-white" >Copyright &copy; Clustomics 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
   
 <!-- Bootstrap core JavaScript -->
 <script src="../static/vendor/jquery/jquery.min.js"></script>
@@ -127,6 +143,9 @@
 
 <!-- Plugin JavaScript -->
 <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+
+
 
 </body>
 
