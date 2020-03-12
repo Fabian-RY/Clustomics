@@ -438,7 +438,11 @@ def demo():
     proj = 'Demo_project'
     project_ = database.get_info_from_project(proj)
     results = database.get_result_from_project(proj)
-    return render_template('project_demo.html', 
+    if('loggedin' in session):
+        return render_template('project_demo.html', logged=True, project=project_[0], 
+                                     results=results,username=user)
+    else:
+        return render_template('project_demo.html', logged=False,
                                      project=project_[0], 
                                      results=results,
                                      username=user)
