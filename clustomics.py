@@ -506,7 +506,7 @@ def new_project(msg=''):
             # Form is empty... (no POST data)
             msg = 'Please fill out the form!'
             groups = database.get_groups_of_user(session['username'])
-            groups = ['Privado'] + [group['group_name'] for group in groups]
+            groups = ['Private'] + [group['group_name'] for group in groups]
             return render_template('new_project.html',
                                                        msg=msg,
                                                        groups=groups)
@@ -802,8 +802,8 @@ def page_forbidden(e):
     return render_template('403.html'), 500
 
 @app.route('/favicon.ico')
-def favicon():
-    return send_file('static/img/favicon.ico', mimetype='image/ico')
+def get_image():
+    return send_file('/static/img/favicon.ico', mimetype='image/ico')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
