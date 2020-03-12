@@ -84,7 +84,7 @@ You have no projects yet
               <h3 class="card-title text-center"> My groups </h3>
 
 		<a  href="javascript:document.getElementById('newgroup').style.display='block';void0" class=" btn btn-lg btn-primary btn-block  "> Create new group  </a>
-                 
+                 <br>
                 <div id="newgroup" class="form-label-group ">
                 <form action={{ url_for("new_group")}} method="POST" class="form-signin">
 		<div class="form-label-group">
@@ -103,7 +103,7 @@ You have no projects yet
                         <tr style="font-size:20px">
                            
                           <th>Group name</th>
-                          
+                          <th>   </th>
                         </tr>                  	  
                            {% for group in groups %}
                                 <tr>
