@@ -1,0 +1,193 @@
+    <!DOCTYPE html>
+  <html>
+    <head>
+      <title> RunID | {{project_name}} </title>
+      <meta charset="UTF-8">
+      <meta name="description" content="">
+
+
+    <meta name="author" content="Conor Sheils">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+
+  <title>Run  | Clustomics</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../../../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../../../static/css/signup.css" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+<div style="margin: 0px 0px -100px 0px" >
+    <iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
+</div>  
+
+
+  <div class="signup">
+    <div class="container">
+         <div class=" col-xl-12 ">
+          <div class="card card-signin flex-row my-5">
+
+            <div class="card-body">
+              <h3 class="card-title text-center">Run ID  </h3>
+
+              <form action="{{ url_for }}" method="post" autocomplete="off" class="active">
+
+                               <div class="row">
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="Date"  id="Date" class="form-control" placeholder="Date" value={{date}} required>
+                                      <label for="Date">Date </label>
+                                    </div>
+
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="text"  id="user" class="form-control" placeholder="User" value={{user_name}} required>
+                                      <label for="User">User </label>
+                                    </div>
+
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="text"  id="Group" class="form-control" placeholder="Group" value={{group_name}} required>
+                                      <label for="Group">Group </label>
+                                    </div>
+
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="text"  id="Algorithm" class="form-control" placeholder="Algorithm" value={{algorithm}} required>
+                                      <label for="Algorithm"> Algorithm</label>
+                                    </div>
+                              </div>
+                              <div class="row">
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="text"  id="" class="form-control" placeholder="Score" value={{validation_parameter}} required>
+                                      <label for="Score"> Score</label>
+                                    </div>
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="Number"  id="Number of groups" class="form-control" placeholder="Number of groups" value={{number_of_groups}} required>
+                                      <label for="Number of groups">Number of groups </label>
+                                    </div>
+
+
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="tex"  id="" class="form-control" placeholder="Distance" value="{{distance}}" required>
+                                      <label for="Distance">Distance </label>
+                                    </div>
+                                    <div class="form-label-group col-xl-3">
+                                      <input type="text"  id="Linkage" class="form-control" placeholder="" value=" {{linkage}}" required>
+                                      <label for="Linkage">Linkage </label>
+                                    </div>
+                                 </div>
+
+                    		                </form></td>
+
+             </div>
+          </div>
+        </div>
+
+
+
+        <div class=" col-xl-12">
+          <div class="card card-signin flex-row my-5">
+            <div class="card-body">
+              <h3 class="card-title text-center"> Table </h3>
+
+                  <form action="{{ url_for }}" method="post" autocomplete="off" class="active">
+
+
+                            <table  border=1>
+                                {% for datapoint in data %}
+                                  <tr>
+                                      <th> Datapoint ID/position </th>
+
+                                          <th> {{ run['validation_result'] }} </th>
+                    		                  <td> {{ run['user'] }} </td>
+                    		                  <td> {{ run['algorithm'] }} </td>
+                                  </tr>
+
+                                {% endfor %}
+                            </table>
+                                   {{ img|safe }}
+
+                    </form>
+              </div>
+          </div>
+        </div>
+
+       <div class=" col-xl-12">
+          <div class="card card-signin flex-row my-5">
+            <div class="card-body">
+              <h3 class="card-title text-center"> Table </h3>
+
+                  <form action="{{ url_for }}" method="post" autocomplete="off" class="active">
+
+      <table>
+
+      <tr>
+          <td>Coordiante 1</td><td>Coordinate 2</td><td>Final group</td>
+      </tr>
+
+      {% for element in points %}
+
+          <tr>
+              <td>{{ element[0][0] }}</td>
+              <td>{{ element[0][1] }}</td>
+              <td>{{ element[1] }}</td>
+          </tr>
+
+      {% endfor %}
+
+      </table>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+       <div class=" col-xl-12">
+          <div class="card card-signin flex-row my-5">
+            <div class="card-body">
+              <h3 class="card-title text-center"> Table </h3>
+               <!--
+                  <form action="{{ url_for }}" method="post" autocomplete="off" class="active">
+
+                         <table>
+                              <th> Datapoint assigned Group </th>
+                        </tr>
+                          <td>  </td>
+                          <td> </td>
+                      </table>
+                      <img src={{img_route}} alt ="Results plot">
+                   -->
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+    <!-- Footer -->
+  <footer class="py-5 bg-dark" style="width:100%; position:fixed; bottom:0"   >
+    <div class="container" >
+      <p class="m-0 text-center text-white" >Copyright &copy; Clustomics 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+
+	
+<!-- Bootstrap core JavaScript -->
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    </body>
+  </html>
