@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+FPRI<!DOCTYPE html>
 <html>
   
  	
@@ -30,7 +30,7 @@
 </div>   
   
   
-  
+<div id='content'></div>
   
  <h1 class="card-title text-center">  {{project['project_name']}}   </h1> 
  <button onclick="window.location.href = '{{ url_for('download_project', proj=project['project_name'])}}';" style="background-color: #FFEBEE; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.8rem;color:black; margin:0 35% 0; width:30%;">Download project</button> <br> <br>
@@ -200,6 +200,12 @@ You must be and admin of the group to configure this project
 </html>
 
 <script>
+
+function loading(){
+	var variables = document.getElementById('load_hide');
+	variables.style.visibility = 'hidden';
+	document.getElementById("content").innerHTML = "<div class='container'><div class=' col-xl-8 ' style='margin:0 20% 0'><div class='card card-signin flex-row my-5'><div class='card-body'><h5 class='card-title text-center'>Processing your data <br> You will be redirected shortly</h5><div class='text-center'><img src='../static/img/favicon.ico' class='rotate' width='100' height='100' </img></div></div></div></div></div><style> .rotate {animation: rotation 8s infinite linear;}@keyframes rotation {from {transform: rotate(0deg);}to {transform: rotate(359deg);}}</style>";}
+
 function hide(){
     var variables = document.getElementById('hide');
 
