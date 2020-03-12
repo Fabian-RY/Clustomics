@@ -26,13 +26,13 @@
 
   {% if logged:%}
 
-<div style="margin: 0px 0px -100px 0px" >
+<div style="margin: 0px 0px 100px 0px" >
     <iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
 </div>
 
 {% else:%}
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+  <nav style="margin: 0px 0px 100px 0px" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <div class="container">
       <a class="navbar-brand js-scroll-trigger" href="/"><img src = "/static/img/logo.png" height="20" alt = "Clustomics_logo"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,6 +54,7 @@
     </div>
   </nav>
 {% endif%}
+<br> <br> <br> <br> 
 
   <div class="signup">
     <div class="container">
@@ -61,48 +62,48 @@
           <div class="card card-signin flex-row my-5">
 
             <div class="card-body">
-              <h3 class="card-title text-center">Run: ID #{{ ID }}  </h3>
+              <h3 class="card-title text-center" >Run: ID #{{ ID }}  </h3>
 
                     <form id='info'>
 
                                <div class="row">
                                     <div class="form-label-group col-xl-3">
-                                      <input type="Date"  id="Date" class="form-control" placeholder="Date" value={{date}} required>
+                                      <input type="Date"  id="Date" class="form-control" placeholder="Date" value={{date}} required style="background-color: #FFEBEE">
                                       <label for="Date">Date </label>
                                     </div>
 
                                     <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="user" class="form-control" placeholder="User" value={{user_name}} required>
+                                      <input type="text"  id="user" class="form-control" placeholder="User" value={{user_name}} required style="background-color: #FFEBEE">
                                       <label for="User">User </label>
                                     </div>
 
                                     <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Group" class="form-control" placeholder="Group" value={{group_name}} required>
+                                      <input type="text"  id="Group" class="form-control" placeholder="Group" value={{group_name}} required style="background-color: #FFEBEE">
                                       <label for="Group">Group </label>
                                     </div>
 
                                     <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Algorithm" class="form-control" placeholder="Algorithm" value={{algorithm}} required>
+                                      <input type="text"  id="Algorithm" class="form-control" placeholder="Algorithm" value={{algorithm}} required style="background-color: #FFEBEE">
                                       <label for="Algorithm"> Algorithm</label>
                                     </div>
                               </div>
                               <div class="row">
                                     <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="" class="form-control" placeholder="Score" value={{validation_parameter}} required>
+                                      <input type="text"  id="" class="form-control" placeholder="Score" value={{validation_parameter}} required style="background-color: #FFEBEE">
                                       <label for="Score"> Score</label>
                                     </div>
                                     <div class="form-label-group col-xl-3">
-                                      <input type="Number"  id="Number of groups" class="form-control" placeholder="Number of groups" value={{number_of_groups}} required>
+                                      <input type="text"  id="Number of groups" class="form-control" placeholder="Number of groups" value={{number_of_groups}} required style="background-color: #FFEBEE">
                                       <label for="Number of groups">Number of groups </label>
                                     </div>
                                     {% if algorithm=='K-Means' %}
                                     {% else %}
                                     <div class="form-label-group col-xl-3">
-                                    <input type="tex" id="" class="form-control" placeholder="Distance" value="{{distance}}" required>
+                                    <input type="tex" id="" class="form-control" placeholder="Distance" value="{{distance}}" required style="background-color: #FFEBEE">
                                     <label for="Distance">Distance </label>
                                     </div>
                                     <div class="form-label-group col-xl-3">
-                                    <input type="text" id="Linkage" class="form-control" placeholder="" value=" {{linkage}}" required>
+                                    <input type="text" id="Linkage" class="form-control" placeholder="" value=" {{linkage}}" required style="background-color: #FFEBEE">
                                     <label for="Linkage">Linkage </label>
                                     </div>
                                     {% endif %}
@@ -117,12 +118,12 @@
 
 
 
-        <div class=" col-xl-12">
-          <div class="card card-signin flex-row my-5">
-            <div class="card-body">
+        <div class=" col-xl-12" >
+          <div class="card card-signin flex-row my-5"  >
+            <div class="card-body"  >
               <h3 class="card-title text-center"> PCA and summary plot </h3>
 
-                            <table  border=1>
+                            <table  border=1  >
                                 {% for datapoint in data %}
                                   <tr>
                                       <th> Datapoint ID/position </th>
@@ -140,11 +141,11 @@
           </div>
         </div>
 
-        <div class="card shadow mb-4">
+        <div class="card shadow mb-4" style="width:60%; margin:0 20% 0 ">
           <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Clustering results</h6>
           </div>
-            <div class="card-body">
+            <div class="card-body" >
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
@@ -164,34 +165,49 @@
                 {% endfor %}
                 </tbody>
               </table>
-            </div>
-          </div>
+          
             </div>
           </div>
         </div>
-      </div>
-    </div>
-</div>
 
-      <!-- compare 2 results -->
+
+<!-- compare 2 results -->
         <div class=" col-xl-12">
           <div class="card card-signin flex-row my-5">
             <div class="card-body">
               <h3 class="card-title text-center">  Click here if you want to compare these results with the results from a previous run. </h3>
-                <div    style="width:600px; margin:0% 20% 0% "  >
-                <form action={{ url_for("compare_2_runs", run1=ID, proj=project_name)}} method="POST">
-                   <select name="id_to_compare">
-                    {% for id_ in ids %}
-                        <option value={{id_}}>#{{id_}}</option>
-                    {% endfor %}
-                    </select>
-                 <button class="btn btn-lg btn-primary btn-block  " type="submit"> Select previous results</button>
-                 </div>
+                <div    style="width:800px; margin:0% 10% 0% "  >
+                <form action={{ url_for("compare_2_runs", run1=ID, proj=project_name)}} method="POST"> 
+			<div class="row">
+			<div class=" col-xl-4">
+
+			Select previous run: 
+				    <select name="id_to_compare">
+				     {% for id_ in ids %}
+				      <option value={{id_}}>#{{id_}}</option>
+				     {% endfor %}
+				      </select>
+			 </div>
+			<div class=" col-xl-4">
+				    <button class="btn btn-lg btn-primary btn-block  " type="submit"> Compare </button>
+			  </div>              
+			 </div>
+
+ </div>
                  </form>
             </div>
           </div>
         </div>
        <!--End  compare 2 results -->
+
+
+
+
+      </div>
+    </div>
+</div>
+
+      
 
     </body>
     <!-- Bootstrap core JavaScript-->
