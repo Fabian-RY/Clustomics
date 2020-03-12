@@ -24,63 +24,66 @@
   
   
   
-<div>
+<div style="margin: 0px 0px -100px 0px" >
 <iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
 </div>   
   
   
-  
-  
- <h1 class="card-title text-center">  New project   </h1> 
+   
   
 <div class="signup">
     <div class="container">
-         <div class=" col-xl-6 ">
+         <div class=" col-xl-8 " style="margin:0 20% 0">
           <div class="card card-signin flex-row my-5">
             
             <div class="card-body">
-              <h1 class="card-title text-center"> New project    </h1>
+              <h2 class="  text-center"> New project    </h2> <br>
                
-              <form action={{ url_for("new_project") }} method="post" autocomplete="off" class="active" enctype="multipart/form-data">
-                      {{ msg }}
+              <form action={{ url_for("new_project") }} method="post" autocomplete="off" class="form-signin" enctype="multipart/form-data">
                       <div class="form-label-group">
-                          <input type="text" name="name_of_the_project" placeholder="name_of_the_project" id="name_of_the_project" required>
-                          <label for="name_of_the_project">Name of the project</label>
+                          <input type="text" name="name_of_the_project" placeholder="name_of_the_project" id="name_of_the_project" required style="width:50%; margin: 0 25% 0 ;">
+                          <label for="name_of_the_project" style="  margin: 0 25% 0 ;">Name of the project</label>
                        </div>
-                       Description of the project:<br />
+<br>
+                       <h4>Description of the project: </h4>  
                        <div class="form-label-group">
-                           <textarea rows="4" cols="50" name="description" maxlength="500" required></textarea> 
+                           <textarea rows="4" cols="50" name="description" maxlength="500" style="font-size: 100%; border-radius: 1rem; letter-spacing: .05rem; font-weight: bold; padding: 1rem; transition: all 0.2s;   "></textarea>         
                  
                        </div>
+			Select your data:
+			<input style="font-size: 80%; border-radius: 0.5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.3rem; transition: all 0.2s; " type = "file" name = "file"  required/><br />
+
                        Select the group of the project:
-                                  <select name="group">
+                                  <select  name="group">
                                     {% for group in groups %}
                                       <option value={{group}}>{{group}} </option>
                                     {% endfor %}
                                     </select>
              
-                        
+                        <br>
                               
-                                       <input type = "file" name = "file"  required/><br />
+                                       
 				                                   
 					Select algorithm 
-                                   <select name="algorithm" onchange="type_algorithm(this)" >
+				
+                                   <select  name="algorithm" onchange="type_algorithm(this)" >
                                       <option value="0">Hierarchical clustering</option>
                                       <option value="1">K Means</option>
                                    </select>
+				
                                     <br />
-                                    Select number of groups: <input type="number" name="groups" min="2" max="20" required>
+                                    Select number of groups: <input style="font-size: 80%; border-radius: 0.5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.3rem; transition: all 0.2s; " type="number" name="groups" min="2" max="20" required>
                                     <br />
                                      Separating character
                                      <select name='input_type'>
-                                         <option value='\s+'>Tabs</option>
                                          <option value=','>Comma (,)</option>
+                                         <option value='\t'>Tabs</option>
                                          <option value=';'>Semicolon (;)</option>
                                      </select>
                                      <br />
-                                    Column names in the first row <input type="radio" id="Yes" name="col_names" value=1><label for="Yes">Yes</label><input type="radio" id ="No" name="col_names" value=0 checked><label for="No">No</label>
+                                    Column names in the first row <input type="radio" id="Yes" name="col_names" value=1 required><label for="Yes">Yes</label><input type="radio" id ="No" name="col_names" value=0><label for="No">No</label>
                                     <br />
-                                    Row names in the first column <input type="radio" id="Yes2" name="row_names" value=1><label for="Yes2">Yes</label><input type="radio" id ="No2" name="row_names" value=0 checked><label for="No2">No</label>
+                                    Row names in the first column <input type="radio" id="Yes2" name="row_names" value=1 required><label for="Yes2">Yes</label><input type="radio" id ="No2" name="row_names" value=0><label for="No2">No</label>
                                     <br />
                                    
 <div id=hide>
@@ -98,12 +101,40 @@
                                     </select>
 </div>
                                     <br />
-                                    <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Send</input>
+                                   
+
+
+<input class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" name="action"   style="width:80%; margin:0 10% 0; background-color: #B2EBF2; color:black; border-color:white; " value="Send"></input> 
                               </form>
+
+
                               
              </div>
           </div>
-        </div>     
+        </div>   
+</div>     
+<br><br>
+
+ <!-- Footer -->
+  <footer class="py-5 bg-dark" style="width:100%; position:fixed; bottom:0 ; margin:0 0 0 0"   >
+    <div class="container" >
+      <p class="m-0 text-center text-white" >Copyright &copy; Clustomics 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+
+	
+<!-- Bootstrap core JavaScript -->
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+
+
+
    </body>
 </html>
 
@@ -129,4 +160,8 @@ show();
 }else if(select.value == '1'){
 hide();
 }}
+
+
+
+
 </script>
