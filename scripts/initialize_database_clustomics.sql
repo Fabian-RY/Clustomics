@@ -46,4 +46,4 @@ CREATE TABLE project_result(
     path VARCHAR(15)
 	);
 
-INSERT INTO projects (description, group_name, user, project_name, file_path)values ('Demo project for unregistered users', 'Demo group', 'Demo user','Demo project', 'Demo_path');
+INSERT INTO projects (description, group_name, user, project_name, file_path)values ('Demo project for unregistered users', 'Demo_group', 'Demo_user','Demo_project', 'Demo_path');
