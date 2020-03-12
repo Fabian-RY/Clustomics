@@ -93,15 +93,17 @@
                                       <input type="Number"  id="Number of groups" class="form-control" placeholder="Number of groups" value={{number_of_groups}} required>
                                       <label for="Number of groups">Number of groups </label>
                                     </div>
+                                    {% if algorithm=='K-Means' %}
+                                    {% else %}
                                     <div class="form-label-group col-xl-3">
-                                      <input type="tex"  id="" class="form-control" placeholder="Distance" value="{{distance}}" required>
-                                      <label for="Distance">Distance </label>
-                                    </div> 
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Linkage" class="form-control" placeholder="" value=" {{linkage}}" required>
-                                      <label for="Linkage">Linkage </label>
+                                    <input type="tex" id="" class="form-control" placeholder="Distance" value="{{distance}}" required>
+                                    <label for="Distance">Distance </label>
                                     </div>
-                                        {% endif %}
+                                    <div class="form-label-group col-xl-3">
+                                    <input type="text" id="Linkage" class="form-control" placeholder="" value=" {{linkage}}" required>
+                                    <label for="Linkage">Linkage </label>
+                                    </div>
+                                    {% endif %}
                                  </div>     
                                     </form>
                     		                </td>

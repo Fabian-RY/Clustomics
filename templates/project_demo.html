@@ -71,6 +71,7 @@
                                       <option value="erdogan.csv">Diabetes SNPs Dataset</option>
                                       <option value="sanchez.csv">Beautifulness Dataset</option>
                                    </select>
+                                   <br />
                                    Select algorithm 
                                    <select name="algorithm" onchange="type_algorithm(this)">
                                       <option value="0">Hierarchical clustering</option>
@@ -103,52 +104,12 @@
              </div>
           </div>
         </div>     
-       
-       
-       
-<div class="signup">
-    <div class="container">
-         <div class=" col-xl-12 ">
-          <div class="card card-signin flex-row my-5">
-            
-            <div class="card-body">
-              <h1 class="card-title text-center">    Previous runs </h1>
-              <button onclick="window.location.href = '{{ url_for('download_project', proj=project['project_name'])}}';">Download project</button>
-               
-       
-                              
-                                                  
-                    
-                    	<table border=1>
-                          {% for run in results %}       
-                    	<tr>	
-                                   <th> {{ run['date_time'] }} </th>
-                                   <td> {{ run['validation_result'] }} </td>
-                    		<td> {{ run['user'] }} </td>
-                    		<td> {{ run['algorithm'] }} </td>
-                    		<td> {{ run['linkage'] }} </td>
-                    		<td> {{ run['distance'] }} </td>
-                    		<td> {{ run['groups'] }} </td>
-                    		<td> 
-                        		<form action={{url_for('recover_run', project=project['project_name'], run=run['id_result'])}} method="post" autocomplete="off" class="active">
-                                	<input type="submit" value="Go to the run" /> </td>   
-                                </form>
-                            </tr>        
-                          {% endfor %}
-                          
-          
-            </div>
-          </div>
-        </div>
+       </div>
       </div>
-    </div>
-</div>
-      
-
-
-
- <!-- Footer -->
-  <footer class="py-5 bg-dark" style="width:100%; position:fixed; bottom:0"   >
+       
+    
+  <!-- Footer -->
+  <footer class="py-5 bg-dark" style="position:fixed ;bottom:0; width:100%"   >
     <div class="container" >
       <p class="m-0 text-center text-white" >Copyright &copy; Clustomics 2020</p>
     </div>
