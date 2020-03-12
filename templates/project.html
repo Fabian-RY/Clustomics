@@ -25,7 +25,7 @@
   
   
   
-<div style="margin: 0px 0px -100px 0px" >
+<div style="margin: 0px 0px -50px 0px" >
 <iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
 </div>   
   
@@ -76,25 +76,28 @@
           </div>
         </div>     
        
- <div class=" col-xl-6">
+
+
+
+
           <div class="card card-signin flex-row my-5">
-            
+           
             <div class="card-body">
-<div class="row">              
-<h1 class="card-title text-center"> Project description</h1><br />
-             </div>
+			             
+			<h1 class="card-title text-center"> Project description</h1>
+             		
     <p>{{ project['description'] }}</p>
 
-   Here you can change the description of your project:  
+  <h6 class="  text-center"> Here you can change the description of your project: </h6>  
 {% if admin['admin']==1 or project['group_name']=='Privado' %}                    
                 
                 <div id="changedescription" class="form-label-group ">
                 <form action={{ url_for("change_description",group=project['group_name'],project=project['project_name'])}} method="POST"  >
                   
-                          <textarea rows="4" cols="30" name="description" maxlength="500" ></textarea>
+                          <textarea rows="4" cols="30" name="description" maxlength="500"  style="width:80%; margin:0 10% 0;  " ></textarea>
 <br>
-</div>
-<button class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" style="width:400px;   " >Change description </button>
+		</div>
+<button class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" style="width:80%; margin:0 10% 0;  " >Change description </button>
 
                 </form>
 
@@ -164,6 +167,7 @@ You must be and admin of the group to configure this project
       </div>
     </div>
 </div>
+ 
       
 
 
