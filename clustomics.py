@@ -378,22 +378,34 @@ def header():
 
 @app.route('/demo/new_run', methods=['POST'])
 def new_demo_run():
-    user = 'Demo user'
-    project = 'Demo project'
-    path = os.path.join('projects_data', project+'_data' )
+    user = 'Demo_user'
+    project = 'Demo_project'
+    path = os.path.join('projects_data', project+'_data')
+    group_name = 'Demo_group'
     if (not os.path.exists(path)):
         os.mkdir(path)
-    f = open(os.path.join('projects_data', request.form['dataset'] ))
-    a = open('projects_data/Demo project_data/data.csv', 'w')
-    for line in f:
-        a.write(line)
-    a.close()
-    f = open(os.path.join('projects_data', request.form['dataset'] ))
+    csv_path = os.path.join(path, request.form['dataset'])
+    data_details = database.get_data_details(project, group_name)
+    print(data_details)
+    sep = data_details['sep']
+    if(sep == '\\s+'): sep = '\s+'
+    col_names = data_details['colname']
+    row_names = data_details['rowname']
+    if int(col_names) == 0: col_names = None
+    else: col_names = 0
+    if int(row_names) == 0: row_names = None
+    else: row_names = 0
     array = []
-    for line in f:
-        data = line.split()
-        data = tuple(float(x) for x in data)
+    for line in open(csv_path):
+        data = line.strip('\n').split()
+        data = tuple(x for x in data)
         array.append(data)
+    f = open(csv_path)
+    g = open(os.path.join(path,'data.csv'), 'w')
+    for line in f:
+        g.write(line)
+    g.close()
+    #array = pd.get_dummies(array)
     date = str(dt.datetime.now())[:-7]
     algorithm = int(request.form['algorithm'])
     groups = int(request.form['groups'])
@@ -404,12 +416,11 @@ def new_demo_run():
     id_ = id_[0]['id_project']
     out = open(os.path.join(path, str(id_)+'_run.csv'), 'w')
     for point, label in zip(array, result[0]):
-        (out.write(str(value)+'\t') for value in point)
+        #(out.write(str(value)+'\t') for value in point)
         out.write(str(label))
         out.write('\n')
     out.close()
     array = pd.DataFrame(array)
-    group_name = database.get_id_from_project(project, user)[0]['group_name']
     path = str(user+'_')
     database.save_result(id_, project, float(result[1]), date, algorithm, groups,
                          distance, linkage, group_name, user, path +'.csv')
@@ -420,18 +431,17 @@ def new_demo_run():
         for label in result[0]:
             fhand.write(str(label)+'\n')
     return redirect('/dashboard/result?project='+project+'&run='+str(run_number))
-
+            
 @app.route('/demo')
 def demo():
-    user = 'Demo user'
-    proj = 'Demo project'
+    user = 'Demo_user'
+    proj = 'Demo_project'
     project_ = database.get_info_from_project(proj)
     results = database.get_result_from_project(proj)
     return render_template('project_demo.html', 
                                      project=project_[0], 
                                      results=results,
                                      username=user)
-    pass
 
 @app.route('/dashboard/new_project', methods=['GET', 'POST'])
 def new_project(msg=''):
@@ -470,9 +480,13 @@ def new_project(msg=''):
                     f.save(csv_path)
                     date = str(dt.datetime.now())[:-7]
                     algorithm = int(request.form['algorithm'])
-                    distance = request.form['distance']
+                    if(algorithm == 0):
+                        distance = request.form['distance']
+                        linkage = linkage = request.form['type']
+                    else:
+                        distance = '----------'
+                        linkage  = '----------'
                     groups = int(request.form['groups'])
-                    linkage = request.form['type']
                     path = str(session['username']+'_')
                     try:
                         array = pd.read_csv(csv_path, sep = sep, header = col_names, index_col = row_names)

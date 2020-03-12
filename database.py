@@ -65,7 +65,8 @@ def get_id_from_project(project, user):
                              db='clustomics',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
-    sql = "SELECT id_project, group_name from projects WHERE project_name=%s AND user=%s"
+    print(project, user)
+    sql = "SELECT id_project, group_name from projects WHERE project_name=%s AND user=%s;"
     with connection.cursor() as cursor:
         cursor.execute(sql, (project, user))
         result = tuple(cursor)
@@ -92,6 +93,7 @@ def get_result_from_project(id_project):
     return result
 
 def get_data_details(project, group):
+    print(project, group)
     connection = pymysql.connect(host='localhost',
                              user=USER,
                              password=PASSWORD,

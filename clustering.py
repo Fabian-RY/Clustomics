@@ -30,6 +30,7 @@ def cluster(algorithm, array, num_clusters, distance_type, linkage_type):
 
 #plotting
 def plotPCA(data, group_labels):
+    print(data)
     pca = PCA(n_components=2)
     print('1', group_labels)
     print(data)
