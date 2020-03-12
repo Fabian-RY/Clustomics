@@ -42,7 +42,11 @@
             <div class="card-body">
               <h3 class="card-title text-center"> My projects </h3>
                
-              
+<form action={{ url_for("new_project") }} method="post" autocomplete="off" class="active">
+                
+                  <button class="btn btn-lg btn-primary btn-block  " type="Create_new_project" value="Create_new_project" action={{ url_for('new_project')}} >Create new project</button>     
+               <hr class="my-4">
+{% if projects %}
                   	<table border=2>
                         <tr style="font-size:20px">
                           <th>Project name</th>
@@ -60,10 +64,9 @@
 		                    </tr>  
                           {% endfor %}
                             </table>
-                <hr class="my-4">
-<form action={{ url_for("new_project") }} method="post" autocomplete="off" class="active">
-                
-                  <button class="btn btn-lg btn-primary btn-block  " type="Create_new_project" value="Create_new_project" action={{ url_for('new_project')}} >Create new project</button>                  
+{% else %}
+You have no projects yet
+{% endif %}           
                   <br>
               </form>
 
@@ -78,11 +81,23 @@
             
             <div class="card-body">
               <h3 class="card-title text-center"> My groups </h3>
-              
-                
-               
-                  
-                  
+
+		<a  href="javascript:document.getElementById('newgroup').style.display='block';void0" class=" btn btn-lg btn-primary btn-block  "> Create new group  </a>
+                 
+                <div id="newgroup" class="form-label-group ">
+                <form action={{ url_for("new_group")}} method="POST" class="form-signin">
+		<div class="form-label-group">
+                  <input type="text" name="group" placeholder="group" id="group" required style="width:80%; margin:0 10% 0; ">
+                  <label for="group" style=" margin:0 20% 0;">Name of the group</label>                
+		</div>  
+                    <button class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" name="action" value='changeusername' style="width:80%; margin:0 10% 0; background-color: #B2EBF2; color:black; border-color:white; ">Confirm</button> 
+
+                </form>
+	         </div>                
+                <div class="msg" style="width:80%; margin:0 10% 0; ">{{ msg }}</div>
+                    <hr class="my-4">
+{% if groups %} 
+
                   	<table border=2>
                         <tr style="font-size:20px">
                            
@@ -98,25 +113,9 @@
 		                    </tr>  
                           {% endfor %}
                             </table>
-                            
-  <hr class="my-4">
-
-		<a  href="javascript:document.getElementById('newgroup').style.display='block';void0" class=" btn btn-lg btn-primary btn-block  "> Create new group  </a>
-                <br>
-                 
-
-                <div id="newgroup" class="form-label-group ">
-                <form action={{ url_for("new_group")}} method="POST" class="form-signin">
-		<div class="form-label-group">
-                  <input type="text" name="group" placeholder="group" id="group" required style="width:80%; margin:0 10% 0; ">
-                  <label for="group" style=" margin:0 20% 0;">Name of the group</label>                
-		</div>  
-                    <button class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" name="action" value='changeusername' style="width:80%; margin:0 10% 0; background-color: #B2EBF2; color:black; border-color:white; ">Confirm</button> 
-
-                </form>
-	         </div>
-                            
-                            
+{% else %}
+You do not belong to any group                            
+{% endif %}            
                         
                
             </div>
