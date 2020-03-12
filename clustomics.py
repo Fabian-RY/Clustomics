@@ -500,7 +500,7 @@ def new_project(msg=''):
                     except Exception:
                         msg = 'Please fill out the form!'
                         groups = database.get_groups_of_user(session['username'])
-                        groups = ['Privado'] + [group['group_name'] for group in groups]
+                        groups = ['Private'] + [group['group_name'] for group in groups]
                         return render_template('new_project.html', msg='Invalid input file.\n Please upload a csv/tsv and indicate the correct separator', groups=groups)
                     cursor.execute('INSERT INTO projects ( description, group_name, user, project_name, file_path, sep, rowname, colname) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s);', (description, groupname, username, projectname , path, sep, request.form['row_names'], request.form['col_names']))
                     connection.commit()
@@ -520,7 +520,7 @@ def new_project(msg=''):
             # Form is empty... (no POST data)
             msg = 'Please fill out the form!'
             groups = database.get_groups_of_user(session['username'])
-            groups = ['Privado'] + [group['group_name'] for group in groups]
+            groups = ['Private'] + [group['group_name'] for group in groups]
             return render_template('new_project.html', 
                                                        msg=msg,
                                                        groups=groups)
