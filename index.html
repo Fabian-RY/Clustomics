@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href={{ url_for('static', filename='img/favicon.ico') }}>
+  <title>Home | Clustomics</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/scrolling-nav.css" rel="stylesheet">
+  <style>
+  .container_cool{
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    background-image:url(../static/img/background_data.jpg);
+    text-align:center;
+    color:white;
+
+    }
+  </style>
+</head>
+
+<body id="page-top">
+
+{% if logged:%}
+
+<div style="margin: 0px 0px -100px 0px" >
+<iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
+</div>
+
+{% else:%}
+<nav   class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav" >
+  <div   class="container">
+    <a class="navbar-brand js-scroll-trigger" target="_top" href={{ url_for('clustomics', logged=False)}} method="POST" ><img src = "../static/img/logo.png" height="20px" alt = "Clustomics_logo"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a target="_top" class="nav-link js-scroll-trigger" href="/demo">Demo</a>
+        </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href={{ url_for('about') }}>About us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href={{ url_for('login') }}>Log in</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href={{ url_for('signup') }}>Sign up</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+{% endif%}
+
+  <header class="container_cool" style="padding-top:100px;">
+    <div class="container text-center">
+      <h1>Clustomics</h1>
+      <p class="lead">Unsupervised learning solutions</p>
+    </div>
+  </header>
+
+  <section id="about" style="padding-top:50px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h2>What is unsupervised learning?</h2>
+          <p class="lead" align="justify">Unsupervised learning is a type of self-organized Hebbian learning that helps find previously unknown patterns in data set without pre-existing labels. The only requirement to be called an unsupervised learning method is to learn a new feature space that captures the characteristics of the original space while maximising some objective function.
+            Click <a href="/demo">here</a> to start a simple demo and learn how it works.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark" style="position:fixed ;bottom:0; width:100%"   >
+    <div class="container" >
+      <p class="m-0 text-center text-white" >Copyright &copy; Clustomics 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom JavaScript for this theme -->
+  <script src="/static/js/scrolling-nav.js"></script>
+
+</body>
+
+</html>
