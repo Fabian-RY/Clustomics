@@ -1,4 +1,4 @@
-FPRI<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   
  	
@@ -22,18 +22,20 @@ FPRI<!DOCTYPE html>
   
 <body>
   
+  
+  
+  
 <div style="margin: 0px 0px -50px 0px" >
 <iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
 </div>   
   
   
-<div id='content' style="display:none;"><div class='container'><div class=' col-xl-8 ' style='margin:0 20% 0'><div class='card card-signin flex-row my-5'><div class='card-body'><h5 class='card-title text-center'>Processing your data <br> You will be redirected shortly</h5><div class='text-center'><img src='/favicon.ico')}}' class='rotate' width='100' height='100'</img></div></div></div></div></div><style> .rotate {animation: rotation 8s infinite linear;}@keyframes rotation {from {transform: rotate(0deg);}to {transform: rotate(359deg);}}</style></div></div>
-
-
-<div class="signup" id='load_hide'>
-
+<div id='content'></div>
+  
  <h1 class="card-title text-center">  {{project['project_name']}}   </h1> 
  <button onclick="window.location.href = '{{ url_for('download_project', proj=project['project_name'])}}';" style="background-color: #FFEBEE; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.8rem;color:black; margin:0 35% 0; width:30%;">Download project</button> <br> <br>
+
+<div class="signup">
     <div class="container">
  <div class="row">
          <div class=" col-xl-6 ">
@@ -65,7 +67,7 @@ FPRI<!DOCTYPE html>
 					</div>
                           
                                     <br />
-                                    <button class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" style="width:80%; margin:0 10% 0;" onClick="loading()">Run</button>
+                                    <button class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" style="width:80%; margin:0 10% 0;   ">Run</button>
 
                               </form>
                               
@@ -86,9 +88,10 @@ FPRI<!DOCTYPE html>
              		
     <p>{{ project['description'] }}</p>
 
-  <h6 class="  text-center"> Here you can change the description of your project: </h6>  
+<h1 class="card-title text-center"> Project settings</h1>
+  
 {% if admin['admin']==1 or project['group_name']=='Private' %}                    
-                
+                <h6 class="  text-center"> Here you can change the description of your project: </h6>  
                 <div id="changedescription" class="form-label-group ">
                 <form action={{ url_for("change_description",group=project['group_name'],project=project['project_name'])}} method="POST"  >
                   
@@ -107,7 +110,7 @@ If you are not interested in this project anymore, you can delete it.
 <a  align="right"   href={{ url_for("delete_project",group=project['group_name'],project=project['project_name'])}} class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2"  style="width:80%; margin:0 10% 0; background-color: #B2EBF2; color:black; border-color:white;  type="submit">Delete project </a> </form>
  
 {% else %}
-You must be and admin of the group to configure this project                 
+You must be an admin of the group to configure this project.                 
 
 {% endif %}
                  </div>
@@ -141,7 +144,19 @@ You must be and admin of the group to configure this project
                               
                                                   
                     
-                    	<table border=1>
+                    	<table class="table table-bordered" id="dataTable" border=2>
+<tr>	
+                                   <th> Date and time  </th>
+                                   <th> Score </th>
+                    		<th> User</th>
+                    		<th> Algorithm </th>
+                    		<th> Linkage </th>
+                    		<th> Distance </th>
+                    		<th> Groups </th>
+				<th>   </th>
+                    		   
+                                </form>
+                            </tr>     
                           {% for run in results %}       
                     	<tr>	
                                    <th> {{ run['date_time'] }} </th>
@@ -153,7 +168,7 @@ You must be and admin of the group to configure this project
                     		<td> {{ run['groups'] }} </td>
                     		<td> 
                         		<form action={{url_for('recover_run', project=project['project_name'], run=run['id_result'])}} method="post" autocomplete="off" class="active">
-                                	<input type="submit" value="Go to the run" style="background-color: #B2EBF2; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.5rem;color:black; margin:0 20% 0; width:70%;"/> </td>   
+                                	<input type="submit" value="Go to the results" style="background-color: #B2EBF2; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.5rem;color:black; margin:0 5% 0; width:250px%;"/> </td>   
                                 </form>
                             </tr>        
                           {% endfor %}
@@ -202,8 +217,7 @@ You must be and admin of the group to configure this project
 function loading(){
 	var variables = document.getElementById('load_hide');
 	variables.style.visibility = 'hidden';
-	document.getElementById('content').style.display = "block";
-}
+	document.getElementById("content").innerHTML = "<div class='container'><div class=' col-xl-8 ' style='margin:0 20% 0'><div class='card card-signin flex-row my-5'><div class='card-body'><h5 class='card-title text-center'>Processing your data <br> You will be redirected shortly</h5><div class='text-center'><img src='../static/img/favicon.ico' class='rotate' width='100' height='100' </img></div></div></div></div></div><style> .rotate {animation: rotation 8s infinite linear;}@keyframes rotation {from {transform: rotate(0deg);}to {transform: rotate(359deg);}}</style>";}
 
 function hide(){
     var variables = document.getElementById('hide');
