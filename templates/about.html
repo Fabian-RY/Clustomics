@@ -15,8 +15,29 @@
 
   <!-- Custom styles for this template -->
   <link href="../static/css/signup.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
+
+<style>
+   #arturo{display:none;}
+   #adria{display:none;}
+   #fabian{display:none;}
+   #paula{display:none;}
+   
+   .btnclose {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius:100px;
+  cursor: pointer;
+}
+/* Darker background on mouse-over */
+.btnclose:hover {
+  background-color: RoyalBlue;
+}
+</style>
 
 </head>
 
@@ -94,9 +115,9 @@
     <!-- Team Member 1 -->
     <div class="col-xl-3 col-md-6 mb-4">
       <div class="card border-0 shadow">
-        <img src="../static/img/arturo.jpg" class="card-img-top" alt="Member photo">
+        <img src="../static/img/arturo.jpeg" class="card-img-top" alt="Member photo" >
         <div class="card-body text-center">
-          <h5 class="card-title mb-0">Arturo González</h5>
+     	<a href="javascript:document.getElementById('arturo').style.display='block';void0" ><h5  class="card-title mb-0">Arturo González</h5> </a>
           <div class="card-text text-black-50">Biotechnologist</div>
         </div>
       </div>
@@ -106,7 +127,7 @@
       <div class="card border-0 shadow">
         <img src="../static/img/adria.jpeg" class="card-img-top" alt="Member photo">
         <div class="card-body text-center">
-          <h5 class="card-title mb-0">Adrià Pont</h5>
+           <a href="javascript:document.getElementById('adria').style.display='block';void0" ><h5 class="card-title mb-0">Adrià Pont</h5> </a>
           <div class="card-text text-black-50">Biotechnologist</div>
         </div>
       </div>
@@ -114,9 +135,9 @@
     <!-- Team Member 3 -->
     <div class="col-xl-3 col-md-6 mb-4">
       <div class="card border-0 shadow">
-        <img src="../static/img/fabian.jpg" class="card-img-top" alt="...">
+        <img src="../static/img/fabian.jpg" class="card-img-top" alt="Member photo" style="height:255px">
         <div class="card-body text-center">
-          <h5 class="card-title mb-0">Fabián Robledo</h5>
+          <a href="javascript:document.getElementById('fabian').style.display='block';void0">   <h5 class="card-title mb-0">Fabián Robledo</h5></a> 
           <div class="card-text text-black-50">Biotechnologist</div>
         </div>
       </div>
@@ -124,9 +145,9 @@
     <!-- Team Member 4 -->
     <div class="col-xl-3 col-md-6 mb-4">
       <div class="card border-0 shadow">
-        <img src="../static/img/paula.png" class="card-img-top" alt="...">
+        <img src="../static/img/paula.jpg" class="card-img-top" alt="Member photo" style="height:255px">
         <div class="card-body text-center">
-          <h5 class="card-title mb-0">Paula Gomis</h5>
+          <a href="javascript:document.getElementById('paula').style.display='block';void0" ><h5 class="card-title mb-0">Paula Gomis</h5></a> 
           <div class="card-text text-black-50">Mathematician</div>
         </div>
       </div>
@@ -205,6 +226,21 @@
 </div>
 
 </div>
+
+
+
+
+
+ <!-- Footer -->
+  <footer class="py-5 bg-dark" style="width:100%; position:fixed; bottom:0"   >
+    <div class="container" >
+      <p class="m-0 text-center text-white" >Copyright &copy; Clustomics 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+
+
 <!-- Bootstrap core JavaScript -->
 <script src="../static/vendor/jquery/jquery.min.js"></script>
 <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -212,5 +248,27 @@
 <!-- Plugin JavaScript -->
 <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
 <!-- /.container -->
+
+
+
+
 </body>
 </html>
+
+
+
+<script>
+function hide(){
+var variables = document.getElementById('hide');
+
+variables.style.visibility = 'hidden';
+
+}
+
+function show(){
+var variables = document.getElementById('hide');
+
+variables.style.visibility = 'visible';
+
+}
+
