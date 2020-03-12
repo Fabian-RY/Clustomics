@@ -189,12 +189,6 @@ def new_run(project):
     result = clustering.cluster(algorithm, array, groups, distance, linkage )
     id_ = database.get_id_from_project(project, user)
     id_ = id_[0]['id_project']
-    out = open(os.path.join(path, str(id_)+'_run.csv'), 'w')
-    for point, label in zip(array, result[0]):
-        #(out.write(str(value)+'\t') for value in point)
-        out.write(str(label))
-        out.write('\n')
-    out.close()
     array = pd.DataFrame(array)
     path = str(user+'_')
     database.save_result(id_, project, float(result[1]), date, algorithm, groups,
@@ -384,13 +378,7 @@ def new_demo_run():
     result = clustering.cluster(algorithm, array, groups, distance, linkage )
     id_ = database.get_id_from_project(project, user)
     id_ = id_[0]['id_project']
-    out = open(os.path.join(path, str(id_)+'_run.csv'), 'w')
-    for point, label in zip(array, result[0]):
-        #(out.write(str(value)+'\t') for value in point)
-        out.write(str(label))
-        out.write('\n')
-    out.close()
-    array = pd.DataFrame(array)
+
     path = str(user+'_')
     database.save_result(id_, project, float(result[1]), date, algorithm, groups,
                          distance, linkage, group_name, user, path +'.csv')
@@ -464,7 +452,7 @@ def new_project(msg=''):
                     except Exception:
                         msg = 'Please fill out the form!'
                         groups = database.get_groups_of_user(session['username'])
-                        groups = ['Privado'] + [group['group_name'] for group in groups]
+                        groups = ['Private'] + [group['group_name'] for group in groups]
                         return render_template('new_project.html', msg='Invalid input file.\n Please upload a csv/tsv and indicate the correct separator', groups=groups)
                     cursor.execute('INSERT INTO projects ( description, group_name, user, project_name, file_path, sep, rowname, colname) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s);', (description, groupname, username, projectname , path, sep, request.form['row_names'], request.form['col_names']))
                     connection.commit()
@@ -484,7 +472,7 @@ def new_project(msg=''):
             # Form is empty... (no POST data)
             msg = 'Please fill out the form!'
             groups = database.get_groups_of_user(session['username'])
-            groups = ['Privado'] + [group['group_name'] for group in groups]
+            groups = ['Private'] + [group['group_name'] for group in groups]
             return render_template('new_project.html',
                                                        msg=msg,
                                                        groups=groups)

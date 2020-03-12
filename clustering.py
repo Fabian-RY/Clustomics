@@ -30,10 +30,7 @@ def cluster(algorithm, array, num_clusters, distance_type, linkage_type):
 
 #plotting
 def plotPCA(data, group_labels):
-    print(data)
     pca = PCA(n_components=2)
-    print('1', group_labels)
-    print(data)
     X_r = pca.fit(data).transform(data)
     pc1_values = [sample[0] for sample in X_r]
     pc2_values = [sample[1] for sample in X_r]
