@@ -4,12 +4,12 @@
       <title> RunID | {{project_name}} </title>
       <meta charset="UTF-8">
       <meta name="description" content="">
- 
- 
+
+
     <meta name="author" content="Conor Sheils">
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
- 
+
   <title>Run  | Clustomics</title>
 
   <!-- Bootstrap core CSS -->
@@ -23,271 +23,191 @@
     </head>
 
     <body>
-                 
+
 
 <div style="position:fixed; width:100%; z-index:1;"  >
     <iframe width="100%" height="60px" src="/header" scrolling="no" frameborder="no" ></iframe>
-</div>   <br><br>  
+</div>   <br><br>
 
-      
-  <div class="signup">
-    <div class="container">
-         <div class=" col-xl-12 ">
-          <div class="card card-signin flex-row my-5">
-            
-            <div class="card-body">
-              <h3 class="card-title text-center">Run: ID #{{ ID }}  </h3>
-               
-    
-                    <form id='info'>
-                               <div class="row">
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="Date"  id="Date" class="form-control" placeholder="Date" value={{date}} required style="background-color: #FFEBEE">
-                                      <label for="Date">Date </label>
-                                    </div>
-                                       
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="user" class="form-control" placeholder="User" value={{user_name}} required style="background-color: #FFEBEE">
-                                      <label for="User">User </label>
-                                    </div>
-                                
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Group" class="form-control" placeholder="Group" value={{group_name}} required style="background-color: #FFEBEE">
-                                      <label for="Group">Group </label>
-                                    </div>
-                        
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Algorithm" class="form-control" placeholder="Algorithm" value={{algorithm}} required style="background-color: #FFEBEE">
-                                      <label for="Algorithm"> Algorithm</label>
-                                    </div>
-                              </div>                 
-                              <div class="row">
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="" class="form-control" placeholder="Score" value={{validation_parameter}} required style="background-color: #FFEBEE">
-                                      <label for="Score"> Score</label>
-                                    </div>
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Number of groups" class="form-control" placeholder="Number of groups" value={{number_of_groups}} required style="background-color: #FFEBEE">
-                                      <label for="Number of groups">Number of groups </label>
-                                    </div>
-                                  
-                                          
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="" class="form-control" placeholder="Distance" value="{{distance}}" required style="background-color: #FFEBEE">
-                                      <label for="Distance">Distance </label>
-                                    </div> 
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Linkage" class="form-control" placeholder="" value=" {{linkage}}" required style="background-color: #FFEBEE">
-                                      <label for="Linkage">Linkage </label>
-                                    </div>
-                                 </div>     
-                                        </info>
-                    		                </td>
-                                         
-             </div>
-          </div>
-        </div>
-   
-   <div class="signup">
-    <div class="container">
-         <div class=" col-xl-12 ">
-          <div class="card card-signin flex-row my-5">
-            
-            <div class="card-body">
-              <h3 class="card-title text-center">Run: ID #{{ ID_2 }}  </h3>
-               
-    
-                <form id='info2'>
-                               <div class="row">
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="Date"  id="Date" class="form-control" placeholder="Date" value={{date_2}} required style="background-color: #FFEBEE">
-                                      <label for="Date">Date </label>
-                                    </div>
-                                       
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="user" class="form-control" placeholder="User" value={{user_name_2}} required style="background-color: #FFEBEE">
-                                      <label for="User">User </label>
-                                    </div>
-                                
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Group" class="form-control" placeholder="Group" value={{group_name_2}} required style="background-color: #FFEBEE">
-                                      <label for="Group">Group </label>
-                                    </div>
-                        
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Algorithm" class="form-control" placeholder="Algorithm" value={{algorithm_2}} required style="background-color: #FFEBEE">
-                                      <label for="Algorithm"> Algorithm</label>
-                                    </div>
-                              </div>                 
-                              <div class="row">
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="" class="form-control" placeholder="Score" value={{validation_parameter}} required style="background-color: #FFEBEE">
-                                      <label for="Score"> Score</label>
-                                    </div>
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Number of groups" class="form-control" placeholder="Number of groups" value={{number_of_groups_2}} required style="background-color: #FFEBEE">
-                                      <label for="Number of groups">Number of groups </label>
-                                    </div>
-                                  
-                                          
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="" class="form-control" placeholder="Distance" value="{{distance_2}}" required style="background-color: #FFEBEE">
-                                      <label for="Distance">Distance </label>
-                                    </div> 
-                                    <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Linkage" class="form-control" placeholder="" value=" {{linkage_2}}" required style="background-color: #FFEBEE">
-                                      <label for="Linkage">Linkage </label>
-                                    </div>
-                                 </div>     
-                                    </info>
-                    		                </td>
-                                         
-             </div>
-          </div>
-        </div>
-        
-   
-        <div class=" col-xl-12">
-          <div class="card card-signin flex-row my-5">
-            <div class="card-body">
-              <h3 class="card-title text-center"> ID #{{ ID }} </h3>
-               
-                            <table  border=1>
-                                {% for datapoint in data %}
-                                  <tr>
-                                      <th> Datapoint ID/position </th>
-               
-                                          <th> {{ run['validation_result'] }} </th>
-                    		                  <td> {{ run['user'] }} </td>
-                    		                  <td> {{ run['algorithm'] }} </td>
-                                  </tr>
-              
-                                {% endfor %}
-                            </table>
-                                   {{ img|safe }}
-                                   
-              </div>
-          </div>
-        </div>
-        
-        <div class="signup">
-    <div class="container">
-         <div class=" col-xl-12 ">
-          <div class="card card-signin flex-row my-5">
-            
-            <div class="card-body">
-              <h3 class="card-title text-center">Comparison</h3>
-               
-                <p>Same clasification: {{igual[0]}} points </p>
-                <p>Different clasification: {{igual[1]}} points </p>
-            
-                    <table>
-                        <tr>
-                            <th>Cluster</th><th>#{{ID}}</th><th>#{{ID_2}}</th>
-                        </tr>
-        
-                        {% for cluster in set_%}
-                            <tr>
-                                
-                                <td>{{cluster}}</td>
-                                <td>{{clas[0][cluster]}} points</td>
-                                <td>{{clas[1][cluster]}} points</td>
-                            </tr>
-                        {% endfor %}
-                    </table>    
-            
-                </div>              
-             </div>
-          </div>
-        </div>
-        
-        <div class=" col-xl-12">
-          <div class="card card-signin flex-row my-5">
-            <div class="card-body">
-              <h3 class="card-title text-center"> ID #{{ ID_2}} </h3>
-               
-                            <table  border=1>
-                                {% for datapoint in data_2 %}
-                                  <tr>
-                                      <th> Datapoint ID/position </th>
-               
-                                          <th> {{ run['validation_result'] }} </th>
-                    		                  <td> {{ run['user'] }} </td>
-                    		                  <td> {{ run['algorithm'] }} </td>
-                                  </tr>
-              
-                                {% endfor %}
-                            </table>
-                                   {{ img_2|safe }}
-                                   
-              </div>
-          </div>
-        </div>
-       
-       <div class=" col-xl-12">
-          <div class="card card-signin flex-row my-5">
-            <div class="card-body">
-<br>
-              <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Clustering results</h6>
-          </div>
-               
-                 
-       <div class="table-responsive">            
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-      <thead>
-      <tr> 
-          <td>Coordiante 1</td><td>Coordinate 2</td><td>Run #{{ID}}</td> <td>Run #{{ID_2}}</td>
-      </tr>
-      </thead>
-	<tbody>
-      {% for element in points %}
-        
-          <tr>
-              
-              <td>{{ element[0][0] }}</td>
-              <td>{{ element[0][1] }}</td>
-              <td>{{ element[1] }}</td>
-              <td>{{ element[2] }}</td>
-          </tr>
-            
-      {% endfor %}
-      </tbody>
-      </table>
-     </div>
 
-      
+<div class="signup">
+  <div class="container">
+    <div class=" col-xl-12 ">
+      <div class="card card-signin flex-row my-5">
+        <div class="card-body">
+          <h3 class="card-title text-center">Run: ID #{{ ID }}  </h3>
+            <form id='info'>
+              <div class="row">
+                <div class="form-label-group col-xl-3">
+                  <input type="Date"  id="Date" class="form-control" placeholder="Date" value={{date}} required style="background-color: #FFEBEE">
+                    <label for="Date">Date </label>
+                </div>
+                <div class="form-label-group col-xl-3">
+                  <input type="text"  id="user" class="form-control" placeholder="User" value={{user_name}} required style="background-color: #FFEBEE">
+                    <label for="User">User </label>
+                </div>
+                <div class="form-label-group col-xl-3">
+                  <input type="text"  id="Group" class="form-control" placeholder="Group" value={{group_name}} required style="background-color: #FFEBEE">
+                  <label for="Group">Group </label>
+                </div>
+                <div class="form-label-group col-xl-3">
+                  <input type="text"  id="Algorithm" class="form-control" placeholder="Algorithm" value={{algorithm}} required style="background-color: #FFEBEE">
+                  <label for="Algorithm"> Algorithm</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-label-group col-xl-3">
+                  <input type="text"  id="" class="form-control" placeholder="Score" value={{validation_parameter}} required style="background-color: #FFEBEE">
+                  <label for="Score"> Score</label>
+                </div>
+                <div class="form-label-group col-xl-3">
+                  <input type="text"  id="Number of groups" class="form-control" placeholder="Number of groups" value={{number_of_groups}} required style="background-color: #FFEBEE">
+                  <label for="Number of groups">Number of groups </label>
+                </div>
+                <div class="form-label-group col-xl-3">
+                  <input type="text"  id="" class="form-control" placeholder="Distance" value="{{distance}}" required style="background-color: #FFEBEE">
+                  <label for="Distance">Distance </label>
+                </div>
+                <div class="form-label-group col-xl-3">
+                  <input type="text"  id="Linkage" class="form-control" placeholder="" value=" {{linkage}}" required style="background-color: #FFEBEE">
+                  <label for="Linkage">Linkage </label>
+                </div>
+                </div>
+
+          <h3 class="card-title text-center">Run: ID #{{ ID_2 }}  </h3>
+              <div class="row">
+                <div class="form-label-group col-xl-3">
+                  <input type="Date"  id="Date" class="form-control" placeholder="Date" value={{date_2}} required style="background-color: #FFEBEE">
+                    <label for="Date">Date </label>
+                </div>
+                <div class="form-label-group col-xl-3">
+                  <input type="text"  id="user" class="form-control" placeholder="User" value={{user_name_2}} required style="background-color: #FFEBEE">
+                  <label for="User">User </label>
+                </div>
+
+                <div class="form-label-group col-xl-3">
+                  <input type="text"  id="Group" class="form-control" placeholder="Group" value={{group_name_2}} required style="background-color: #FFEBEE">
+                  <label for="Group">Group </label>
+                </div>
+
+                <div class="form-label-group col-xl-3">
+                  <input type="text"  id="Algorithm" class="form-control" placeholder="Algorithm" value={{algorithm_2}} required style="background-color: #FFEBEE">
+                  <label for="Algorithm"> Algorithm</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-label-group col-xl-3">
+                  <input type="text"  id="" class="form-control" placeholder="Score" value={{validation_parameter}} required style="background-color: #FFEBEE">
+                  <label for="Score"> Score</label>
+                </div>
+                <div class="form-label-group col-xl-3">
+                  <input type="text"  id="Number of groups" class="form-control" placeholder="Number of groups" value={{number_of_groups_2}} required style="background-color: #FFEBEE">
+                  <label for="Number of groups">Number of groups </label>
+                </div>
+                <div class="form-label-group col-xl-3">
+                  <input type="text"  id="" class="form-control" placeholder="Distance" value="{{distance_2}}" required style="background-color: #FFEBEE">
+                  <label for="Distance">Distance </label>
+                </div>
+                <div class="form-label-group col-xl-3">
+                  <input type="text"  id="Linkage" class="form-control" placeholder="" value=" {{linkage_2}}" required style="background-color: #FFEBEE">
+                  <label for="Linkage">Linkage </label>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-</div>
-</div>
- <br>
- <!-- Footer -->
-  <footer class="py-5 bg-dark" style="width:100%; position:fixed; bottom:0"   >
-    <div class="container" >
-      <p class="m-0 text-center text-white" >Copyright &copy; Clustomics 2020</p>
+
+<div class="signup">
+  <div class="container">
+    <div class=" col-xl-12">
+      <div class="card card-signin flex-row my-5">
+        <div class="card-body">
+          <h3 class="card-title text-center"> ID #{{ ID }} </h3>
+            {{ img|safe }}
+          <br>
+          <h3 class="card-title text-center"> ID #{{ ID_2}} </h3>
+            {{ img_2|safe }}
+        </div>
+      </div>
     </div>
-    <!-- /.container -->
-  </footer>
+  </div>
+</div>
 
+<br>
 
+<div class="signup">
+  <div class="container">
+    <div class=" col-xl-12 ">
+      <div class="card card-signin flex-row my-5">
+        <div class="card-body">
+          <h3 class="card-title text-center">Comparison</h3>
+            <p>Same clasification: {{igual[0]}} points </p>
+            <p>Different clasification: {{igual[1]}} points </p>
+              <table>
+                <tr>
+                  <th>Cluster</th><th>#{{ID}}</th><th>#{{ID_2}}</th>
+                </tr>
+                {% for cluster in set_%}
+                <tr>
+                    <td>{{cluster}}</td>
+                    <td>{{clas[0][cluster]}} points</td>
+                    <td>{{clas[1][cluster]}} points</td>
+                </tr>
+                {% endfor %}
+              </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-      
-    </body>
-	<!-- Bootstrap core JavaScript-->
-    <script src="../static/vendor/jquery/jquery.min.js"></script>
-    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<div class="card shadow mb-4" style="width:60%; margin:0 20% 0 ">
+  <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Clustering results</h6></div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+          <tr>
+              <th>Row ID</th><th>Run #{{ID}}</th> <th>Run #{{ID_2}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for element in points %}
+            <tr>
+                <td>{{ element[0] }}</td>
+                <td>{{ element[1] }}</td>
+                <td>{{ element[2] }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<br>
+
+ <!-- Footer -->
+<footer class="py-5 bg-dark" style="width:100%; position:fixed; bottom:0"   >
+  <div class="container" >
+    <p class="m-0 text-center text-white" >Copyright &copy; Clustomics 2020</p>
+  </div>
+</footer>
+
+</body>
+    <!-- Bootstrap core JavaScript-->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="../static/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="../static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/static/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="../static/vendor/datatables/datatables-demo.js"></script>
-     <script>
+    <script src="/static/vendor/datatables/datatables-demo.js"></script>
+    <script>
         var form = document.getElementById("info");
         var elements = form.elements;
         for (var i = 0, len = elements.length; i < len; ++i) {
