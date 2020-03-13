@@ -17,17 +17,17 @@
 
   <!-- Custom styles for this template -->
   <link href="../../../static/css/signup.css" rel="stylesheet">
+  <link href="css/tables.css" rel="stylesheet">
+  <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     </head>
 
     <body>
                  
+
 <div style="margin: 0px 0px -100px 0px ;position:fixed; width:100%; z-index:1;"  >
     <iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
-</div>   
-
-<br><br><br><br>   
-
+</div>   <br><br>  
 
       
   <div class="signup">
@@ -42,42 +42,42 @@
                     <form id='info'>
                                <div class="row">
                                     <div class="form-label-group col-xl-3">
-                                      <input type="Date"  id="Date" class="form-control" placeholder="Date" value={{date}} required>
+                                      <input type="Date"  id="Date" class="form-control" placeholder="Date" value={{date}} required style="background-color: #FFEBEE">
                                       <label for="Date">Date </label>
                                     </div>
                                        
                                     <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="user" class="form-control" placeholder="User" value={{user_name}} required>
+                                      <input type="text"  id="user" class="form-control" placeholder="User" value={{user_name}} required style="background-color: #FFEBEE">
                                       <label for="User">User </label>
                                     </div>
                                 
                                     <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Group" class="form-control" placeholder="Group" value={{group_name}} required>
+                                      <input type="text"  id="Group" class="form-control" placeholder="Group" value={{group_name}} required style="background-color: #FFEBEE">
                                       <label for="Group">Group </label>
                                     </div>
                         
                                     <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Algorithm" class="form-control" placeholder="Algorithm" value={{algorithm}} required>
+                                      <input type="text"  id="Algorithm" class="form-control" placeholder="Algorithm" value={{algorithm}} required style="background-color: #FFEBEE">
                                       <label for="Algorithm"> Algorithm</label>
                                     </div>
                               </div>                 
                               <div class="row">
                                     <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="" class="form-control" placeholder="Score" value={{validation_parameter}} required>
+                                      <input type="text"  id="" class="form-control" placeholder="Score" value={{validation_parameter}} required style="background-color: #FFEBEE">
                                       <label for="Score"> Score</label>
                                     </div>
                                     <div class="form-label-group col-xl-3">
-                                      <input type="Number"  id="Number of groups" class="form-control" placeholder="Number of groups" value={{number_of_groups}} required>
+                                      <input type="text"  id="Number of groups" class="form-control" placeholder="Number of groups" value={{number_of_groups}} required style="background-color: #FFEBEE">
                                       <label for="Number of groups">Number of groups </label>
                                     </div>
                                   
                                           
                                     <div class="form-label-group col-xl-3">
-                                      <input type="tex"  id="" class="form-control" placeholder="Distance" value="{{distance}}" required>
+                                      <input type="text"  id="" class="form-control" placeholder="Distance" value="{{distance}}" required style="background-color: #FFEBEE">
                                       <label for="Distance">Distance </label>
                                     </div> 
                                     <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Linkage" class="form-control" placeholder="" value=" {{linkage}}" required>
+                                      <input type="text"  id="Linkage" class="form-control" placeholder="" value=" {{linkage}}" required style="background-color: #FFEBEE">
                                       <label for="Linkage">Linkage </label>
                                     </div>
                                  </div>     
@@ -100,42 +100,42 @@
                 <form id='info2'>
                                <div class="row">
                                     <div class="form-label-group col-xl-3">
-                                      <input type="Date"  id="Date" class="form-control" placeholder="Date" value={{date_2}} required>
+                                      <input type="Date"  id="Date" class="form-control" placeholder="Date" value={{date_2}} required style="background-color: #FFEBEE">
                                       <label for="Date">Date </label>
                                     </div>
                                        
                                     <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="user" class="form-control" placeholder="User" value={{user_name_2}} required>
+                                      <input type="text"  id="user" class="form-control" placeholder="User" value={{user_name_2}} required style="background-color: #FFEBEE">
                                       <label for="User">User </label>
                                     </div>
                                 
                                     <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Group" class="form-control" placeholder="Group" value={{group_name_2}} required>
+                                      <input type="text"  id="Group" class="form-control" placeholder="Group" value={{group_name_2}} required style="background-color: #FFEBEE">
                                       <label for="Group">Group </label>
                                     </div>
                         
                                     <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Algorithm" class="form-control" placeholder="Algorithm" value={{algorithm_2}} required>
+                                      <input type="text"  id="Algorithm" class="form-control" placeholder="Algorithm" value={{algorithm_2}} required style="background-color: #FFEBEE">
                                       <label for="Algorithm"> Algorithm</label>
                                     </div>
                               </div>                 
                               <div class="row">
                                     <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="" class="form-control" placeholder="Score" value={{validation_parameter}} required>
+                                      <input type="text"  id="" class="form-control" placeholder="Score" value={{validation_parameter}} required style="background-color: #FFEBEE">
                                       <label for="Score"> Score</label>
                                     </div>
                                     <div class="form-label-group col-xl-3">
-                                      <input type="Number"  id="Number of groups" class="form-control" placeholder="Number of groups" value={{number_of_groups_2}} required>
+                                      <input type="text"  id="Number of groups" class="form-control" placeholder="Number of groups" value={{number_of_groups_2}} required style="background-color: #FFEBEE">
                                       <label for="Number of groups">Number of groups </label>
                                     </div>
                                   
                                           
                                     <div class="form-label-group col-xl-3">
-                                      <input type="tex"  id="" class="form-control" placeholder="Distance" value="{{distance_2}}" required>
+                                      <input type="text"  id="" class="form-control" placeholder="Distance" value="{{distance_2}}" required style="background-color: #FFEBEE">
                                       <label for="Distance">Distance </label>
                                     </div> 
                                     <div class="form-label-group col-xl-3">
-                                      <input type="text"  id="Linkage" class="form-control" placeholder="" value=" {{linkage_2}}" required>
+                                      <input type="text"  id="Linkage" class="form-control" placeholder="" value=" {{linkage_2}}" required style="background-color: #FFEBEE">
                                       <label for="Linkage">Linkage </label>
                                     </div>
                                  </div>     
@@ -227,16 +227,20 @@
        <div class=" col-xl-12">
           <div class="card card-signin flex-row my-5">
             <div class="card-body">
-              <h3 class="card-title text-center"> Table </h3>
+<br>
+              <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Clustering results</h6>
+          </div>
                
                  
-                    
-      <table>
-      
+       <div class="table-responsive">            
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <thead>
       <tr> 
-          <td>Coordiante 1</td><td>Coordinate 2</td><td>Group #{{ID}}</td> <td>Group #{{ID_2}}</td>
+          <td>Coordiante 1</td><td>Coordinate 2</td><td>Run #{{ID}}</td> <td>Run #{{ID_2}}</td>
       </tr>
-      
+      </thead>
+	<tbody>
       {% for element in points %}
         
           <tr>
@@ -248,8 +252,9 @@
           </tr>
             
       {% endfor %}
-      
+      </tbody>
       </table>
+     </div>
 
       
             </div>
@@ -258,11 +263,30 @@
       </div>
     </div>
 </div>
+</div>
+ <br>
+ <!-- Footer -->
+  <footer class="py-5 bg-dark" style="width:100%; position:fixed; bottom:0"   >
+    <div class="container" >
+      <p class="m-0 text-center text-white" >Copyright &copy; Clustomics 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
 
 
 
       
     </body>
+	<!-- Bootstrap core JavaScript-->
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="../static/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="../static/vendor/datatables/datatables-demo.js"></script>
      <script>
         var form = document.getElementById("info");
         var elements = form.elements;

@@ -277,7 +277,7 @@ def compare_2_runs(proj):
         run2_id = request.form['id_to_compare']
     run2 = database.get_run_results(run2_id)[0]
     csv_path = os.path.join('projects_data', proj+'_data','data.csv')
-    csv_labels = os.path.join('projects_data', proj+'_data',str(run1_id)+'_.csv')
+    csv_labels = os.path.join('projects_data', proj+'_data',str(run2_id)+'_.csv')
     f = open(csv_path)
     array2 = []
     for line in f:
@@ -302,9 +302,9 @@ def compare_2_runs(proj):
     id_2_class = {}
     for element in clusters:
         id_1_class[element] = labels.count(element)
-        id_2_class[element] = labels.count(element)
+        id_2_class[element] = labels2.count(element)
     clasification = (id_1_class,id_2_class )
-    plot = clustering.plotPCA(dat, labels)
+    plot = clustering.plotPCA(dat, labels2)
     plot_html_2 = pio.to_html(plot, full_html = False)
     return render_template('result_compare.html', ID=run1_id, ID_2=run2_id,
                                      date=run['date_time'],
@@ -758,6 +758,10 @@ def settings():
 @app.route('/about_us')
 def about():
     return render_template('about.html')
+
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
     
 
 ####### LOGOUT

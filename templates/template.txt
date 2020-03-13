@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href={{ url_for('static', filename='img/favicon.ico') }}>
+  <title>Home | Clustomics</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/scrolling-nav.css" rel="stylesheet">
+  <style>
+  .container_cool{
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    background-image:url(../static/img/background_data.jpg);
+    text-align:center;
+    color:white;
+
+    }
+  </style>
+</head>
+
+<body id="page-top">
+
+
+<div style="margin: 0px 0px -100px 0px ;position:fixed; width:100%; z-index:1;"  >
+    <iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
+</div>   
+
+<br><br>  
+
+	    
+
+  <header class="container_cool" style="padding-top:100px;">
+    <div class="container text-center">
+      <h1>Clustomics FAQ's</h1>
+      <p class="lead">Unsupervised learning solutions</p>
+    </div>
+  </header>
+
+  <section id="about" style="padding-top:50px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1>General questions</h1>
+          <h2>What is clustering?</h2>
+          <p>Clustering is way to classify different elements into similar groups. Like separating children in boys and girls, but with elements with many variables and many groups. This is known as unsupervised machine learning, and can help to differentiate a patient's cancerous cells from healthy cells </p>
+          <h2>Cool. Can I try the web before signing up?</h2>
+          <p>Yes! Click <a href="/demo">here</a> to start a simple demo and learn how it works.</p> There you can use 2 diferent preloaded dataset to play with the different options the web offers you
+          <h2>Which Algorithms can I use?</h2>
+          <p class="lead" align="justify">Right now there are 2 differents algorithms: K-Means and Hierachical clustering. They are different and can give different results. 
+          <br />They also accept different parametres, so the results can be quite different according to the data. Those are the most common algorithms used on clustering.</p>
+          <h2>Which of those 2 algorithms is better for my project X?</h2>
+          <p>Any clustering method has a different mathematical basis and thus can give different results once you click the run button. Because of that, there is no best algoithm, each dataset might fit better to one of those. So feel free to try different combinations of algorithms and parameters to find which best fits your data</p>
+            <h1>Groups</h1>
+            <h2>What are groups?</h2>
+            <p>A group is a community of different users that can share different projects, results and dataset. Whenever you create a project you can choose to which of the groups you belong is assigned</p>
+            <h2>But what if I don't want to share a project?</h2>
+            <p>You will always have that option, even if you don't belong to any group. Just select the option 'Private' when you start a new project (which is the default option)</p>
+            <h2>How do I add my colleagues to the project</h2>
+            <p>In the group settings, you can search for your colleagues, and find them with their username or password. However, you need admin rights in this group to be able to add people. </p>
+            <h1>Wait, then how I become an admin of a group?</h1>
+            <p> The creator of a group is automatically the first admin of the group. Only a existing admin can select other users to give them admin powers (Remember that with great power comes great responsibility).
+            <h2>What can I do as an admin?</h2>
+            <p>If you are the admin of a group, besides adding new members and making new adminds, you can delete members and configure the projects of the group in the project page: change description, delete the project...
+            <h1>About the dataset</h1>
+            <h2>What input datasets can I use?</h2>
+            <p>You need to use a tabulated plain text file: csv-like (comma separated values) files. They can be separated by commas (,) tabs or semicolons (;). By default, the input shows comma separated but it can be changed before create the new project. <a href='project_data/Demo_project_data/trump.csv'> Here there is an example, which is separated by tabs. If the csv has headers or row identifiers, you have to explicitly indicate it.</p>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark" style="position:fixed ;bottom:0; width:100%"   >
+    <div class="container" >
+      <p class="m-0 text-center text-white" >Copyright &copy; Clustomics 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom JavaScript for this theme -->
+  <script src="/static/js/scrolling-nav.js"></script>
+
+</body>
+
+</html>
+

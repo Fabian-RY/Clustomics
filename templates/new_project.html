@@ -30,7 +30,7 @@
 <br><br><br> 
 
   
-<div id='content' style="display:none;"><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><div class='container'><div class=' col-xl-8 ' style='margin:0 20% 0'><div class='card card-signin flex-row my-5'><div class='card-body'><h5 class='card-title text-center'>Processing your data <br> You will be redirected shortly</h5><div class='text-center'><img src='/favicon.ico')}}' class='rotate' width='100' height='100'</img></div></div></div></div></div><style> .rotate {animation: rotation 8s infinite linear;}@keyframes rotation {from {transform: rotate(0deg);}to {transform: rotate(359deg);}}</style></div></div>
+<div id='content' style="display:none;"><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><div class='container'><div class=' col-xl-8 ' style='margin:0 20% 0'><div class='card card-signin flex-row my-5'><div class='card-body'><h5 class='card-title text-center'>Processing your data <br> You will be redirected shortly</h5><div class='text-center'><img src='/favicon.ico')}}' class='rotate' width='100' height='100'</img></div></div></div></div></div><style> .rotate {animation: rotation 8s infinite linear;}@keyframes rotation {from {transform: rotate(0deg);}to {transform: rotate(359deg);}}</style></div></div>
    
   
 <div class="signup" id = 'load_hide'>
@@ -40,7 +40,7 @@
             
             <div class="card-body">
               <h2 class="  text-center"> New project    </h2> <br>
-              <div id='mens' style="width:80%; margin:0 10% 0;">{{ msg }}</div>
+              <div id='mens' class='card-title text-center' style="width:80%; margin:0 10% 0;">{{ msg }}</div><br />
               <form id="run" action={{ url_for("new_project") }} method="post" autocomplete="off" class="form-signin" enctype="multipart/form-data">
                       <div class="form-label-group">
                           <input type="text" name="name_of_the_project" placeholder="name_of_the_project" id="name_of_the_project" required style="width:50%; margin: 0 25% 0 ;">
