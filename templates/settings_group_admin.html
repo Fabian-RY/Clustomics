@@ -28,7 +28,7 @@
     <iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
 </div>   
 
-<br><br><br><br>   
+<br><br>
 
 
   <div class="signup">
@@ -42,7 +42,7 @@
               
               <h5 class="card-title text-center">Here you can see the members of the group</h5>
     
-<table border=2>
+<table class="table table-bordered" id="dataTable" border=2>
                         <tr style="font-size:20px">
                            
                           <th>Users</th>
@@ -54,7 +54,7 @@
                             <tr>  <td> 
 		<div class="row">
 			<div class="form-label-group col-sm-3">
-                                    {{ user['username'] }}{% if user['admin'] %} <h6>The user is and admin</h6>{% else %} 
+                                    {{ user['username'] }}{% if user['admin'] %} <h6>The user is an admin</h6>{% else %} 
 			</div>
 
 
@@ -89,15 +89,15 @@
                 </div>
             
                 </form>
-	        <div class="msg">{{ msg }}</div>
+	        <div>{{ msg }}</div>
 </div>
 <br>
 {% if num_users==1 %}
-<h5>You are the only member of the group, you can leave the group and delete it:</h5><a  align="right" style=" margin: -10px 0px 0px 300px; width: 200px" href={{ url_for("delete_group",group=group)}} class="btn btn-lg btn-primary btn-block  " type="submit">Delete the group </a>
+<h5>You are the only member of the group, you can leave the group and delete it:</h5><br /><a  align="right" style=" margin: -10px 0px 0px 300px; width: 200px" href={{ url_for("delete_group",group=group)}} class="btn btn-lg btn-primary btn-block  " type="submit">Delete the group </a>
 
 {% else %}
 
-              <h5>Here you can leave the group:</h5> <br> <a  align="right" style=" margin: -30px 0px 0px 300px; width: 200px" href={{ url_for("leave_group",group=group,num_admins=num_admins)}} class="btn btn-lg btn-primary btn-block  " type="submit">Leave the group </a>
+              <h5>Here you can leave the group:</h5> <br /> <a  align="right" style=" margin: -30px 0px 0px 300px; width: 200px" href={{ url_for("leave_group",group=group,num_admins=num_admins)}} class="btn btn-lg btn-primary btn-block  " type="submit">Leave the group </a>
 
 {% endif %}
             </div>

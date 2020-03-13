@@ -28,21 +28,18 @@
     <iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
 </div>   
 
-<br><br><br><br>   
+<br><br> 
 
 
 <div class="signup">
     <div class="container">
       <div class="row">
-        <div class="col-lg-10 col-xl-9 mx-auto">
+        <div class="col-lg-6 col-xl-6 mx-auto" style="margin: 0% 10% 0px 0px">
           <div class="card card-signin flex-row my-5">
-            <div class="card-img-left d-none d-md-flex">
-               <!-- Background image for card set in CSS! -->
-            </div>
       <div class="card-body">
               <h5 class="card-title text-center">Here you can change your username and password.</h5>
               
-              
+                  
               <form action="{{ url_for('settings') }}" method = "post" class="form-signin">
                 <div class="form-label-group">
                   <input type="text" id="currentusername"   name= "currentusername" placeholder="Username" required style="width:80%; margin:0 10% 0; ">
@@ -53,7 +50,7 @@
                   <label for="currentpassword" style=" margin:0 10% 0;" >Current password</label>
                 </div>
 
-        
+        <div style="width:80%; margin:0 10% 0; ">{{ msg }}</div>
 
                 <hr class="my-4" style=" margin:0 10% 0;"> 
 
@@ -77,8 +74,7 @@
                 <button class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" name="action" value='changepassword' style="width:80%; margin:0 10% 0; ">Change password</button>
 
               
-                <hr class="my-4" style=" margin:0 10% 0;" >
-                  <div class="msg" style="width:80%; margin:0 10% 0; ">{{ msg }}</div>
+                
  </div> 
               </form>
               
