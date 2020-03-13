@@ -30,12 +30,14 @@
 
   
   
-<div id='content'></div>
+<div id='content' style="display:none;"><div class='container'><div class=' col-xl-8 ' style='margin:0 20% 0'><div class='card card-signin flex-row my-5'><div class='card-body'><h5 class='card-title text-center'>Processing your data <br> You will be redirected shortly</h5><div class='text-center'><img src='/favicon.ico')}}' class='rotate' width='100' height='100'</img></div></div></div></div></div><style> .rotate {animation: rotation 8s infinite linear;}@keyframes rotation {from {transform: rotate(0deg);}to {transform: rotate(359deg);}}</style></div></div>
+
   
+
+<div class="signup" id="load_hide">
  <h1 class="card-title text-center">  {{project['project_name']}}   </h1> 
  <button onclick="window.location.href = '{{ url_for('download_project', proj=project['project_name'], group=project['group_name'])}}';" style="background-color: #FFEBEE; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.8rem;color:black; margin:0 35% 0; width:30%;">Download project</button> <br> <br>
 
-<div class="signup">
     <div class="container">
  <div class="row">
          <div class=" col-xl-6 ">
@@ -43,14 +45,14 @@
             
             <div class="card-body">
               <h1 class="card-title text-center"> New run   </h1>
-                              <form action={{ url_for("new_run", user=username, project=project['project_name'],group=project['group_name'])}} method="POST" enctype="multipart/form-data">
+                              <form id="run" action={{ url_for("new_run", user=username, project=project['project_name'],group=project['group_name'])}} method="POST" enctype="multipart/form-data">
                                    Select algorithm 
                                    <select name="algorithm" onchange="type_algorithm(this)">
                                       <option value="0">Hierarchical clustering</option>
                                       <option value="1">K Means</option>
                                    </select>
                                     <br />
-                                    Select number of groups: <input type="number" name="groups" min="2" max="20">
+                                    Select number of groups: <input type="number" name="groups" min="2" max="20" required>
                                     <br />
 					<div id=hide>
  					Select linkage: 
@@ -67,7 +69,9 @@
 					</div>
                           
                                     <br />
-                                    <button class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" style="width:80%; margin:0 10% 0;   ">Run</button>
+                                    <p id="error" style="display:none;">Please insert number of groups</p>
+                                    <br />
+                                    <button type="button" onClick="loading();" class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" style="width:80%; margin:0 10% 0; ">Run</button>
 
                               </form>
                               
@@ -221,10 +225,18 @@ You must be an admin of the group to configure this project.
 <script>
 
 function loading(){
-	var variables = document.getElementById('load_hide');
-	variables.style.visibility = 'hidden';
-	document.getElementById("content").innerHTML = "<div class='container'><div class=' col-xl-8 ' style='margin:0 20% 0'><div class='card card-signin flex-row my-5'><div class='card-body'><h5 class='card-title text-center'>Processing your data <br> You will be redirected shortly</h5><div class='text-center'><img src='../static/img/favicon.ico' class='rotate' width='100' height='100' </img></div></div></div></div></div><style> .rotate {animation: rotation 8s infinite linear;}@keyframes rotation {from {transform: rotate(0deg);}to {transform: rotate(359deg);}}</style>";}
-
+     var x = document.forms["run"]["groups"].value;
+     console.log(x)
+     if(x == ''){
+         document.getElementById('error').style.display = "block";
+         }
+     else{
+        	var variables = document.getElementById('load_hide');
+        	variables.style.visibility = 'hidden';
+        	document.getElementById('content').style.display = "block";
+        	document.getElementById("run").submit();
+	}
+}
 function hide(){
     var variables = document.getElementById('hide');
 

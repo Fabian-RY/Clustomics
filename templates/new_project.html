@@ -40,8 +40,8 @@
             
             <div class="card-body">
               <h2 class="  text-center"> New project    </h2> <br>
-               <div class="msg" style="width:80%; margin:0 10% 0; ">{{ msg }}</div>
-              <form action={{ url_for("new_project") }} method="post" autocomplete="off" class="form-signin" enctype="multipart/form-data">
+              <div id='mens' style="width:80%; margin:0 10% 0;">{{ msg }}</div>
+              <form id="run" action={{ url_for("new_project") }} method="post" autocomplete="off" class="form-signin" enctype="multipart/form-data">
                       <div class="form-label-group">
                           <input type="text" name="name_of_the_project" placeholder="name_of_the_project" id="name_of_the_project" required style="width:50%; margin: 0 25% 0 ;">
                           <label for="name_of_the_project" style="  margin: 0 25% 0 ;">Name of the project</label>
@@ -53,7 +53,7 @@
                  
                        </div>
 			Select your data:
-			<input style="font-size: 80%; border-radius: 0.5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.3rem; transition: all 0.2s; " type = "file" name = "file"  required/><br />
+			<input id="file_upload" style="font-size: 80%; border-radius: 0.5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.3rem; transition: all 0.2s; " type = "file" name = "file"  required/><br />
 
                        Select the group of the project:
                                   <select  name="group">
@@ -104,9 +104,8 @@
 </div>
                                     <br />
                                    
-
-
-<input class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" name="action" onClick="loading()"  style="width:80%; margin:0 10% 0; background-color: #B2EBF2; color:black; border-color:white; " value="Run"></input> 
+<p class="msg" id="msg_error" style="display:none;"></p>
+<button type="button" class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" name="action" onClick="loading();"  style="width:80%; margin:0 10% 0; background-color: #B2EBF2; color:black; border-color:white; " value="Run">Run</input> 
                               </form>
 
 
@@ -142,9 +141,36 @@
 
 <script>
 function loading(){
-	var variables = document.getElementById('load_hide');
-	variables.style.visibility = 'hidden';
-	document.getElementById('content').style.display = "block";
+     var x = document.forms["run"]["groups"].value;
+     var d = document.forms["run"]["description"].value;
+     var n = document.forms["run"]["name_of_the_project"].value;
+     var h = document.forms["run"]["Yes"].checked
+     var hn = document.forms["run"]["No"].checked;
+     var r = document.forms["run"]["Yes2"].checked;
+     var rn = document.forms["run"]["No2"].checked;
+     var file = document.getElementById("file_upload").value
+     console.log(x)
+     console.log(d)
+     console.log(n)
+     console.log(h)
+     console.log(hn)
+     console.log(r)
+     console.log(rn)
+     console.log(file)
+     if(file == ""){
+         document.getElementById('msg_error').innerHTML = "Please, select an input dataset"
+         document.getElementById('msg_error').style.display = "block";
+     }
+     else if(x == '' || d == '' || n == '' || (!h && !hn ) || (!r && !rn)){
+         document.getElementById('msg_error').innerHTML = "There are elements in the form unfilled. Please check the input and try again"
+         document.getElementById('msg_error').style.display = "block";
+    }
+     else{
+        	var variables = document.getElementById('load_hide');
+        	variables.style.visibility = 'hidden';
+        	document.getElementById('content').style.display = "block";
+        	document.getElementById("run").submit();
+	}
 }
 
 function hide(){

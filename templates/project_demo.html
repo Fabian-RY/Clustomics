@@ -20,7 +20,7 @@
 </head> 
   
   
-<body onload='load();'>
+<body>
  
 <div style="margin: 0px 0px -100px 0px ;position:fixed; width:100%; z-index:1;"  >
     <iframe width="100%"  src="/header" scrolling="no" frameborder="no" ></iframe>
@@ -42,7 +42,7 @@
             
             <div class="card-body">
               <h1 class="card-title text-center"> New run   </h1>
-                              <form action={{ url_for("new_demo_run", user=username, project=project['project_name'])}} method="POST" enctype="multipart/form-data">
+                              <form id="form" action={{ url_for("new_demo_run", user=username, project=project['project_name'])}} method="POST" enctype="multipart/form-data">
                                    Select Dataset
                                    <select name="dataset" onchange="type_algorithm(this)">
                                       <option value="trump.csv">Breast Genome Dataset</option>
@@ -55,7 +55,7 @@
                                       <option value="1">K Means</option>
                                    </select>
                                     <br />
-                                    Select number of groups: <input type="number" name="groups" min="2" max="20">
+                                    Select number of groups: <input type="number" name="groups" min="2" max="20" required>
                                     <br />
 					<div id=hide>
  					Select linkage: 
@@ -72,9 +72,10 @@
                                         <option value="euclidean">Euclidean</option>
                                     </select>
 					</div>
-                          
+                                     <br />
+                                    <p id="error" style="display:none;">Please insert number of groups</p>
                                     <br />
-                                    <button class="btn btn-lg btn-primary btn-block text-uppercase" onClick='loading();' type="submit">Run</button>
+                                    <button type="button" onsubmit="return loading()"  class="btn btn-lg btn-primary btn-block text-uppercase" onClick='loading();'>Run</button>
                               </form>
                       </div>        
                  </div>                                     
@@ -131,9 +132,16 @@
 <script>
 
 function loading(){
-	var variables = document.getElementById('load_hide');
-	variables.style.visibility = 'hidden';
-	document.getElementById('content').style.display = "block";
+     var x = document.forms["form"]["groups"].value;
+     if(x == ''){
+         document.getElementById('error').style.display = "block";
+         }
+     else{
+        	var variables = document.getElementById('load_hide');
+        	variables.style.visibility = 'hidden';
+        	document.getElementById('content').style.display = "block";
+        	document.getElementById("form").submit();
+	}
 }
 function hide(){
 var variables = document.getElementById('hide');
