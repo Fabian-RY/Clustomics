@@ -250,46 +250,28 @@ def compare_2_runs(proj):
     csv_labels = os.path.join('projects_data', proj+'_data',str(run1_id)+'_.csv')
     data_details = database.get_data_details(proj, run['group_name'])
     sep = data_details['sep']
+    if(sep == '\\s+'): sep = '\s+'
     col_names = data_details['colname']
     row_names = data_details['rowname']
     if int(col_names) == 0: col_names = None
     else: col_names = 0
-    if row_names is not None and int(row_names) == 0: row_names = None
+    if int(row_names) == 0: row_names = None
     else: row_names = 0
-    f = open(csv_path)
-    array = []
-    if col_names is not None and int(col_names) == 0: f.readline()
-    for line in f:
-        data = line.split()
-        data = tuple(x for x in data)
-        if row_names == 0:  data = data[1:]
-        array.append(data)
-    dat1 = pd.read_csv(csv_path, sep = sep, header = col_names, index_col = row_names)
-    f = open(csv_labels)
-    labels = []
-    for line in f:
-        labels.append(line.strip('\n'))
-    plot = clustering.plotPCA(dat1, labels)
+
+    dat = pd.read_csv(csv_path, sep = sep, index_col = row_names, header = col_names)
+    list_of_rows = list(dat.index)
+    labels = [a.strip() for a in open(csv_labels).readlines()]
+    plot = clustering.plotPCA(dat, labels)
     plot_html = pio.to_html(plot, full_html = False)
     if 'id2' in request.args:
         run2_id = request.args['id2']
     else:
         run2_id = request.form['id_to_compare']
+
     run2 = database.get_run_results(run2_id)[0]
-    csv_path = os.path.join('projects_data', proj+'_data','data.csv')
     csv_labels = os.path.join('projects_data', proj+'_data',str(run2_id)+'_.csv')
-    f = open(csv_path)
-    array2 = []
-    for line in f:
-        data = line.split()
-        data = tuple(x for x in data)
-        array2.append(data)
-    dat = pd.read_csv(csv_path, sep = sep, header = col_names, index_col = row_names)
-    f = open(csv_labels)
-    labels2 = []
-    for line in f:
-        labels2.append(line.strip('\n'))
-    #### Conteo
+    labels2 = [a.strip() for a in open(csv_labels).readlines()]
+
     igual = 0
     distinto = 0
     for label_1, label_2 in zip(labels, labels2):
@@ -304,8 +286,8 @@ def compare_2_runs(proj):
         id_1_class[element] = labels.count(element)
         id_2_class[element] = labels2.count(element)
     clasification = (id_1_class,id_2_class )
-    plot = clustering.plotPCA(dat, labels2)
-    plot_html_2 = pio.to_html(plot, full_html = False)
+    plot2 = clustering.plotPCA(dat, labels2)
+    plot_html_2 = pio.to_html(plot2, full_html = False)
     return render_template('result_compare.html', ID=run1_id, ID_2=run2_id,
                                      date=run['date_time'],
                                      project_name=run['project_name'],
@@ -317,7 +299,7 @@ def compare_2_runs(proj):
                                      number_of_groups=run['groups'],
                                      distance=run['distance'],
                                      linkage=run['linkage'],
-                                     points=zip(array, labels, labels2),
+                                     points=zip(list_of_rows, labels, labels2),
                                      img=plot_html,
                                      set_=sorted(clusters, key=lambda x: int(x[7:])),
                                      clas=clasification,
@@ -333,7 +315,7 @@ def compare_2_runs(proj):
 
 @app.route('/header')
 def header():
-    if('loggedin' in session):  
+    if('loggedin' in session):
         return render_template('header.html', user=session['username'])
     else:
         return render_template('headernotlogged.html')
@@ -398,7 +380,7 @@ def demo():
     results = database.get_result_from_project(proj)
     return render_template('project_demo.html', project=project_[0],
                                      results=results,username=user)
-    
+
 @app.route('/dashboard/new_project', methods=['GET', 'POST'])
 def new_project(msg=''):
     if 'loggedin' in session:
@@ -487,7 +469,7 @@ def download_project(proj, group):
     zip_file = zipfile.ZipFile('Downloads/'+proj+'.zip', 'w')
     for file in os.listdir(path):
         if(file == 'plot.html'): continue
-        if(file != 'data.csv'): 
+        if(file != 'data.csv'):
             data_details = database.get_data_details(proj, group)
             sep = data_details['sep']
             if(sep == '\\s+'): sep = '\s+'
@@ -762,7 +744,7 @@ def about():
 @app.route('/faq')
 def faq():
     return render_template('faq.html')
-    
+
 
 ####### LOGOUT
 
