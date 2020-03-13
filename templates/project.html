@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-  
- 	
+
+
 <head>
 
   <meta charset="utf-8">
@@ -16,37 +16,36 @@
 
   <!-- Custom styles for this template -->
   <link href="../../../static/css/signup.css" rel="stylesheet">
+  <link href="../../../static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+</head>
 
-</head> 
-  
-  
+
 <body>
 
 <div style="position:fixed; width:100%; z-index:1;"  >
     <iframe width="100%" height="60px" src="/header" scrolling="no" frameborder="no" ></iframe>
-</div>  
+</div>
 
-<br><br><br><br>   
+<br><br><br><br>
 
-  
-  
+
+
 <div id='content' style="display:none;"><div class='container'><div class=' col-xl-8 ' style='margin:0 20% 0'><div class='card card-signin flex-row my-5'><div class='card-body'><h5 class='card-title text-center'>Processing your data <br> You will be redirected shortly</h5><div class='text-center'><img src='/favicon.ico')}}' class='rotate' width='100' height='100'</img></div></div></div></div></div><style> .rotate {animation: rotation 8s infinite linear;}@keyframes rotation {from {transform: rotate(0deg);}to {transform: rotate(359deg);}}</style></div></div>
 
-  
+
 
 <div class="signup" id="load_hide">
- <h1 class="card-title text-center">  {{project['project_name']}}   </h1> 
+ <h1 class="card-title text-center">  {{project['project_name']}}   </h1>
  <button onclick="window.location.href = '{{ url_for('download_project', proj=project['project_name'], group=project['group_name'])}}';" style="background-color: #FFEBEE; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.8rem;color:black; margin:0 35% 0; width:30%;">Download project</button> <br> <br>
 
-    <div class="container">
- <div class="row">
-         <div class=" col-xl-6 ">
-          <div class="card card-signin flex-row my-5">
-            
-            <div class="card-body">
+<div class="container">
+  <div class="row">
+     <div class=" col-xl-6 ">
+      <div class="card card-signin flex-row my-5">
+        <div class="card-body">
               <h1 class="card-title text-center"> New run   </h1>
                               <form id="run" action={{ url_for("new_run", user=username, project=project['project_name'],group=project['group_name'])}} method="POST" enctype="multipart/form-data">
-                                   Select algorithm 
+                                   Select algorithm
                                    <select name="algorithm" onchange="type_algorithm(this)">
                                       <option value="0">Hierarchical clustering</option>
                                       <option value="1">K Means</option>
@@ -55,7 +54,7 @@
                                     Select number of groups: <input type="number" name="groups" min="2" max="20" required>
                                     <br />
 					<div id=hide>
- 					Select linkage: 
+ 					Select linkage:
                                     <select name="type">
                                         <option value="ward"> Ward</option>
                                         <option value="single"> Single</option>
@@ -63,43 +62,43 @@
                                         <option value="average"> Average</option>
                                     </select>
                                     <br />
-                                    Select distance: 
+                                    Select distance:
                                     <select name="distance"  >
                                         <option value="euclidean">Euclidean</option>
                                     </select>
 					</div>
-                          
+
                                     <br />
                                     <p id="error" style="display:none;">Please insert number of groups</p>
                                     <br />
                                     <button type="button" onClick="loading();" class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" style="width:80%; margin:0 10% 0; ">Run</button>
 
                               </form>
-                              
-                                                      
+
+
              </div>
           </div>
-        </div>     
-       
+        </div>
+
 
 
 
 
           <div class="card card-signin flex-row my-5">
-           
+
             <div class="card-body">
-			             
+
 			<h1 class="card-title text-center"> Project description</h1>
-             		
+
     <p>{{ project['description'] }}</p>
 
 <h1 class="card-title text-center"> Project settings</h1>
-  
-{% if admin['admin']==1 or project['group_name']=='Private' %}                    
-                <h6 class="  text-center"> Here you can change the description of your project: </h6>  
+
+{% if admin['admin']==1 or project['group_name']=='Private' %}
+                <h6 class="  text-center"> Here you can change the description of your project: </h6>
                 <div id="changedescription" class="form-label-group ">
                 <form action={{ url_for("change_description",group=project['group_name'],project=project['project_name'])}} method="POST"  >
-                  
+
                           <textarea rows="4" cols="30" name="description" maxlength="500"  style="width:80%; margin:0 10% 0;  " ></textarea>
 <br>
 		</div>
@@ -112,87 +111,65 @@
 
 If you are not interested in this project anymore, you can delete it.
 <form  class="form-signin">
-<a  align="right"   href={{ url_for("delete_project",group=project['group_name'],project=project['project_name'])}} class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2"  style="width:80%; margin:0 10% 0; background-color: #B2EBF2; color:black; border-color:white;  type="submit">Delete project </a> </form>
- 
+<a  align="right"   href={{ url_for("delete_project",group=project['group_name'],project=project['project_name'])}} class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2"  style="width:80%; margin:0 10% 0; background-color: #B2EBF2; color:black; border-color:white;"  type="submit">Delete project </a> </form>
+
 {% else %}
-You must be an admin of the group to configure this project.                 
+You must be an admin of the group to configure this project.
 
 {% endif %}
-                 </div>
-                
-                            
-                   </div>           
-                        
-          
-            </div>
-          </div>
         </div>
       </div>
     </div>
-</div>       
-
-       
-<div class="signup">
-    <div class="container">
-         <div class=" col-xl-12 ">
-          <div class="card card-signin flex-row my-5">
-            
-            <div class="card-body">
-
-
-
-
-              <h1 class="card-title text-center">    Previous runs </h1>
-             
-               
-       
-                              
-                                                  
-                    
-                    	<table class="table table-bordered" id="dataTable" border=2>
-<tr>	
-                                   <th> Date and time  </th>
-                                   <th> Score </th>
-                    		<th> User</th>
-                    		<th> Algorithm </th>
-                    		<th> Linkage </th>
-                    		<th> Distance </th>
-                    		<th> Groups </th>
-				<th>   </th>
-                    		   
-                                </form>
-                            </tr>     
-                          {% for run in results %}       
-                    	<tr>	
-                                   <th> {{ run['date_time'] }} </th>
-                                   <td> {{ run['validation_result'] }} </td>
-                    		<td> {{ run['user'] }} </td>
-				{% if run['algo_rithm'] == 0 %}
-                    		<td> Hierarchical </td>
-                    		<td> {{ run['linkage'] }} </td>
-                    		<td> {{ run['distance'] }} </td>
-				{% else %}
-				<td> K-Means </td>
-                    		<td> ----------- </td>
-                    		<td> ----------- </td>
-                                {% endif %}
-                    		<td> {{ run['groups'] }}</td>
-                    		<td> 
-                        		<form action={{url_for('recover_run', project=project['project_name'], run=run['id_result'])}} method="post" autocomplete="off" class="active">
-                                	<input type="submit" value="Go to the results" style="background-color: #B2EBF2; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.5rem;color:black; margin:0 5% 0; width:250px%;"/> </td>   
-                                </form>
-                            </tr>        
-                          {% endfor %}
-                          </table>
-          
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  </div>
 </div>
- 
-      
+
+
+<div class="container">
+      <div class="card card-signin flex-row my-5">
+        <div class="card-body">
+  <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Previous runs</h6></div>
+      	<table class="table table-bordered" id="dataTable" border=2>
+          <thead>
+            <tr>
+              <th> Date and time  </th>
+              <th> Score </th>
+          		<th> User</th>
+          		<th> Algorithm </th>
+          		<th> Linkage </th>
+          		<th> Distance </th>
+          		<th> Groups </th>
+				      <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for run in results %}
+            <tr>
+              <th> {{ run['date_time'] }} </th>
+              <td> {{ run['validation_result'] }} </td>
+              <td> {{ run['user'] }} </td>
+				  {% if run['algo_rithm'] == 0 %}
+          		<td> Hierarchical </td>
+          		<td> {{ run['linkage'] }} </td>
+          		<td> {{ run['distance'] }} </td>
+				  {% else %}
+				      <td> K-Means </td>
+          		<td> ----------- </td>
+          		<td> ----------- </td>
+                      {% endif %}
+          		<td> {{ run['groups'] }}</td>
+          		<td>
+            		<form action={{url_for('recover_run', project=project['project_name'], run=run['id_result'])}} method="post" autocomplete="off" class="active">
+                  <input type="submit" value="Go to the results" style="background-color: #B2EBF2; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.5rem;color:black; margin:0 5% 0; width:250px%;"/>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+</div>
+</div>
 
 
  <!-- Footer -->
@@ -203,14 +180,19 @@ You must be an admin of the group to configure this project.
     <!-- /.container -->
   </footer>
 
-  
+
 <!-- Bootstrap core JavaScript -->
-<script src="../static/vendor/jquery/jquery.min.js"></script>
-<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../../static/vendor/jquery/jquery.min.js"></script>
+<script src="../../../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Plugin JavaScript -->
-<script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="../../../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Page level plugins -->
+<script src="../../../static/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../../../static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
+<!-- Page level custom scripts -->
+<script src="../../../static/vendor/datatables/datatables-demo.js"></script>
 
 
 
@@ -222,7 +204,6 @@ You must be an admin of the group to configure this project.
 
 
 </html>
-
 <script>
 
 function loading(){
@@ -260,4 +241,3 @@ function type_algorithm(select){
     hide();
 }}
 </script>
-

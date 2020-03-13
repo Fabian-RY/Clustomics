@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
-  
-  	
+
+
 <head>
 
   <meta charset="utf-8">
@@ -14,59 +14,67 @@
    #newgroup{display:none;}
   </style>
   <!-- Bootstrap core CSS -->
-  <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="../static/css/signup.css" rel="stylesheet">
+  <link href="static/css/signup.css" rel="stylesheet">
+  <link href="static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
- 
-  
+
+
 <body>
-     
-  
+
+
 <div style="position:fixed; width:100%; z-index:1;"  >
     <iframe width="100%" height="60px" src="/header" scrolling="no" frameborder="no" ></iframe>
-</div>   
+</div>
 <br><br>
 
-      
-  
- 
-  <div class="signup">
-    <div class="container">
-      <div class="row">
-        <div class=" col-xl-6 ">
-          <div class="card card-signin flex-row my-5">
-            
-            <div class="card-body">
-              <h3 class="card-title text-center"> My projects </h3>
-               
-<form action={{ url_for("new_project") }} method="post" autocomplete="off" class="active">
-                
-                  <button class="btn btn-lg btn-primary btn-block  " type="Create_new_project" value="Create_new_project" action={{ url_for('new_project')}} >Create new project</button></form>     
-               <hr class="my-4">
-{% if projects %}
-                  	<table border=2>
-                        <tr style="font-size:20px">
-                          <th>Project name</th>
-                          <th>Group name</th>
-                          <th> </th>
-                        </tr>                  	  
-                          {% for project in projects %}
-	                      <tr>
 
-                            <th> {{ project['project_name'] }} </th>
-                            <td> {{ project['group_name'] }} </td>
-	                          <td><form action={{ url_for("project_info", user=username, project=project['project_name'], group=project['group_name'])}}>
-    	                      <input style="background-color: #B2EBF2; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.5rem; color:black;" type="submit" value="Go to the project" />
-		                        </form></td>
-		                    </tr>  
-                          {% endfor %}
-                            </table>
+
+
+<div class="signup">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-6">
+        <div class="card card-signin flex-row my-5">
+          <div class="card-body">
+            <h3 class="card-title text-center"> My projects </h3>
+<form action={{ url_for("new_project") }} method="post" autocomplete="off" class="active">
+  <button class="btn btn-lg btn-primary btn-block" type="Create_new_project" value="Create_new_project" action={{ url_for('new_project')}} >Create new project</button>
+</form>
+<br>
+    <hr class="my-4">
+{% if projects %}
+
+
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" border="2">
+                  <thead>
+                    <tr style="font-size:15px;">
+                      <th>Project name</th>
+                      <th>Group name</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {% for project in projects %}
+                    <tr>
+                      <th> {{ project['project_name'] }} </th>
+                      <td> {{ project['group_name'] }} </td>
+                      <td>
+                        <form action={{ url_for("project_info", user=username, project=project['project_name'], group=project['group_name'])}}>
+	                         <input style="background-color: #B2EBF2; font-size: 72.369%; border-radius: 5rem; letter-spacing: .025rem; font-weight: bold; padding: 0.5rem; color:black;" type="submit" value="Go to the project" />
+                        </form>
+                      </td>
+                    </tr>
+                      {% endfor %}
+                  </tbody>
+    </table>
+
 {% else %}
 You have no projects yet
-{% endif %}           
+{% endif %}
                   <br>
               </form>
 
@@ -75,57 +83,60 @@ You have no projects yet
             </div>
           </div>
         </div>
-    
+
         <div class=" col-xl-6">
           <div class="card card-signin flex-row my-5">
-            
+
             <div class="card-body">
               <h3 class="card-title text-center"> My groups </h3>
 
-		<a  href="javascript:document.getElementById('newgroup').style.display='block';void0" class=" btn btn-lg btn-primary btn-block  "> Create new group  </a>
+<a  href="javascript:document.getElementById('newgroup').style.display='block';void0" class=" btn btn-lg btn-primary btn-block  "> Create new group  </a>
                  <br>
                 <div id="newgroup" class="form-label-group ">
                 <form action={{ url_for("new_group")}} method="POST" class="form-signin">
 		<div class="form-label-group">
                   <input type="text" name="group" placeholder="group" id="group" required style="width:80%; margin:0 10% 0; ">
-                  <label for="group" style=" margin:0 20% 0;">Name of the group</label>                
-		</div>  
-                    <button class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" name="action" value='changeusername' style="width:80%; margin:0 10% 0; background-color: #B2EBF2; color:black; border-color:white; ">Confirm</button> 
+                  <label for="group" style=" margin:0 20% 0;">Name of the group</label>
+		</div>
+                    <button class="btn btn-lg btn-primary btn-block btn-login  font-weight-bold mb-2" type="submit" name="action" value='changeusername' style="width:80%; margin:0 10% 0; background-color: #B2EBF2; color:black; border-color:white; ">Confirm</button>
 
                 </form>
-	         </div>                
+	         </div>
                 <div class="msg" style="width:80%; margin:0 10% 0; ">{{ msg }}</div>
                     <hr class="my-4">
-{% if groups %} 
+{% if groups %}
 
-                  	<table border=2>
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" border="2">
+                  <thead>
                         <tr style="font-size:20px">
-                           
                           <th>Group name</th>
-                          <th>   </th>
-                        </tr>                  	  
-                           {% for group in groups %}
-                                <tr>
-                                    <td>{{ group['group_name'] }}</td>
-                                     <td><form action={{ url_for("groupsettings", group=group['group_name'])}}>
-    	                      <input   style="background-color: #B2EBF2; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.5rem;color:black; margin:0 20% 0; width:60%;" type="submit" value="Settings" />
-		                        </form></td>
-		                    </tr>  
-                          {% endfor %}
-                            </table>
+                          <th></th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                  {% for group in groups %}
+                  <tr>
+                    <td>{{ group['group_name'] }}</td>
+                    <td>
+                  <form action={{ url_for("groupsettings", group=group['group_name'])}}>
+                      <input   style="background-color: #B2EBF2; font-size: 100%; border-radius: 5rem; letter-spacing: .05rem; font-weight: bold; padding: 0.5rem;color:black; margin:0 20% 0; width:60%;" type="submit" value="Settings" />
+                  </form>
+                    </td>
+                  </tr>
+                    {% endfor %}
+                  </tbody>
+    </table>
 {% else %}
-You do not belong to any group                            
-{% endif %}            
-                        
-               
+You do not belong to any group
+{% endif %}
             </div>
           </div>
         </div>
       </div>
     </div>
 </div>
-   
-  
+
+
 
  <!-- Footer -->
   <footer class="py-5 bg-dark" style="width:100%; position:fixed; bottom:0"   >
@@ -135,16 +146,19 @@ You do not belong to any group
     <!-- /.container -->
   </footer>
 
-  
+
 <!-- Bootstrap core JavaScript -->
-<script src="../static/vendor/jquery/jquery.min.js"></script>
-<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Plugin JavaScript -->
-<script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Page level plugins -->
+<script src="/static/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-
-
+<!-- Page level custom scripts -->
+<script src="/static/vendor/datatables/datatables-demo.js"></script>
 
 </body>
 
